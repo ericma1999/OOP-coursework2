@@ -1,16 +1,12 @@
 import java.awt.*;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class GUI extends JFrame
 {
 
     private int page = 0;
+    private JPanel rootPanel;
 
     private final Color sidePanelColour = new Color(61,105,240);
     private JButton sidePanelSearchButton;
@@ -32,10 +28,39 @@ public class GUI extends JFrame
         setVisible(true);
     }
 
-
     private void createGUI(){
         setTitle("Application");
         createSidePanel();
+        createTablePanel();
+    }
+
+    private void createTablePanel(){
+        JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
+
+        Object[][] data = {
+                {"Kathy", "Smith",
+                        "Snowboarding", 5, false},
+                {"John", "Doe",
+                        "Rowing", 10, true},
+                {"Sue", "Black",
+                        "Knitting", 2, false},
+                {"Jane", "White",
+                        "Speed reading", 20, true},
+                {"Joe", "Brown",
+                        "Pool", 10, false}
+        };
+        String[] columnNames = {"First Name",
+                "Last Name",
+                "Sport",
+                "# of Years",
+                "Vegetarian"};
+        JTable table = new JTable(data, columnNames);
+        table.setRowHeight(30);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(table);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        rightPanel.add(scrollPane);
+        add(rightPanel);
     }
 
     private void createSidePanel(){
@@ -104,7 +129,6 @@ public class GUI extends JFrame
             sideButtonContainer.repaint();
         }
     }
-
 
     public static void main(final String[] args)
     {
