@@ -3,13 +3,30 @@ import java.util.ArrayList;
 public class DataFrame {
 
     private ArrayList<String> columnNames;
-    private ArrayList<Column> columns = new ArrayList<>();
+    private ArrayList<Column> columns;
+    private int firstNameIndex = -1;
+    private int lastNameIndex = -1;
     private int rowCount = 0;
+    private int totalColumns = 0;
 
+    public DataFrame(){
+        this.columns = new ArrayList<>();
+        this.columnNames = new ArrayList<>();
+    }
 
-    public void addColumn(String name, String row){
-        Column newColumn = new Column(name, row);
+    public void addColumn(String row){
+        String[] rowSplitted = row.split(",");
+        Column newColumn = new Column(rowSplitted[firstNameIndex] + " " + rowSplitted[lastNameIndex], row);
         this.columns.add(newColumn);
+        this.totalColumns += 1;
+    }
+
+    public Column getColumn(int index){
+        return this.columns.get(index);
+    }
+
+    public int getTotalColumns(){
+        return this.totalColumns;
     }
 
     public String[] getColumnNames(){
@@ -20,6 +37,14 @@ public class DataFrame {
         ArrayList<String> columnNames = new ArrayList<>();
         int rowCount = 0;
         for (String columnTitle: input.split(",")){
+            if (columnTitle.equals("FIRST")){
+                firstNameIndex = rowCount;
+            }
+
+            if (columnTitle.equals("LAST")){
+                lastNameIndex = rowCount;
+            }
+
             columnNames.add(columnTitle);
             rowCount += 1;
         }

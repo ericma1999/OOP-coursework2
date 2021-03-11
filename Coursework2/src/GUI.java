@@ -130,8 +130,4 @@ public class GUI extends JFrame
         }
     }
 
-    public static void main(final String[] args)
-    {
-        SwingUtilities.invokeLater(GUI::new);
-    }
 }
