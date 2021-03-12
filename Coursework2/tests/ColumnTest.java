@@ -1,13 +1,18 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ColumnTest {
     Column test;
     @BeforeEach
     void setup(){
-        test = new Column("Eric Ma", "S89191,health fine");
+        ArrayList<String> rowContent = new ArrayList<>();
+        rowContent.add("S89191");
+        rowContent.add("health fine");
+        test = new Column("Eric Ma", rowContent);
     }
 
     @Test

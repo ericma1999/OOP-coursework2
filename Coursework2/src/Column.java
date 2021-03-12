@@ -5,9 +5,9 @@ public class Column {
     private ArrayList<String> rows;
     private int size = 0;
 
-    public Column(String name, String rows){
+    public Column(String name, ArrayList<String> rowContent){
         this.name = name;
-        this.loadRowContents(rows);
+        this.rows = rowContent;
     }
 
     public String getName(){
@@ -15,19 +15,9 @@ public class Column {
     }
 
     public int getSize(){
-        return this.size;
+        return this.rows.size();
     }
 
-    private void loadRowContents(String rowContents){
-        ArrayList<String> content = new ArrayList<>();
-        int size = 0;
-        for (String rowContent: rowContents.split(",")){
-            content.add(rowContent);
-            size += 1;
-        }
-        this.size = size;
-        this.rows = content;
-    }
 
     public String getRowValue(int index){
         return this.rows.get(index);

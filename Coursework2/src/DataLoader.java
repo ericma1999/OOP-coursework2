@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataLoader {
 
@@ -21,13 +23,17 @@ public class DataLoader {
             String currentLine;
             int i = 0;
             while ((currentLine = contents.readLine()) != null){
+                ArrayList<String> currentLineSplitted = new ArrayList<String>(Arrays.asList(currentLine.split(",")));
                 if (i == 0){
-                    this.dataFrame.setColumnNames(currentLine);
+                    this.dataFrame.setColumnNames(currentLineSplitted);
                     i+=1;
                     continue;
                 }
 
-                this.dataFrame.addColumn(currentLine);
+                if (currentLineSplitted.size() < this.dataFrame.getColumnNames().length){
+                    currentLineSplitted.add("");
+                }
+                this.dataFrame.addColumn(currentLineSplitted);
                 i+=1;
             }
 

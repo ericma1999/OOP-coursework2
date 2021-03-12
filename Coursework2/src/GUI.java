@@ -37,7 +37,6 @@ public class GUI extends JFrame
     private void createTablePanel(){
         JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
 
-        String[] columnNames = this.model.getColumnNames();
         JTable table = new JTable(new MyTableModel(this.model));
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();

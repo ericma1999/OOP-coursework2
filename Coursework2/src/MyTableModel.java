@@ -3,18 +3,17 @@ import javax.swing.table.AbstractTableModel;
 class MyTableModel extends AbstractTableModel {
     private Model model;
 
-    private Object[][] data = {};
-
     public MyTableModel(Model model){
         this.model = model;
     }
 
     public int getColumnCount() {
-        return model.getColumnNames().length;
+        int columnCount = model.getColumnNames().length;
+        return columnCount;
     }
 
     public int getRowCount() {
-        return model.getTotalRows() + 1;
+        return model.getTotalRows();
     }
 
     public String getColumnName(int col) {

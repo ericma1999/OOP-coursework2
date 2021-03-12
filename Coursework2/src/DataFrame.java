@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataFrame {
 
@@ -14,9 +15,9 @@ public class DataFrame {
         this.columnNames = new ArrayList<>();
     }
 
-    public void addColumn(String row){
-        String[] rowSplit = row.split(",");
-        Column newColumn = new Column(rowSplit[firstNameIndex] + " " + rowSplit[lastNameIndex], row);
+    public void addColumn(ArrayList<String> rowContent){
+
+        Column newColumn = new Column(rowContent.get(firstNameIndex) + " " + rowContent.get(lastNameIndex), rowContent);
         this.columns.add(newColumn);
         this.size += 1;
     }
@@ -33,23 +34,11 @@ public class DataFrame {
         return this.columnNames.toArray(new String[this.columnNames.size()]);
     }
 
-    public void setColumnNames(String input){
-        ArrayList<String> columnNames = new ArrayList<>();
-        int rowCount = 0;
-        for (String columnTitle: input.split(",")){
-            if (columnTitle.equals("FIRST")){
-                firstNameIndex = rowCount;
-            }
-
-            if (columnTitle.equals("LAST")){
-                lastNameIndex = rowCount;
-            }
-
-            columnNames.add(columnTitle);
-            rowCount += 1;
-        }
-        this.rowCount = rowCount;
+    public void setColumnNames(ArrayList<String> columnNames){
         this.columnNames = columnNames;
+        this.firstNameIndex = columnNames.indexOf("FIRST");
+        this.lastNameIndex = columnNames.indexOf("LAST");
+        this.rowCount = columnNames.size();
     }
 
     public int getRowCount(){

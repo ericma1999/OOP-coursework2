@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataFrameTest {
@@ -9,17 +12,61 @@ class DataFrameTest {
     @BeforeEach
     void setup(){
         sampleDataFrame = new DataFrame();
-        sampleDataFrame.setColumnNames("ID,STATUS,FIRST,LAST");
-        sampleDataFrame.addColumn( "S89191,health fine,Eric,Ma");
-        sampleDataFrame.addColumn("S123123,health bad,David,Low");
+        ArrayList<String> testColumns = new ArrayList<>();
+        testColumns.add("ID");
+        testColumns.add("STATUS");
+        testColumns.add("FIRST");
+        testColumns.add("LAST");
+        sampleDataFrame.setColumnNames(testColumns);
+
+
+        ArrayList<String> columnContent = new ArrayList<String>();
+        columnContent.add("S89191");
+        columnContent.add("health fine");
+        columnContent.add("Eric");
+        columnContent.add("Ma");
+
+        sampleDataFrame.addColumn(columnContent);
+        columnContent = new ArrayList<>();
+
+        columnContent.add("S123123");
+        columnContent.add("health bad");
+        columnContent.add("David");
+        columnContent.add("Low");
+
+
+        sampleDataFrame.addColumn(columnContent);
     }
 
     @Test
     void testNameSwapped(){
         DataFrame testDataFrame = new DataFrame();
-        testDataFrame.setColumnNames("FIRST,ID,STATUS,LAST");
-        testDataFrame.addColumn( "Eric,S89191,health fine,Ma");
-        testDataFrame.addColumn("David,S123123,health bad,Low");
+        ArrayList<String> testColumns = new ArrayList<>();
+
+        testColumns.add("FIRST");
+        testColumns.add("ID");
+        testColumns.add("STATUS");
+        testColumns.add("LAST");
+        testDataFrame.setColumnNames(testColumns);
+
+
+
+        ArrayList<String> columnContent = new ArrayList<String>();
+        columnContent.add("Eric");
+        columnContent.add("S89191");
+        columnContent.add("health fine");
+        columnContent.add("Ma");
+        testDataFrame.addColumn(columnContent);
+
+
+        columnContent = new ArrayList<>();
+        columnContent.add("David");
+        columnContent.add("S123123");
+        columnContent.add("health bad");
+        columnContent.add("Low");
+
+
+        testDataFrame.addColumn(columnContent);
 
         assertEquals("S89191", testDataFrame.getValue("Eric Ma", 1));
         assertEquals("health bad", testDataFrame.getValue("David Low", 2));
@@ -27,12 +74,18 @@ class DataFrameTest {
 
     @Test
     void addColumn() {
-        sampleDataFrame.addColumn("S99919991,health ok,Test,User");
+        ArrayList<String> columnContent = new ArrayList<String>();
+        columnContent.add("S99919991");
+        columnContent.add("health ok");
+        columnContent.add("Test");
+        columnContent.add("User");
+        sampleDataFrame.addColumn(columnContent);
     }
 
     @Test
     void getColumnNames() {
         String[] columns = this.sampleDataFrame.getColumnNames();
+        System.out.println("this is a test");
         assertEquals("ID", columns[0]);
         assertEquals("STATUS", columns[1]);
     }

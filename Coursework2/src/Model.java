@@ -10,13 +10,6 @@ public class Model {
             System.out.println("error");
         }
     }
-
-    public void test(){
-        for (String columnName: dataFrame.getColumnNames()){
-            System.out.println(columnName);
-        }
-    }
-
     public int getTotalRows(){
         return this.dataFrame.getSize();
     }
@@ -25,7 +18,8 @@ public class Model {
         return this.dataFrame.getColumnNames();
     }
 
-    public Object getValueAt(int index, int row){
+    public String getValueAt(int index, int row){
         return this.dataFrame.getColumn(index).getRowValue(row);
     }
+
 }
