@@ -4,8 +4,7 @@ public class Model {
 
     public Model (){
         try{
-            DataLoader test = new DataLoader("data/patients100.csv");
-            this.dataFrame = test.getDataFrame();
+            this.dataFrame =  new DataLoader("data/patients100.csv").getDataFrame();
         }catch(Exception e){
             System.out.println("error");
         }

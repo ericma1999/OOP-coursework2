@@ -21,12 +21,12 @@ public class DataLoader {
             FileReader file = new FileReader(filePath);
             BufferedReader contents = new BufferedReader(file);
             String currentLine;
-            int i = 0;
+            boolean first = true;
             while ((currentLine = contents.readLine()) != null){
                 ArrayList<String> currentLineSplitted = new ArrayList<String>(Arrays.asList(currentLine.split(",")));
-                if (i == 0){
+                if (first){
                     this.dataFrame.setColumnNames(currentLineSplitted);
-                    i+=1;
+                    first = false;
                     continue;
                 }
 
@@ -34,7 +34,6 @@ public class DataLoader {
                     currentLineSplitted.add("");
                 }
                 this.dataFrame.addColumn(currentLineSplitted);
-                i+=1;
             }
 
         } catch(Exception e){
