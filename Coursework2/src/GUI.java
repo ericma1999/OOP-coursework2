@@ -48,18 +48,22 @@ public class GUI extends JFrame
 
     private void createSidePanel(){
         JPanel sidePanel = new JPanel();
-        sidePanel.setPreferredSize(new Dimension(250, 720));
+//        sidePanel.setPreferredSize(new Dimension(250, 720));
         sidePanelButtonContainer();
         sidePanel.setBackground(sidePanelColour);
         sidePanel.add(this.sideButtonContainer, SwingConstants.CENTER);
-        add(sidePanel, BorderLayout.WEST);
         this.sidePanel = sidePanel;
+        JScrollPane scrollContainer = new JScrollPane(sidePanel,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollContainer.getViewport().setPreferredSize(new Dimension(250, 720));
+        add(scrollContainer, BorderLayout.WEST);
 
     }
 
     private void sidePanelButtonContainer(){
         JPanel buttonContainer = new JPanel(new GridLayout(0, 1,0, 10));
-        buttonContainer.setBorder(BorderFactory.createEmptyBorder(50,0,0,0));
+        buttonContainer.setBorder(BorderFactory.createEmptyBorder(30,0,0,0));
         buttonContainer.setBackground(sidePanelColour);
         createSidePanelSearchButton();
         createSidePanelDashboardButton();
@@ -94,13 +98,31 @@ public class GUI extends JFrame
         sidePanelCloseButton.addActionListener((ActionEvent e) -> updateSidePanel(0));
     }
 
+
+    private void createSearchControls(){
+        JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
+        container.setBackground(sidePanelColour);
+        JTextField searchInput = new JFormattedTextField();
+        searchInput.setPreferredSize(new Dimension(200, 40));
+        searchInput.setBorder(BorderFactory.createEmptyBorder());
+        container.add(searchInput, BorderFactory.createEmptyBorder());
+        for (String columnName: model.getColumnNames()){
+            JCheckBox checkbox = new JCheckBox(columnName, true);
+            checkbox.setFont(new Font("Arial", Font.BOLD, 12));
+            checkbox.setForeground(Color.white);
+            container.add(checkbox);
+        }
+        container.add(this.sidePanelCloseButton, BorderFactory.createEmptyBorder());
+        sideButtonContainer.add(container);
+    }
+
     private void updateSidePanel(int id){
         this.page = id;
         if (id == 1){
             sideButtonContainer.remove(sidePanelDashboardButton);
             sideButtonContainer.remove(sidePanelSearchButton);
             createSidePanelCloseButton();
-            sideButtonContainer.add(this.sidePanelCloseButton);
+            createSearchControls();
             sideButtonContainer.revalidate();
             sideButtonContainer.repaint();
 
