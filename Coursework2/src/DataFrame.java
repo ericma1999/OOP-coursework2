@@ -7,7 +7,7 @@ public class DataFrame {
     private int firstNameIndex = -1;
     private int lastNameIndex = -1;
     private int rowCount = 0;
-    private int totalColumns = 0;
+    private int size = 0;
 
     public DataFrame(){
         this.columns = new ArrayList<>();
@@ -18,15 +18,15 @@ public class DataFrame {
         String[] rowSplit = row.split(",");
         Column newColumn = new Column(rowSplit[firstNameIndex] + " " + rowSplit[lastNameIndex], row);
         this.columns.add(newColumn);
-        this.totalColumns += 1;
+        this.size += 1;
     }
 
     public Column getColumn(int index){
         return this.columns.get(index);
     }
 
-    public int getTotalColumns(){
-        return this.totalColumns;
+    public int getSize(){
+        return this.size;
     }
 
     public String[] getColumnNames(){

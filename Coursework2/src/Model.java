@@ -17,13 +17,15 @@ public class Model {
         }
     }
 
+    public int getTotalRows(){
+        return this.dataFrame.getSize();
+    }
+
     public String[] getColumnNames(){
         return this.dataFrame.getColumnNames();
     }
 
-    public void testRow(){
-        for (int i = 0; i < this.dataFrame.getTotalColumns(); i++) {
-            System.out.println(this.dataFrame.getColumn(i).getName());
-        }
+    public Object getValueAt(int index, int row){
+        return this.dataFrame.getColumn(index).getRowValue(row);
     }
 }

@@ -37,20 +37,8 @@ public class GUI extends JFrame
     private void createTablePanel(){
         JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
 
-        Object[][] data = {
-//                {"Kathy", "Smith",
-//                        "Snowboarding", 5, false},
-//                {"John", "Doe",
-//                        "Rowing", 10, true},
-//                {"Sue", "Black",
-//                        "Knitting", 2, false},
-//                {"Jane", "White",
-//                        "Speed reading", 20, true},
-//                {"Joe", "Brown",
-//                        "Pool", 10, false}
-        };
         String[] columnNames = this.model.getColumnNames();
-        JTable table = new JTable(data, columnNames);
+        JTable table = new JTable(new MyTableModel(this.model));
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
