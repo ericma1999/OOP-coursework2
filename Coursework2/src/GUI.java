@@ -7,7 +7,7 @@ public class GUI extends JFrame
 
     private int page = 0;
     private JPanel rootPanel;
-
+    private Model model = new Model();
     private final Color sidePanelColour = new Color(61,105,240);
     private JButton sidePanelSearchButton;
     private JButton sidePanelDashboardButton;
@@ -38,22 +38,18 @@ public class GUI extends JFrame
         JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
 
         Object[][] data = {
-                {"Kathy", "Smith",
-                        "Snowboarding", 5, false},
-                {"John", "Doe",
-                        "Rowing", 10, true},
-                {"Sue", "Black",
-                        "Knitting", 2, false},
-                {"Jane", "White",
-                        "Speed reading", 20, true},
-                {"Joe", "Brown",
-                        "Pool", 10, false}
+//                {"Kathy", "Smith",
+//                        "Snowboarding", 5, false},
+//                {"John", "Doe",
+//                        "Rowing", 10, true},
+//                {"Sue", "Black",
+//                        "Knitting", 2, false},
+//                {"Jane", "White",
+//                        "Speed reading", 20, true},
+//                {"Joe", "Brown",
+//                        "Pool", 10, false}
         };
-        String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+        String[] columnNames = this.model.getColumnNames();
         JTable table = new JTable(data, columnNames);
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();

@@ -17,6 +17,10 @@ public class Model {
         }
     }
 
+    public String[] getColumnNames(){
+        return this.dataFrame.getColumnNames();
+    }
+
     public void testRow(){
         for (int i = 0; i < this.dataFrame.getTotalColumns(); i++) {
             System.out.println(this.dataFrame.getColumn(i).getName());
