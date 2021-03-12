@@ -15,8 +15,8 @@ public class DataFrame {
     }
 
     public void addColumn(String row){
-        String[] rowSplitted = row.split(",");
-        Column newColumn = new Column(rowSplitted[firstNameIndex] + " " + rowSplitted[lastNameIndex], row);
+        String[] rowSplit = row.split(",");
+        Column newColumn = new Column(rowSplit[firstNameIndex] + " " + rowSplit[lastNameIndex], row);
         this.columns.add(newColumn);
         this.totalColumns += 1;
     }
