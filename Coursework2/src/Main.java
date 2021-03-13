@@ -4,16 +4,11 @@ public class Main {
 
     public static void main(final String[] args)
     {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new GUI();
-//            }
-//        });
-//
-        Model model = new Model();
-        String[][] test = model.getAllData();
-        System.out.println(test[0][1]);
+        SwingUtilities.invokeLater(GUI::new);
+
+//        Model model = new Model();
+//        String[][] test = model.getAllData();
+//        System.out.println(test[0][1]);
 //        String[] column = model.findName("Tori");
 
 //        System.out.println(column[0]);
