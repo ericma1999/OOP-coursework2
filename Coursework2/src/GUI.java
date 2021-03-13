@@ -124,7 +124,6 @@ public class GUI extends JFrame
         container.setBackground(sidePanelColour);
         JTextField searchInput = new JFormattedTextField();
         searchInput.setPreferredSize(new Dimension(200, 40));
-        searchInput.setBorder(BorderFactory.createEmptyBorder());
         container.add(searchInput, BorderFactory.createEmptyBorder());
         for (String columnName: model.getColumnNames()){
             JCheckBox checkbox = createColumnCheckbox(columnName);
