@@ -21,6 +21,16 @@ public class Model {
         return this.dataFrame.getColumn(index).getRowValue(row);
     }
 
+    public String[][] getAllData(){
+        String[][] output = new String[this.dataFrame.getSize()][this.dataFrame.getRowCount()];
+
+        for (int i = 0; i < this.dataFrame.getSize(); i++) {
+            output[i] = this.dataFrame.getColumn(i).getRowValues();
+        }
+        return output;
+
+    }
+
     public String[] findName(String name){
         for (int i = 0; i < getTotalRows(); i++) {
             if (dataFrame.getColumn(i).getName().contains(name)){

@@ -12,9 +12,11 @@ public class Main {
 //        });
 //
         Model model = new Model();
-        String[] column = model.findName("Tori");
+        String[][] test = model.getAllData();
+        System.out.println(test[0][1]);
+//        String[] column = model.findName("Tori");
 
-        System.out.println(column[0]);
+//        System.out.println(column[0]);
 //        String[] test = new String[]{"hello", "eric"};
 //        String[] test2 = test.clone();
 //        System.out.println(test2[0]);
