@@ -23,6 +23,8 @@ public class Column {
         return this.rows.get(index);
     }
 
+    public String[] getRowValues() {return this.rows.toArray(new String[0]);}
+
     public void setRowValue(int index, String newValue){
         this.rows.set(index, newValue);
     }
