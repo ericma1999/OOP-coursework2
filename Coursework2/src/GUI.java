@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -40,7 +41,7 @@ public class GUI extends JFrame
     private void createTablePanel(){
         JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
 
-        MyTable table = new MyTable(new MyTableModel(this.model));
+        MyTable table = new MyTable(new MyTableModel(this.model.getAllData(), this.model.getColumnNames()));
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
@@ -142,6 +143,10 @@ public class GUI extends JFrame
             createSearchControls();
             sideButtonContainer.revalidate();
             sideButtonContainer.repaint();
+
+            MyTableModel test = (MyTableModel) this.table.getModel();
+
+            test.setData(new String[][]{});
 
         }else if (id == 0){
             sideButtonContainer.removeAll();

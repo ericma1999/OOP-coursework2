@@ -32,4 +32,5 @@ public class MyTable extends JTable {
         super.removeColumn(removedColumn);
         removedColumns.put(columnName, new Pair(removedColumn.getModelIndex(), removedColumn));
     }
+
 }

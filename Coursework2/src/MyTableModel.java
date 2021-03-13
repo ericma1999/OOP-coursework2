@@ -1,27 +1,32 @@
 import javax.swing.table.AbstractTableModel;
 
 class MyTableModel extends AbstractTableModel {
-    private Model model;
+    private String[][] data;
+    private String[] columnNames;
 
-    public MyTableModel(Model model){
-        this.model = model;
+    public MyTableModel(String[][] data, String[] columnNames){
+        this.data = data;
+        this.columnNames = columnNames;
     }
 
     public int getColumnCount() {
-        int columnCount = model.getColumnNames().length;
-        return columnCount;
+        return this.columnNames.length;
     }
 
     public int getRowCount() {
-        return model.getTotalRows();
+        return this.data.length;
     }
 
     public String getColumnName(int col) {
-        return model.getColumnNames()[col];
+        return this.columnNames[col];
     }
 
     public Object getValueAt(int row, int col) {
-        return model.getValueAt(row, col);
+        return data[row][col];
+    }
+
+    public void setData(String[][] data){
+        this.data = data;
     }
 
     /*
