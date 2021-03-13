@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class GUI extends JFrame
 {
@@ -14,6 +16,7 @@ public class GUI extends JFrame
     private JButton sidePanelCloseButton;
     private JPanel sideButtonContainer;
     private JPanel sidePanel;
+    private MyTable table;
 
 
     public GUI()
@@ -37,18 +40,18 @@ public class GUI extends JFrame
     private void createTablePanel(){
         JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
 
-        JTable table = new JTable(new MyTableModel(this.model));
+        MyTable table = new MyTable(new MyTableModel(this.model));
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         rightPanel.add(scrollPane);
         add(rightPanel);
+        this.table = table;
     }
 
     private void createSidePanel(){
         JPanel sidePanel = new JPanel();
-//        sidePanel.setPreferredSize(new Dimension(250, 720));
         sidePanelButtonContainer();
         sidePanel.setBackground(sidePanelColour);
         sidePanel.add(this.sideButtonContainer, SwingConstants.CENTER);
@@ -98,6 +101,23 @@ public class GUI extends JFrame
         sidePanelCloseButton.addActionListener((ActionEvent e) -> updateSidePanel(0));
     }
 
+    private JCheckBox createColumnCheckbox(String columnName){
+        JCheckBox checkbox = new JCheckBox(columnName, true);
+        checkbox.setFont(new Font("Arial", Font.BOLD, 12));
+        checkbox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String columnName = ((JCheckBox) e.getItem()).getText();
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    table.unhideColumn(columnName);
+                } else {
+                    table.hideColumn(columnName);
+                };
+            }
+        });
+        checkbox.setForeground(Color.white);
+        return checkbox;
+    }
 
     private void createSearchControls(){
         JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
@@ -107,9 +127,7 @@ public class GUI extends JFrame
         searchInput.setBorder(BorderFactory.createEmptyBorder());
         container.add(searchInput, BorderFactory.createEmptyBorder());
         for (String columnName: model.getColumnNames()){
-            JCheckBox checkbox = new JCheckBox(columnName, true);
-            checkbox.setFont(new Font("Arial", Font.BOLD, 12));
-            checkbox.setForeground(Color.white);
+            JCheckBox checkbox = createColumnCheckbox(columnName);
             container.add(checkbox);
         }
         container.add(this.sidePanelCloseButton, BorderFactory.createEmptyBorder());
