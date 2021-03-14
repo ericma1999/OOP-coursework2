@@ -4,9 +4,9 @@ public class Model {
 
     private DataFrame dataFrame;
 
-    public Model (){
+    public Model (String fileName){
         try{
-            this.dataFrame =  new DataLoader("data/patients100.csv").getDataFrame();
+            this.dataFrame =  new DataLoader(fileName).getDataFrame();
         }catch(Exception e){
             System.out.println("error");
         }

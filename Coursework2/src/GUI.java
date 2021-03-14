@@ -10,7 +10,7 @@ public class GUI extends JFrame
 {
 
     private int page = 0;
-    private Model model = new Model();
+    private Model model = new Model("data/patients1000.csv");
     private final Color sidePanelColour = new Color(61,105,240);
     private JButton sidePanelSearchButton;
     private JButton sidePanelDashboardButton;

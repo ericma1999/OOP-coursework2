@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class DataFrame {
 
     private ArrayList<String> columnNames;
-    private ArrayList<Column> columns;
+    private final ArrayList<Column> columns;
     private int firstNameIndex = -1;
     private int lastNameIndex = -1;
     private int rowCount = 0;
@@ -30,7 +30,7 @@ public class DataFrame {
     }
 
     public String[] getColumnNames(){
-        return this.columnNames.toArray(new String[this.columnNames.size()]);
+        return this.columnNames.toArray(new String[0]);
     }
 
     public void setColumnNames(ArrayList<String> columnNames){
