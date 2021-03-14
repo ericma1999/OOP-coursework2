@@ -14,21 +14,13 @@ public class GUI extends JFrame
     private final Color sidePanelColour = new Color(61,105,240);
     private JButton sidePanelSearchButton;
     private JButton sidePanelDashboardButton;
+    private JButton sidePanelLoadButton;
     private JButton sidePanelCloseButton;
     private JPanel sideButtonContainer;
+    private JPanel rightPanel;
     private JPanel sidePanel;
     private MyTable table;
 
-
-    private void loadFile(){
-        JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File("./"));
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            System.out.println(file.getPath());
-        }
-    }
 
     public GUI()
     {
@@ -39,18 +31,46 @@ public class GUI extends JFrame
 //        center the JFrame on the screen
         setLocationRelativeTo(null);
         setVisible(true);
-        loadFile();
+
     }
 
     private void createGUI(){
         setTitle("Application");
         createSidePanel();
-        createTablePanel();
+        createRightPanel();
     }
 
-    private void createTablePanel(){
-        JPanel rightPanel = new JPanel(new GridLayout(0 , 1));
+    private String showFileDialog(){
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("./"));
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            return file.getPath();
+        }
+        return null;
+    }
 
+    private void loadFile(){
+        String path = showFileDialog();
+        this.model = new Model(path);
+        rightPanel.removeAll();
+        rightPanel.setLayout(new GridLayout(0, 1));
+        renderTable();
+//        rightPanel.revalidate();
+//        rightPanel.repaint();
+        if (this.sidePanelLoadButton == null){
+            this.sidePanelLoadButton = createSidePanelButton("Load New File");
+            this.sidePanelLoadButton.addActionListener(e -> loadFile());
+            sideButtonContainer.add(this.sidePanelLoadButton);
+        }
+//        sideButtonContainer.revalidate();
+//        sideButtonContainer.repaint();
+        this.getContentPane().revalidate();
+        this.getContentPane().repaint();
+    }
+
+    private void renderTable(){
         MyTable table = new MyTable(new MyTableModel(this.model.getAllData(), this.model.getColumnNames()));
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
@@ -59,6 +79,17 @@ public class GUI extends JFrame
         rightPanel.add(scrollPane);
         add(rightPanel);
         this.table = table;
+
+    }
+
+    private void createRightPanel(){
+        JPanel rightPanel = new JPanel(new GridBagLayout());
+        JButton loadFileButton = new JButton("Load Data");
+        loadFileButton.addActionListener(e -> loadFile());
+        rightPanel.add(loadFileButton);
+        this.rightPanel = rightPanel;
+        add(rightPanel);
+
     }
 
     private void createSidePanel(){
@@ -162,8 +193,7 @@ public class GUI extends JFrame
     private void updateSidePanel(int id){
         this.page = id;
         if (id == 1){
-            sideButtonContainer.remove(sidePanelDashboardButton);
-            sideButtonContainer.remove(sidePanelSearchButton);
+            sideButtonContainer.removeAll();
             createSidePanelCloseButton();
             createSearchControls();
 
@@ -171,6 +201,9 @@ public class GUI extends JFrame
             sideButtonContainer.removeAll();
             sideButtonContainer.add(sidePanelSearchButton);
             sideButtonContainer.add(sidePanelDashboardButton);
+            if (this.sidePanelLoadButton != null){
+                sideButtonContainer.add(this.sidePanelLoadButton);
+            }
         }
         sideButtonContainer.revalidate();
         sideButtonContainer.repaint();
