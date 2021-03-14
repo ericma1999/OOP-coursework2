@@ -27,7 +27,7 @@ public class Model {
         ArrayList<ArrayList<String>> output = new ArrayList<>();
 
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
-            output.add(this.dataFrame.getColumn(i).getRowValues());
+            output.add(this.dataFrame.getRow(i));
         }
         return output;
 
@@ -35,10 +35,13 @@ public class Model {
 
     public ArrayList<ArrayList<String>> findName(String name){
         ArrayList<ArrayList<String>> output = new ArrayList<>();
-        for (int i = 0; i < getTotalRows(); i++) {
-            Column currentColumn = dataFrame.getColumn(i);
-            if (currentColumn.getName().toLowerCase().contains(name)){
-                output.add(currentColumn.getRowValues());
+
+        Column firstNameCol = this.dataFrame.getColumn("FIRST");
+        Column lastNameCol = this.dataFrame.getColumn("LAST");
+        for (int i = 0; i < dataFrame.getRowCount(); i++) {
+            String nameTest = firstNameCol.getRowValue(i).concat(" ").concat(lastNameCol.getRowValue(i));
+            if (nameTest.toLowerCase().contains(name)){
+                output.add(this.dataFrame.getRow(i));
             }
         }
         return output;

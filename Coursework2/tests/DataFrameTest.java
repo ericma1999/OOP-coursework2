@@ -82,6 +82,15 @@ class DataFrameTest {
         sampleDataFrame.addRow(columnContent);
         assertEquals("S99919991", this.sampleDataFrame.getColumn(0).getRowValue(2));
     }
+    @Test
+    void getRow(){
+        ArrayList<String> rowData = sampleDataFrame.getRow(1);
+
+        assertEquals("S123123", rowData.get(0));
+        assertEquals("Low", rowData.get(3));
+
+
+    }
 
     @Test
     void getColumnNames() {

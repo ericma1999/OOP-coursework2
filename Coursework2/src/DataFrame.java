@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class DataFrame {
 
@@ -16,26 +15,33 @@ public class DataFrame {
     public void addRow(ArrayList<String> rowContent){
         int i = 0;
         for (String columnValue: rowContent) {
-            System.out.println(this.columns.get(keys.get(i)));
             this.columns.get(keys.get(i)).addRowValue(columnValue);
             i++;
         }
         this.rowCount += 1;
     }
 
+    public ArrayList<String> getRow(int index){
+        ArrayList<String> output = new ArrayList<>();
+
+        for (String key: keys) {
+            output.add(this.columns.get(key).getRowValue(index));
+        }
+        return output;
+
+    }
+
     public Column getColumn(int index){
         return this.columns.get(keys.get(index));
     }
 
+    public Column getColumn(String columnName){
+        return this.columns.get(columnName);
+    }
+
     public String[] getColumnNames(){
 
-        String[] columnNamesTest = new String[this.columns.size()];
-        int i = 0;
-        for (Map.Entry<String, Column> entry : this.columns.entrySet()) {
-            columnNamesTest[i] = entry.getKey();
-            i+=1;
-        }
-        return columnNamesTest;
+        return this.keys.toArray(new String[0]);
     }
 
     public void setColumnNames(ArrayList<String> columnNames){
@@ -48,15 +54,6 @@ public class DataFrame {
     public int getRowCount(){
         return this.rowCount;
     }
-
-//    private Column findColumn(String columnName){
-//        for (Column column: this.columns){
-//            if (column.getName().equals(columnName)){
-//                return column;
-//            }
-//        }
-//        return null;
-//    }
 
     public String getValue(String columnName, int row){
 
