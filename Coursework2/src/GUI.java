@@ -4,6 +4,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.io.File;
 
 public class GUI extends JFrame
 {
@@ -19,6 +20,16 @@ public class GUI extends JFrame
     private MyTable table;
 
 
+    private void loadFile(){
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("./"));
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            System.out.println(file.getPath());
+        }
+    }
+
     public GUI()
     {
         createGUI();
@@ -28,6 +39,7 @@ public class GUI extends JFrame
 //        center the JFrame on the screen
         setLocationRelativeTo(null);
         setVisible(true);
+        loadFile();
     }
 
     private void createGUI(){
