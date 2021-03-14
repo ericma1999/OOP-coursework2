@@ -1,10 +1,9 @@
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class GUI extends JFrame
 {
@@ -104,15 +103,12 @@ public class GUI extends JFrame
     private JCheckBox createColumnCheckbox(String columnName){
         JCheckBox checkbox = new JCheckBox(columnName, true);
         checkbox.setFont(new Font("Arial", Font.BOLD, 12));
-        checkbox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                String columnName = ((JCheckBox) e.getItem()).getText();
-                if(e.getStateChange() == ItemEvent.SELECTED) {
-                    table.unhideColumn(columnName);
-                } else {
-                    table.hideColumn(columnName);
-                };
+        checkbox.addItemListener(e -> {
+            String columnName1 = ((JCheckBox) e.getItem()).getText();
+            if(e.getStateChange() == ItemEvent.SELECTED) {
+                table.unhideColumn(columnName1);
+            } else {
+                table.hideColumn(columnName1);
             }
         });
         checkbox.setForeground(Color.white);

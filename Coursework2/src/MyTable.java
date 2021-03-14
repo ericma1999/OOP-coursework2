@@ -30,7 +30,7 @@ public class MyTable extends JTable {
     public void hideColumn(String columnName){
         TableColumn removedColumn = this.getColumn(columnName);
         super.removeColumn(removedColumn);
-        removedColumns.put(columnName, new Pair(removedColumn.getModelIndex(), removedColumn));
+        removedColumns.put(columnName, new Pair<>(removedColumn.getModelIndex(), removedColumn));
     }
 
 }

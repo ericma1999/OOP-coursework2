@@ -23,7 +23,7 @@ public class Column {
         return this.rows.get(index);
     }
 
-    public ArrayList<String> getRowValues() {return (ArrayList<String>) this.rows.clone();}
+    public ArrayList<String> getRowValues() {return new ArrayList<>(this.rows);}
 
     public void setRowValue(int index, String newValue){
         this.rows.set(index, newValue);
