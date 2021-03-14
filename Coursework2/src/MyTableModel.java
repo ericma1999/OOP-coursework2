@@ -28,6 +28,7 @@ class MyTableModel extends AbstractTableModel {
 
     public void setData(ArrayList<ArrayList<String>> data){
         this.data = data;
+        this.fireTableDataChanged();
     }
 
     /*

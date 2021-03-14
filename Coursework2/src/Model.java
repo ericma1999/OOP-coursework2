@@ -36,8 +36,9 @@ public class Model {
     public ArrayList<ArrayList<String>> findName(String name){
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         for (int i = 0; i < getTotalRows(); i++) {
-            if (dataFrame.getColumn(i).getName().contains(name)){
-                output.add(this.dataFrame.getColumn(i).getRowValues());
+            Column currentColumn = dataFrame.getColumn(i);
+            if (currentColumn.getName().toLowerCase().contains(name)){
+                output.add(currentColumn.getRowValues());
             }
         }
         return output;

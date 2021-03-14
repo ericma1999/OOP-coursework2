@@ -1,16 +1,15 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.table.TableModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
 
 public class GUI extends JFrame
 {
 
     private int page = 0;
-    private JPanel rootPanel;
     private Model model = new Model();
     private final Color sidePanelColour = new Color(61,105,240);
     private JButton sidePanelSearchButton;
@@ -26,7 +25,6 @@ public class GUI extends JFrame
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setSize(1280, 720);
         setMinimumSize(new Dimension(1280, 720));
 //        center the JFrame on the screen
         setLocationRelativeTo(null);
@@ -125,6 +123,24 @@ public class GUI extends JFrame
         JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
         container.setBackground(sidePanelColour);
         JTextField searchInput = new JFormattedTextField();
+        searchInput.getDocument().addDocumentListener(new DocumentListener() {
+            private MyTableModel tableModel = (MyTableModel) table.getModel();
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                tableModel.setData(model.findName(searchInput.getText()));
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                tableModel.setData(model.findName(searchInput.getText()));
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                tableModel.setData(model.findName(searchInput.getText()));
+            }
+        });
         searchInput.setPreferredSize(new Dimension(200, 40));
         container.add(searchInput, BorderFactory.createEmptyBorder());
         for (String columnName: model.getColumnNames()){
@@ -142,20 +158,14 @@ public class GUI extends JFrame
             sideButtonContainer.remove(sidePanelSearchButton);
             createSidePanelCloseButton();
             createSearchControls();
-            sideButtonContainer.revalidate();
-            sideButtonContainer.repaint();
-
-            MyTableModel test = (MyTableModel) this.table.getModel();
-
-            test.setData(model.findName("Tori"));
 
         }else if (id == 0){
             sideButtonContainer.removeAll();
             sideButtonContainer.add(sidePanelSearchButton);
             sideButtonContainer.add(sidePanelDashboardButton);
-            sideButtonContainer.revalidate();
-            sideButtonContainer.repaint();
         }
+        sideButtonContainer.revalidate();
+        sideButtonContainer.repaint();
     }
 
 }
