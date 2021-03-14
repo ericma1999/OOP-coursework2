@@ -35,7 +35,7 @@ public class DataLoader {
                 if (currentLineSplitted.size() < noOfColumns){
                     currentLineSplitted.add("");
                 }
-                this.dataFrame.addColumn(currentLineSplitted);
+                this.dataFrame.addRow(currentLineSplitted);
             }
 
         } catch(Exception e){

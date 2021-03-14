@@ -1,52 +1,47 @@
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DataFrame {
 
-    private ArrayList<String> columnNames;
-    private final ArrayList<Column> columns;
-    private final LinkedHashMap<String, Column> columns2 = new LinkedHashMap<>();
-    private int firstNameIndex = -1;
-    private int lastNameIndex = -1;
+    private final LinkedHashMap<String, Column> columns;
+    private final ArrayList<String> keys = new ArrayList<>();
     private int rowCount = 0;
 
     public DataFrame(){
-        this.columns = new ArrayList<>();
-        this.columnNames = new ArrayList<>();
+        this.columns = new LinkedHashMap<>();
     }
 
-    public void addColumn(ArrayList<String> rowContent){
-
-        Column newColumn = new Column(rowContent.get(firstNameIndex) + " " + rowContent.get(lastNameIndex), rowContent);
-        this.columns.add(newColumn);
+    public void addRow(ArrayList<String> rowContent){
+        int i = 0;
+        for (String columnValue: rowContent) {
+            System.out.println(this.columns.get(keys.get(i)));
+            this.columns.get(keys.get(i)).addRowValue(columnValue);
+            i++;
+        }
         this.rowCount += 1;
     }
 
     public Column getColumn(int index){
-        return this.columns.get(index);
+        return this.columns.get(keys.get(index));
     }
-
 
     public String[] getColumnNames(){
 
-        String[] columnNamesTest = new String[this.columns2.size()];
+        String[] columnNamesTest = new String[this.columns.size()];
         int i = 0;
-        for (Map.Entry<String, Column> entry : this.columns2.entrySet()) {
+        for (Map.Entry<String, Column> entry : this.columns.entrySet()) {
             columnNamesTest[i] = entry.getKey();
             i+=1;
         }
-
-
         return columnNamesTest;
     }
 
     public void setColumnNames(ArrayList<String> columnNames){
-        this.columnNames = columnNames;
-        this.firstNameIndex = columnNames.indexOf("FIRST");
-        this.lastNameIndex = columnNames.indexOf("LAST");
         for (String name: columnNames) {
-            columns2.put(name, null);
+            columns.put(name, new Column(name));
+            keys.add(name);
         }
     }
 
@@ -54,18 +49,18 @@ public class DataFrame {
         return this.rowCount;
     }
 
-    private Column findColumn(String columnName){
-        for (Column column: this.columns){
-            if (column.getName().equals(columnName)){
-                return column;
-            }
-        }
-        return null;
-    }
+//    private Column findColumn(String columnName){
+//        for (Column column: this.columns){
+//            if (column.getName().equals(columnName)){
+//                return column;
+//            }
+//        }
+//        return null;
+//    }
 
     public String getValue(String columnName, int row){
 
-        Column selectedColumn = this.findColumn(columnName);
+        Column selectedColumn = this.columns.get(columnName);
         if (selectedColumn == null) {
             return null;
         }
@@ -73,7 +68,7 @@ public class DataFrame {
     }
 
     public boolean putValue(String columnName, int row, String value){
-        Column selectedColumn = this.findColumn(columnName);
+        Column selectedColumn = this.columns.get(columnName);
         if (selectedColumn == null) {
             return false;
         }
@@ -82,7 +77,7 @@ public class DataFrame {
     }
 
     public boolean addValue(String columnName, String value){
-        Column selectedColumn = this.findColumn(columnName);
+        Column selectedColumn = this.columns.get(columnName);
         if (selectedColumn == null){
             return false;
         }

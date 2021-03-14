@@ -20,22 +20,22 @@ class DataFrameTest {
         sampleDataFrame.setColumnNames(testColumns);
 
 
-        ArrayList<String> columnContent = new ArrayList<String>();
-        columnContent.add("S89191");
-        columnContent.add("health fine");
-        columnContent.add("Eric");
-        columnContent.add("Ma");
+        ArrayList<String> rowContent = new ArrayList<String>();
+        rowContent.add("S89191");
+        rowContent.add("health fine");
+        rowContent.add("Eric");
+        rowContent.add("Ma");
 
-        sampleDataFrame.addColumn(columnContent);
-        columnContent = new ArrayList<>();
+        sampleDataFrame.addRow(rowContent);
+        rowContent = new ArrayList<>();
 
-        columnContent.add("S123123");
-        columnContent.add("health bad");
-        columnContent.add("David");
-        columnContent.add("Low");
+        rowContent.add("S123123");
+        rowContent.add("health bad");
+        rowContent.add("David");
+        rowContent.add("Low");
 
 
-        sampleDataFrame.addColumn(columnContent);
+        sampleDataFrame.addRow(rowContent);
     }
 
     @Test
@@ -51,35 +51,36 @@ class DataFrameTest {
 
 
 
-        ArrayList<String> columnContent = new ArrayList<String>();
-        columnContent.add("Eric");
-        columnContent.add("S89191");
-        columnContent.add("health fine");
-        columnContent.add("Ma");
-        testDataFrame.addColumn(columnContent);
+        ArrayList<String> rowContent = new ArrayList<String>();
+        rowContent.add("Eric");
+        rowContent.add("S89191");
+        rowContent.add("health fine");
+        rowContent.add("Ma");
+        testDataFrame.addRow(rowContent);
 
 
-        columnContent = new ArrayList<>();
-        columnContent.add("David");
-        columnContent.add("S123123");
-        columnContent.add("health bad");
-        columnContent.add("Low");
+        rowContent = new ArrayList<>();
+        rowContent.add("David");
+        rowContent.add("S123123");
+        rowContent.add("health bad");
+        rowContent.add("Low");
 
 
-        testDataFrame.addColumn(columnContent);
+        testDataFrame.addRow(rowContent);
 
-        assertEquals("S89191", testDataFrame.getValue("Eric Ma", 1));
-        assertEquals("health bad", testDataFrame.getValue("David Low", 2));
+        assertEquals("David", testDataFrame.getValue("FIRST", 1));
+        assertEquals("health bad", testDataFrame.getValue("STATUS", 1));
     }
 
     @Test
-    void addColumn() {
+    void addRow() {
         ArrayList<String> columnContent = new ArrayList<String>();
         columnContent.add("S99919991");
         columnContent.add("health ok");
         columnContent.add("Test");
         columnContent.add("User");
-        sampleDataFrame.addColumn(columnContent);
+        sampleDataFrame.addRow(columnContent);
+        assertEquals("S99919991", this.sampleDataFrame.getColumn(0).getRowValue(2));
     }
 
     @Test
@@ -92,23 +93,23 @@ class DataFrameTest {
 
     @Test
     void getRowCount() {
-        assertEquals(4, this.sampleDataFrame.getRowCount());
+        assertEquals(2, this.sampleDataFrame.getRowCount());
     }
 
     @Test
     void getValue() {
-        assertEquals("S89191", this.sampleDataFrame.getValue("Eric Ma", 0));
+        assertEquals("S89191", this.sampleDataFrame.getValue("ID", 0));
     }
 
     @Test
     void putValue() {
-        assertTrue(this.sampleDataFrame.putValue("Eric Ma",0, "S555555"));
-        assertEquals("S555555", this.sampleDataFrame.getValue("Eric Ma", 0));
+        assertTrue(this.sampleDataFrame.putValue("LAST",0, "new last name"));
+        assertEquals("new last name", this.sampleDataFrame.getValue("LAST", 0));
     }
 
     @Test
     void addValue() {
-        assertTrue(this.sampleDataFrame.addValue("David Low", "Test hello"));
-        assertEquals("Test hello",this.sampleDataFrame.getValue("David Low", 4));
+        assertTrue(this.sampleDataFrame.addValue("ID", "S081123"));
+        assertEquals("S081123",this.sampleDataFrame.getValue("ID", 2));
     }
 }

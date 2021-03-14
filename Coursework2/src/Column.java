@@ -5,6 +5,11 @@ public class Column {
     private ArrayList<String> rows;
     private int size = 0;
 
+    public Column(String name){
+        this.name = name;
+        this.rows = new ArrayList<>();
+    }
+
     public Column(String name, ArrayList<String> rowContent){
         this.name = name;
         this.rows = rowContent;
@@ -17,8 +22,6 @@ public class Column {
     public int getSize(){
         return this.rows.size();
     }
-
-
     public String getRowValue(int index){
         return this.rows.get(index);
     }
