@@ -6,11 +6,10 @@ public class DataFrame {
 
     private ArrayList<String> columnNames;
     private final ArrayList<Column> columns;
-    private final LinkedHashMap<String, Integer> columns2 = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Column> columns2 = new LinkedHashMap<>();
     private int firstNameIndex = -1;
     private int lastNameIndex = -1;
     private int rowCount = 0;
-    private int size = 0;
 
     public DataFrame(){
         this.columns = new ArrayList<>();
@@ -32,8 +31,10 @@ public class DataFrame {
     public String[] getColumnNames(){
 
         String[] columnNamesTest = new String[this.columns2.size()];
-        for (Map.Entry<String, Integer> entry : this.columns2.entrySet()) {
-            columnNamesTest[entry.getValue()] = entry.getKey();
+        int i = 0;
+        for (Map.Entry<String, Column> entry : this.columns2.entrySet()) {
+            columnNamesTest[i] = entry.getKey();
+            i+=1;
         }
 
 
@@ -44,15 +45,9 @@ public class DataFrame {
         this.columnNames = columnNames;
         this.firstNameIndex = columnNames.indexOf("FIRST");
         this.lastNameIndex = columnNames.indexOf("LAST");
-        int i = 0;
         for (String name: columnNames) {
-            columns2.put(name, i);
-            i++;
+            columns2.put(name, null);
         }
-
-        System.out.println(this.columns2);
-
-
     }
 
     public int getRowCount(){
