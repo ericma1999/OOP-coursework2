@@ -4,6 +4,7 @@ import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 public class GUI extends JFrame
 {
@@ -146,7 +147,7 @@ public class GUI extends JFrame
 
             MyTableModel test = (MyTableModel) this.table.getModel();
 
-            test.setData(new String[][]{});
+            test.setData(model.findName("Tori"));
 
         }else if (id == 0){
             sideButtonContainer.removeAll();

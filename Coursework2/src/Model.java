@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Model {
 
     private DataFrame dataFrame;
@@ -21,23 +23,24 @@ public class Model {
         return this.dataFrame.getColumn(index).getRowValue(row);
     }
 
-    public String[][] getAllData(){
-        String[][] output = new String[this.dataFrame.getSize()][this.dataFrame.getRowCount()];
+    public ArrayList<ArrayList<String>> getAllData(){
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
 
         for (int i = 0; i < this.dataFrame.getSize(); i++) {
-            output[i] = this.dataFrame.getColumn(i).getRowValues();
+            output.add(this.dataFrame.getColumn(i).getRowValues());
         }
         return output;
 
     }
 
-    public String[] findName(String name){
+    public ArrayList<ArrayList<String>> findName(String name){
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
         for (int i = 0; i < getTotalRows(); i++) {
             if (dataFrame.getColumn(i).getName().contains(name)){
-                return dataFrame.getColumn(i).getRowValues();
+                output.add(this.dataFrame.getColumn(i).getRowValues());
             }
         }
-        return null;
+        return output;
     }
 
 }
