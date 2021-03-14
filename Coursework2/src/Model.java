@@ -12,7 +12,7 @@ public class Model {
         }
     }
     public int getTotalRows(){
-        return this.dataFrame.getSize();
+        return this.dataFrame.getRowCount();
     }
 
     public String[] getColumnNames(){
@@ -26,7 +26,7 @@ public class Model {
     public ArrayList<ArrayList<String>> getAllData(){
         ArrayList<ArrayList<String>> output = new ArrayList<>();
 
-        for (int i = 0; i < this.dataFrame.getSize(); i++) {
+        for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             output.add(this.dataFrame.getColumn(i).getRowValues());
         }
         return output;

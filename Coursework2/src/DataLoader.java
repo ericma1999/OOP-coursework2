@@ -22,15 +22,17 @@ public class DataLoader {
             BufferedReader contents = new BufferedReader(file);
             String currentLine;
             boolean first = true;
+            int noOfColumns = -1;
             while ((currentLine = contents.readLine()) != null){
                 ArrayList<String> currentLineSplitted = new ArrayList<String>(Arrays.asList(currentLine.split(",")));
                 if (first){
                     this.dataFrame.setColumnNames(currentLineSplitted);
                     first = false;
+                    noOfColumns = this.dataFrame.getColumnNames().length;
                     continue;
                 }
 
-                if (currentLineSplitted.size() < this.dataFrame.getColumnNames().length){
+                if (currentLineSplitted.size() < noOfColumns){
                     currentLineSplitted.add("");
                 }
                 this.dataFrame.addColumn(currentLineSplitted);

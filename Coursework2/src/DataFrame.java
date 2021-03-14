@@ -1,9 +1,12 @@
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DataFrame {
 
     private ArrayList<String> columnNames;
     private final ArrayList<Column> columns;
+    private final LinkedHashMap<String, Integer> columns2 = new LinkedHashMap<>();
     private int firstNameIndex = -1;
     private int lastNameIndex = -1;
     private int rowCount = 0;
@@ -18,26 +21,38 @@ public class DataFrame {
 
         Column newColumn = new Column(rowContent.get(firstNameIndex) + " " + rowContent.get(lastNameIndex), rowContent);
         this.columns.add(newColumn);
-        this.size += 1;
+        this.rowCount += 1;
     }
 
     public Column getColumn(int index){
         return this.columns.get(index);
     }
 
-    public int getSize(){
-        return this.size;
-    }
 
     public String[] getColumnNames(){
-        return this.columnNames.toArray(new String[0]);
+
+        String[] columnNamesTest = new String[this.columns2.size()];
+        for (Map.Entry<String, Integer> entry : this.columns2.entrySet()) {
+            columnNamesTest[entry.getValue()] = entry.getKey();
+        }
+
+
+        return columnNamesTest;
     }
 
     public void setColumnNames(ArrayList<String> columnNames){
         this.columnNames = columnNames;
         this.firstNameIndex = columnNames.indexOf("FIRST");
         this.lastNameIndex = columnNames.indexOf("LAST");
-        this.rowCount = columnNames.size();
+        int i = 0;
+        for (String name: columnNames) {
+            columns2.put(name, i);
+            i++;
+        }
+
+        System.out.println(this.columns2);
+
+
     }
 
     public int getRowCount(){
