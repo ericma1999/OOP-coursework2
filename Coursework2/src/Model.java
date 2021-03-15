@@ -1,6 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class Model {
@@ -102,6 +103,21 @@ public class Model {
             System.out.println("somethign went wrong");
         }
         return diff;
+    }
+
+    public void peopleSamePlace(){
+        HashMap<String, Integer> tallyMap = new HashMap<>();
+
+
+        for (String state: this.dataFrame.getColumn("CITY").getRowValues()) {
+            Integer currentValue = tallyMap.get(state);
+            if (currentValue == null){
+                tallyMap.put(state, 1);
+            }else{
+                tallyMap.put(state, currentValue + 1);
+            }
+
+        }
     }
 
 }

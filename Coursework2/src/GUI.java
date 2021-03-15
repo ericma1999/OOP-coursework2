@@ -167,6 +167,23 @@ public class GUI extends JFrame
         return checkbox;
     }
 
+    private void createAdvanceSearchButtons(JPanel panel){
+
+        JButton oldestButton = new JButton("oldest living");
+        oldestButton.addActionListener(e -> {
+            ((MyTableModel) this.table.getModel()).setData(model.findOldest());
+        });
+        JButton samePlace = new JButton("same place");
+        samePlace.addActionListener(e -> {
+            model.peopleSamePlace();
+        });
+
+
+
+        panel.add(oldestButton);
+        panel.add(samePlace);
+    }
+
     private void createSearchControls(){
         JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
         container.setBackground(sidePanelColour);
@@ -190,19 +207,18 @@ public class GUI extends JFrame
             }
         });
         searchInput.setPreferredSize(new Dimension(200, 40));
+
+
         container.add(searchInput, BorderFactory.createEmptyBorder());
+
+
+        createAdvanceSearchButtons(container);
+
         for (String columnName: model.getColumnNames()){
             JCheckBox checkbox = createColumnCheckbox(columnName);
             container.add(checkbox);
         }
         container.add(this.sidePanelCloseButton, BorderFactory.createEmptyBorder());
-
-        JButton testButton = new JButton("oldest living");
-        testButton.addActionListener(e -> {
-            ((MyTableModel) this.table.getModel()).setData(model.findOldest());
-        });
-
-        container.add(testButton);
 
 
         sideButtonContainer.add(container);
