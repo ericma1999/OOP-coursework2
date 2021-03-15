@@ -129,7 +129,13 @@ public class GUI extends JFrame
 
     private void createSidePanelSearchButton(){
         sidePanelSearchButton = createSidePanelButton("Search");
-        sidePanelSearchButton.addActionListener((ActionEvent e) -> updateSidePanel(1));
+        sidePanelSearchButton.addActionListener((ActionEvent e) -> {
+            if(this.table != null){
+                updateSidePanel(1);
+            }else {
+                JOptionPane.showMessageDialog(this, "Please load a file before trying to search", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 
 
@@ -140,7 +146,10 @@ public class GUI extends JFrame
 
     private void createSidePanelCloseButton(){
         sidePanelCloseButton = createSidePanelButton("Close");
-        sidePanelCloseButton.addActionListener((ActionEvent e) -> updateSidePanel(0));
+        sidePanelCloseButton.addActionListener((ActionEvent e) -> {
+            updateSidePanel(0);
+            ((MyTableModel) this.table.getModel()).setData(model.getAllData());
+        });
     }
 
     private JCheckBox createColumnCheckbox(String columnName){
@@ -187,6 +196,15 @@ public class GUI extends JFrame
             container.add(checkbox);
         }
         container.add(this.sidePanelCloseButton, BorderFactory.createEmptyBorder());
+
+        JButton testButton = new JButton("oldest living");
+        testButton.addActionListener(e -> {
+            ((MyTableModel) this.table.getModel()).setData(model.findOldest());
+        });
+
+        container.add(testButton);
+
+
         sideButtonContainer.add(container);
     }
 
