@@ -4,6 +4,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 public class GUI extends JFrame
@@ -19,6 +21,7 @@ public class GUI extends JFrame
     private JPanel sideButtonContainer;
     private JPanel rightPanel;
     private JPanel sidePanel;
+    private MySearchDialog currentSearchDialog;
     private MyTable table;
 
 
@@ -57,21 +60,39 @@ public class GUI extends JFrame
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
-//        rightPanel.revalidate();
-//        rightPanel.repaint();
+
         if (this.sidePanelLoadButton == null){
             this.sidePanelLoadButton = createSidePanelButton("Load New File");
             this.sidePanelLoadButton.addActionListener(e -> loadFile());
             sideButtonContainer.add(this.sidePanelLoadButton);
         }
-//        sideButtonContainer.revalidate();
-//        sideButtonContainer.repaint();
+
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
 
     private void renderTable(){
         MyTable table = new MyTable(new MyTableModel(this.model.getAllData(), this.model.getColumnNames()));
+
+
+        // listener
+        table.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (currentSearchDialog != null){
+                    currentSearchDialog.dispose();
+                    currentSearchDialog = null;
+                }
+                    int col = table.columnAtPoint(e.getPoint());
+                    currentSearchDialog = new MySearchDialog(table.getColumnName(col), (String value) -> {
+                        ((MyTableModel) table.getModel()).setData(model.findName(value));
+                    });
+                    currentSearchDialog.show();
+            }
+        });
+
+
+
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
@@ -170,13 +191,9 @@ public class GUI extends JFrame
     private void createAdvanceSearchButtons(JPanel panel){
 
         JButton oldestButton = new JButton("oldest living");
-        oldestButton.addActionListener(e -> {
-            ((MyTableModel) this.table.getModel()).setData(model.findOldest());
-        });
+        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(model.findOldest()));
         JButton samePlace = new JButton("same place");
-        samePlace.addActionListener(e -> {
-            model.peopleSamePlace();
-        });
+        samePlace.addActionListener(e -> model.peopleSamePlace());
 
 
 
