@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,38 +40,38 @@ public class Model {
     public ArrayList<ArrayList<String>> getDataWithFilters(Map<String, String> filters){
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
-            boolean shoudAdd = true;
+            boolean shouldAdd = true;
             for (String columnName: filters.keySet()) {
                 this.dataFrame.getColumn(columnName).getRowValue(i);
 
                 String currentColumnRowValue = this.dataFrame.getColumn(columnName).getRowValue(i).toLowerCase();
 
                 if (currentColumnRowValue.contains(filters.get(columnName).toLowerCase())) {
-                    shoudAdd = shoudAdd && true;
+                    shouldAdd = shouldAdd && true;
                 }else{
-                    shoudAdd = false;
+                    shouldAdd = false;
                 }
             }
-            if (shoudAdd){
+            if (shouldAdd){
                 output.add(this.dataFrame.getRow(i));
             }
         }
         return output;
     }
 
-    public ArrayList<ArrayList<String>> findValueByColumn(String searchValue, String columnName){
-        ArrayList<String> colValues = this.dataFrame.getColumn(columnName).getRowValues();
-
-        ArrayList<ArrayList<String>> output = new ArrayList<>();
-
-
-        for (int i = 0; i < colValues.size(); i++) {
-            if (colValues.get(i).toLowerCase().contains(searchValue.toLowerCase())){
-                output.add(this.dataFrame.getRow(i));
-            }
-        }
-        return output;
-    }
+//    public ArrayList<ArrayList<String>> findValueByColumn(String searchValue, String columnName){
+//        ArrayList<String> colValues = this.dataFrame.getColumn(columnName).getRowValues();
+//
+//        ArrayList<ArrayList<String>> output = new ArrayList<>();
+//
+//
+//        for (int i = 0; i < colValues.size(); i++) {
+//            if (colValues.get(i).toLowerCase().contains(searchValue.toLowerCase())){
+//                output.add(this.dataFrame.getRow(i));
+//            }
+//        }
+//        return output;
+//    }
 
 
 
@@ -83,7 +82,7 @@ public class Model {
         long oldestAge = -1;
         for (int i = 0; i < dataFrame.getRowCount(); i++) {
 
-            if (deathColumn.getRowValue(i) != ""){
+            if (!deathColumn.getRowValue(i).equals("")){
                 continue;
             }
 
@@ -125,7 +124,7 @@ public class Model {
             diff = TimeUnit.MINUTES.convert(milliSecondsAlive, TimeUnit.MILLISECONDS);
 
         }catch (Exception e){
-            System.out.println("somethign went wrong");
+            System.out.println("something went wrong");
         }
         return diff;
     }

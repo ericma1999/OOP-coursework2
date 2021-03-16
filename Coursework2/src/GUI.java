@@ -94,7 +94,7 @@ public class GUI extends JFrame {
                 String defaultValue = previousValue == null ? "" : previousValue;
 
                 currentSearchDialog = new MySearchDialog(columnName, defaultValue, (String value) -> {
-                    ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
+//                    ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
                     if (!value.equals("")) {
                         currentFilters.put(columnName, value);
                     } else {
@@ -103,6 +103,7 @@ public class GUI extends JFrame {
                     if(page != 1){
                         updateSidePanel(1);
                     }
+                    ((MyTableModel) table.getModel()).setData(model.getDataWithFilters(currentFilters));
                     updateCurrentFilterDisplay();
                 });
                 currentSearchDialog.setVisible(true);
