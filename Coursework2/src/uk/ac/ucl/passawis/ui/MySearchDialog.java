@@ -83,6 +83,4 @@ public class MySearchDialog extends JDialog {
         this.setSize(200, 200);
         this.setLocationRelativeTo(null);
     }
-
-
 }

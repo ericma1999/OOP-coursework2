@@ -100,6 +100,9 @@ public class GUI extends JFrame {
                     } else {
                         currentFilters.remove(columnName);
                     }
+                    if(page != 1){
+                        updateSidePanel(1);
+                    }
                     updateCurrentFilterDisplay();
                 });
                 currentSearchDialog.setVisible(true);
