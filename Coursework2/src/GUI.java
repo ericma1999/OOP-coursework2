@@ -237,7 +237,6 @@ public class GUI extends JFrame {
         }
 
         for (String name : currentFilters.keySet()) {
-            this.currentFilters.get(name);
             this.currentFilterContainer.add(new JLabel(name + ": " + this.currentFilters.get(name)));
         }
 

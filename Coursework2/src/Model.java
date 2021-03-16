@@ -8,12 +8,13 @@ import java.util.concurrent.TimeUnit;
 public class Model {
 
     private DataFrame dataFrame;
+    private final String dateFormat = "yyyy-MM-dd";
 
     public Model (String fileName){
         try{
             this.dataFrame =  new DataLoader(fileName).getDataFrame();
         }catch(Exception e){
-            System.out.println("error");
+            System.err.println("error");
         }
     }
     public int getTotalRows(){
@@ -41,6 +42,9 @@ public class Model {
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             boolean shouldAdd = true;
+
+//            loop through the hashmap keys and check the value, if the column matches all the hashmap's key value
+//            add it to the output
             for (String columnName: filters.keySet()) {
 
                 String currentColumnRowValue = this.dataFrame.getColumn(columnName).getRowValue(i).toLowerCase();
@@ -91,7 +95,7 @@ public class Model {
     }
 
     private long differenceDate(String date){
-        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String today = new SimpleDateFormat(dateFormat).format(new Date());
 
         return differenceDate(today, date);
 
@@ -100,14 +104,14 @@ public class Model {
     private long differenceDate(String firstDate, String lastDate){
         long diff = -1;
         try{
-            Date laterDate = new SimpleDateFormat("yyyy-MM-dd").parse(firstDate);
-            Date earlierDate = new SimpleDateFormat("yyyy-MM-dd").parse(lastDate);
+            Date laterDate = new SimpleDateFormat(dateFormat).parse(firstDate);
+            Date earlierDate = new SimpleDateFormat(dateFormat).parse(lastDate);
 
             long milliSecondsAlive = laterDate.getTime() - earlierDate.getTime();
             diff = TimeUnit.MINUTES.convert(milliSecondsAlive, TimeUnit.MILLISECONDS);
 
         }catch (Exception e){
-            System.out.println("something went wrong");
+            System.err.println("something went wrong");
         }
         return diff;
     }
