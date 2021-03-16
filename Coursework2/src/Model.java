@@ -36,20 +36,37 @@ public class Model {
         return output;
 
     }
+//
+//    public ArrayList<ArrayList<String>> findName(String name){
+//        ArrayList<ArrayList<String>> output = new ArrayList<>();
+//
+//        Column firstNameCol = this.dataFrame.getColumn("FIRST");
+//        Column lastNameCol = this.dataFrame.getColumn("LAST");
+//        for (int i = 0; i < dataFrame.getRowCount(); i++) {
+//            String nameTest = firstNameCol.getRowValue(i).concat(" ").concat(lastNameCol.getRowValue(i));
+//            if (nameTest.toLowerCase().contains(name)){
+//                output.add(this.dataFrame.getRow(i));
+//            }
+//        }
+//        return output;
+//    }
 
-    public ArrayList<ArrayList<String>> findName(String name){
+
+    public ArrayList<ArrayList<String>> findValueByColumn(String searchValue, String columnName){
+        ArrayList<String> colValues = this.dataFrame.getColumn(columnName).getRowValues();
+
         ArrayList<ArrayList<String>> output = new ArrayList<>();
 
-        Column firstNameCol = this.dataFrame.getColumn("FIRST");
-        Column lastNameCol = this.dataFrame.getColumn("LAST");
-        for (int i = 0; i < dataFrame.getRowCount(); i++) {
-            String nameTest = firstNameCol.getRowValue(i).concat(" ").concat(lastNameCol.getRowValue(i));
-            if (nameTest.toLowerCase().contains(name)){
+
+        for (int i = 0; i < colValues.size(); i++) {
+            if (colValues.get(i).toLowerCase().contains(searchValue.toLowerCase())){
                 output.add(this.dataFrame.getRow(i));
             }
         }
         return output;
     }
+
+
 
     public ArrayList<ArrayList<String>> findOldest(){
         Column birthColumn = this.dataFrame.getColumn("BIRTHDATE");

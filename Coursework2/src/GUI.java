@@ -87,8 +87,9 @@ public class GUI extends JFrame
                     currentSearchDialog = null;
                 }
                     int col = table.columnAtPoint(e.getPoint());
-                    currentSearchDialog = new MySearchDialog(table.getColumnName(col), (String value) -> {
-                        ((MyTableModel) table.getModel()).setData(model.findName(value));
+                    String columnName = table.getColumnName(col);
+                    currentSearchDialog = new MySearchDialog(columnName, (String value) -> {
+                        ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
                     });
                     currentSearchDialog.show();
             }
@@ -213,17 +214,17 @@ public class GUI extends JFrame
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                tableModel.setData(model.findName(searchInput.getText()));
+                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                tableModel.setData(model.findName(searchInput.getText()));
+                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                tableModel.setData(model.findName(searchInput.getText()));
+                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
             }
         });
         searchInput.setPreferredSize(new Dimension(200, 40));
