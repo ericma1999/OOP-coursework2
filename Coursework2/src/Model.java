@@ -59,22 +59,6 @@ public class Model {
         return output;
     }
 
-//    public ArrayList<ArrayList<String>> findValueByColumn(String searchValue, String columnName){
-//        ArrayList<String> colValues = this.dataFrame.getColumn(columnName).getRowValues();
-//
-//        ArrayList<ArrayList<String>> output = new ArrayList<>();
-//
-//
-//        for (int i = 0; i < colValues.size(); i++) {
-//            if (colValues.get(i).toLowerCase().contains(searchValue.toLowerCase())){
-//                output.add(this.dataFrame.getRow(i));
-//            }
-//        }
-//        return output;
-//    }
-
-
-
     public ArrayList<ArrayList<String>> findOldest(){
         Column birthColumn = this.dataFrame.getColumn("BIRTHDATE");
         Column deathColumn = this.dataFrame.getColumn("DEATHDATE");
@@ -129,19 +113,19 @@ public class Model {
         return diff;
     }
 
-    public void peopleSamePlace(){
-        HashMap<String, Integer> tallyMap = new HashMap<>();
-
-
-        for (String state: this.dataFrame.getColumn("CITY").getRowValues()) {
-            Integer currentValue = tallyMap.get(state);
-            if (currentValue == null){
-                tallyMap.put(state, 1);
-            }else{
-                tallyMap.put(state, currentValue + 1);
-            }
-
-        }
-    }
+//    public void peopleSamePlace(){
+//        HashMap<String, Integer> tallyMap = new HashMap<>();
+//
+//
+//        for (String state: this.dataFrame.getColumn("CITY").getRowValues()) {
+//            Integer currentValue = tallyMap.get(state);
+//            if (currentValue == null){
+//                tallyMap.put(state, 1);
+//            }else{
+//                tallyMap.put(state, currentValue + 1);
+//            }
+//
+//        }
+//    }
 
 }

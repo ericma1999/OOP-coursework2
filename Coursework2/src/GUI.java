@@ -94,7 +94,6 @@ public class GUI extends JFrame {
                 String defaultValue = previousValue == null ? "" : previousValue;
 
                 currentSearchDialog = new MySearchDialog(columnName, defaultValue, (String value) -> {
-//                    ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
                     if (!value.equals("")) {
                         currentFilters.put(columnName, value);
                     } else {
@@ -139,13 +138,14 @@ public class GUI extends JFrame {
         JScrollPane scrollContainer = new JScrollPane(sidePanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollContainer.getViewport().setPreferredSize(new Dimension(250, 720));
+        scrollContainer.getViewport().setPreferredSize(new Dimension(300, 720));
         add(scrollContainer, BorderLayout.WEST);
 
     }
 
     private void sidePanelButtonContainer() {
         JPanel buttonContainer = new JPanel(new GridLayout(0, 1, 0, 10));
+        buttonContainer.setMaximumSize(new Dimension(300, 500));
         buttonContainer.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
         buttonContainer.setBackground(sidePanelColour);
         createSidePanelSearchButton();
@@ -221,12 +221,9 @@ public class GUI extends JFrame {
 
         JButton oldestButton = new JButton("oldest living");
         oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(model.findOldest()));
-        JButton samePlace = new JButton("same place");
-        samePlace.addActionListener(e -> model.peopleSamePlace());
 
         panel.add(clearFilters);
         panel.add(oldestButton);
-        panel.add(samePlace);
     }
 
     private void updateCurrentFilterDisplay() {

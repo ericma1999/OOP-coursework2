@@ -20,8 +20,9 @@ public class Column {
     }
 
     public int getSize(){
-        return this.rows.size();
+        return this.size;
     }
+
     public String getRowValue(int index){
         return this.rows.get(index);
     }

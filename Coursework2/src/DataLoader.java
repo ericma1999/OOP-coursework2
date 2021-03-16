@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class DataLoader {
 
-    private DataFrame dataFrame = new DataFrame();
+    private final DataFrame dataFrame = new DataFrame();
 
     public DataLoader(String filePath) throws IOException {
         this.loadContent(filePath);
@@ -24,7 +24,7 @@ public class DataLoader {
             boolean first = true;
             int noOfColumns = -1;
             while ((currentLine = contents.readLine()) != null){
-                ArrayList<String> currentLineSplitted = new ArrayList<String>(Arrays.asList(currentLine.split(",")));
+                ArrayList<String> currentLineSplitted = new ArrayList<>(Arrays.asList(currentLine.split(",")));
                 if (first){
                     this.dataFrame.setColumnNames(currentLineSplitted);
                     first = false;
