@@ -12,33 +12,34 @@ public class DataLoader {
         this.loadContent(filePath);
     }
 
-    public DataFrame getDataFrame(){
+    public DataFrame getDataFrame() {
         return this.dataFrame;
     }
 
     public void loadContent(String filePath) throws IOException {
-        try {
-            FileReader file = new FileReader(filePath);
-            BufferedReader contents = new BufferedReader(file);
+        FileReader file = new FileReader(filePath);
+
+        try (BufferedReader contents = new BufferedReader(file)) {
+
             String currentLine;
             boolean first = true;
             int noOfColumns = -1;
-            while ((currentLine = contents.readLine()) != null){
+            while ((currentLine = contents.readLine()) != null) {
                 ArrayList<String> currentLineSplitted = new ArrayList<>(Arrays.asList(currentLine.split(",")));
-                if (first){
+                if (first) {
                     this.dataFrame.setColumnNames(currentLineSplitted);
                     first = false;
                     noOfColumns = this.dataFrame.getColumnNames().length;
                     continue;
                 }
 
-                if (currentLineSplitted.size() < noOfColumns){
+                if (currentLineSplitted.size() < noOfColumns) {
                     currentLineSplitted.add("");
                 }
                 this.dataFrame.addRow(currentLineSplitted);
             }
 
-        } catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
