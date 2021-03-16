@@ -1,7 +1,9 @@
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Model {
@@ -36,21 +38,27 @@ public class Model {
         return output;
 
     }
-//
-//    public ArrayList<ArrayList<String>> findName(String name){
-//        ArrayList<ArrayList<String>> output = new ArrayList<>();
-//
-//        Column firstNameCol = this.dataFrame.getColumn("FIRST");
-//        Column lastNameCol = this.dataFrame.getColumn("LAST");
-//        for (int i = 0; i < dataFrame.getRowCount(); i++) {
-//            String nameTest = firstNameCol.getRowValue(i).concat(" ").concat(lastNameCol.getRowValue(i));
-//            if (nameTest.toLowerCase().contains(name)){
-//                output.add(this.dataFrame.getRow(i));
-//            }
-//        }
-//        return output;
-//    }
+    public ArrayList<ArrayList<String>> getDataWithFilters(Map<String, String> filters){
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
+            boolean shoudAdd = true;
+            for (String columnName: filters.keySet()) {
+                this.dataFrame.getColumn(columnName).getRowValue(i);
 
+                String currentColumnRowValue = this.dataFrame.getColumn(columnName).getRowValue(i).toLowerCase();
+
+                if (currentColumnRowValue.contains(filters.get(columnName).toLowerCase())) {
+                    shoudAdd = shoudAdd && true;
+                }else{
+                    shoudAdd = false;
+                }
+            }
+            if (shoudAdd){
+                output.add(this.dataFrame.getRow(i));
+            }
+        }
+        return output;
+    }
 
     public ArrayList<ArrayList<String>> findValueByColumn(String searchValue, String columnName){
         ArrayList<String> colValues = this.dataFrame.getColumn(columnName).getRowValues();
