@@ -1,3 +1,5 @@
+package uk.ac.ucl.passawis.ui;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

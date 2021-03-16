@@ -1,3 +1,6 @@
+import uk.ac.ucl.passawis.ui.MySearchDialog;
+import uk.ac.ucl.passawis.ui.MyTable;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

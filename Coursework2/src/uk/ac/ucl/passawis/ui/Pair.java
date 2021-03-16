@@ -1,3 +1,5 @@
+package uk.ac.ucl.passawis.ui;
+
 public class Pair<K, V> {
     private final K k;
     private final V v;
