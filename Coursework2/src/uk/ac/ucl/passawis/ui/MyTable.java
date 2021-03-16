@@ -3,8 +3,6 @@ package uk.ac.ucl.passawis.ui;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 public class MyTable extends JTable {
@@ -14,6 +12,8 @@ public class MyTable extends JTable {
     public MyTable(AbstractTableModel model){
         super(model);
     }
+
+
 
     public void unhideColumn(String columnName){
         Pair<Integer, TableColumn> result = removedColumns.get(columnName);

@@ -208,29 +208,29 @@ public class GUI extends JFrame
     private void createSearchControls(){
         JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
         container.setBackground(sidePanelColour);
-        JTextField searchInput = new JFormattedTextField();
-        searchInput.getDocument().addDocumentListener(new DocumentListener() {
-            private MyTableModel tableModel = (MyTableModel) table.getModel();
+//        JTextField searchInput = new JFormattedTextField();
+//        searchInput.getDocument().addDocumentListener(new DocumentListener() {
+//            private MyTableModel tableModel = (MyTableModel) table.getModel();
+//
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
+//            }
+//        });
+//        searchInput.setPreferredSize(new Dimension(200, 40));
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
-            }
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
-            }
-        });
-        searchInput.setPreferredSize(new Dimension(200, 40));
-
-
-        container.add(searchInput, BorderFactory.createEmptyBorder());
+//        container.add(searchInput, BorderFactory.createEmptyBorder());
 
 
         createAdvanceSearchButtons(container);
