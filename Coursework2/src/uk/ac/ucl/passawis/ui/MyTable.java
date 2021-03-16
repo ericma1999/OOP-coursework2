@@ -1,6 +1,6 @@
 package uk.ac.ucl.passawis.ui;
 
-import javax.swing.*;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import java.util.HashMap;

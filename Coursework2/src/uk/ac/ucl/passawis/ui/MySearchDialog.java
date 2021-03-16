@@ -1,6 +1,13 @@
 package uk.ac.ucl.passawis.ui;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.AbstractAction;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
