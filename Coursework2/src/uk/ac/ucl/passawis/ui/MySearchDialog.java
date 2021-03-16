@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 public class MySearchDialog extends JDialog {
     private String name;
+    private JTextField searchField;
 
     public MySearchDialog(String name, Consumer<String> callback){
         super();
@@ -19,6 +20,11 @@ public class MySearchDialog extends JDialog {
         this.setTitle("Search " + name);
         mapEscapeKeyToClose(this.getRootPane());
 
+    }
+
+    public MySearchDialog(String name, String defaultValue, Consumer<String> callback){
+        this(name, callback);
+        this.searchField.setText(defaultValue);
     }
 
     private void mapEscapeKeyToClose(JComponent component){
@@ -63,6 +69,7 @@ public class MySearchDialog extends JDialog {
             }
         });
 
+        this.searchField = searchInput;
 
         return searchInput;
     }

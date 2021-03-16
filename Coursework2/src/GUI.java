@@ -1,16 +1,7 @@
 import uk.ac.ucl.passawis.ui.MySearchDialog;
 import uk.ac.ucl.passawis.ui.MyTable;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JOptionPane;
-import javax.swing.JCheckBox;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.HashMap;
 
 public class GUI extends JFrame
 {
@@ -32,8 +24,12 @@ public class GUI extends JFrame
     private JPanel sideButtonContainer;
     private JPanel rightPanel;
     private JPanel sidePanel;
+    private JPanel currentFilterContainer;
     private MySearchDialog currentSearchDialog;
     private MyTable table;
+
+
+    private HashMap<String, String> currentFilters = new HashMap<>();
 
 
     public GUI()
@@ -45,6 +41,10 @@ public class GUI extends JFrame
 //        center the JFrame on the screen
         setLocationRelativeTo(null);
         setVisible(true);
+
+
+//        currentFilters.put("FIRST", "test");
+//        currentFilters.put("LAST", "woohoo");
 
     }
 
@@ -96,14 +96,34 @@ public class GUI extends JFrame
                 }
                     int col = table.columnAtPoint(e.getPoint());
                     String columnName = table.getColumnName(col);
-                    currentSearchDialog = new MySearchDialog(columnName, (String value) -> {
-                        ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
-                    });
+
+                    JDialog currentSearchDialog;
+                    String previousValue = currentFilters.get(columnName);
+                    if (previousValue != null){
+                        currentSearchDialog = new MySearchDialog(columnName, previousValue, (String value) -> {
+                            ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
+                            if (!value.equals("")){
+                                currentFilters.put(columnName, value);
+                            }else {
+                                currentFilters.remove(columnName);
+                            }
+                            updateCurrentFilterDisplay();
+                        });
+                    }else {
+
+                        currentSearchDialog = new MySearchDialog(columnName, (String value) -> {
+                            ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
+                            if (!value.equals("")){
+                                currentFilters.put(columnName, value);
+                            }else {
+                                currentFilters.remove(columnName);
+                            }
+                            updateCurrentFilterDisplay();
+                        });
+                    }
                     currentSearchDialog.show();
             }
         });
-
-
 
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
@@ -208,38 +228,47 @@ public class GUI extends JFrame
         samePlace.addActionListener(e -> model.peopleSamePlace());
 
 
-
         panel.add(oldestButton);
         panel.add(samePlace);
+    }
+
+    private void updateCurrentFilterDisplay(){
+        this.currentFilterContainer.removeAll();
+
+        if (currentFilters.isEmpty()){
+            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
+            label.setMaximumSize(new Dimension(80,0));
+            label.setForeground(Color.black);
+            this.currentFilterContainer.add(label);
+        }
+
+        for (String name: currentFilters.keySet()) {
+            this.currentFilters.get(name);
+            this.currentFilterContainer.add(new JLabel(name + ": " + this.currentFilters.get(name)));
+        }
+
+        this.currentFilterContainer.revalidate();
+        this.currentFilterContainer.repaint();
+
+    }
+
+    private JPanel renderCurrentFilters(){
+        JPanel container = new JPanel(new GridLayout(0, 1));
+        container.setBackground(sidePanelColour);
+        if (currentFilters.isEmpty()){
+            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
+            label.setMaximumSize(new Dimension(80,0));
+            label.setForeground(Color.black);
+            container.add(label);
+        }
+        this.currentFilterContainer = container;
+        return container;
     }
 
     private void createSearchControls(){
         JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
         container.setBackground(sidePanelColour);
-//        JTextField searchInput = new JFormattedTextField();
-//        searchInput.getDocument().addDocumentListener(new DocumentListener() {
-//            private MyTableModel tableModel = (MyTableModel) table.getModel();
-//
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                tableModel.setData(model.findValueByColumn(searchInput.getText(), "FIRST"));
-//            }
-//        });
-//        searchInput.setPreferredSize(new Dimension(200, 40));
-
-
-//        container.add(searchInput, BorderFactory.createEmptyBorder());
-
+        container.add(renderCurrentFilters());
 
         createAdvanceSearchButtons(container);
 
