@@ -97,10 +97,10 @@ public class GUI extends JFrame
                     int col = table.columnAtPoint(e.getPoint());
                     String columnName = table.getColumnName(col);
 
-                    JDialog currentSearchDialog;
+                    MySearchDialog searchDialog;
                     String previousValue = currentFilters.get(columnName);
                     if (previousValue != null){
-                        currentSearchDialog = new MySearchDialog(columnName, previousValue, (String value) -> {
+                        searchDialog = new MySearchDialog(columnName, previousValue, (String value) -> {
                             ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
                             if (!value.equals("")){
                                 currentFilters.put(columnName, value);
@@ -111,7 +111,7 @@ public class GUI extends JFrame
                         });
                     }else {
 
-                        currentSearchDialog = new MySearchDialog(columnName, (String value) -> {
+                        searchDialog = new MySearchDialog(columnName, (String value) -> {
                             ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
                             if (!value.equals("")){
                                 currentFilters.put(columnName, value);
@@ -121,7 +121,9 @@ public class GUI extends JFrame
                             updateCurrentFilterDisplay();
                         });
                     }
-                    currentSearchDialog.show();
+
+                searchDialog.show();
+                currentSearchDialog = searchDialog;
             }
         });
 
@@ -222,12 +224,20 @@ public class GUI extends JFrame
 
     private void createAdvanceSearchButtons(JPanel panel){
 
+        JButton clearFilters = new JButton("Clear filters");
+        clearFilters.addActionListener(e -> {
+            this.currentFilters = new HashMap<>();
+            this.currentSearchDialog.dispose();
+            updateCurrentFilterDisplay();
+            ((MyTableModel) this.table.getModel()).setData(model.getAllData());
+        });
+
         JButton oldestButton = new JButton("oldest living");
         oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(model.findOldest()));
         JButton samePlace = new JButton("same place");
         samePlace.addActionListener(e -> model.peopleSamePlace());
 
-
+        panel.add(clearFilters);
         panel.add(oldestButton);
         panel.add(samePlace);
     }
