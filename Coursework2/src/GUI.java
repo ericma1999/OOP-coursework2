@@ -11,12 +11,11 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.HashMap;
 
-public class GUI extends JFrame
-{
+public class GUI extends JFrame {
 
     private int page = 0;
     private Model model;
-    private final Color sidePanelColour = new Color(61,105,240);
+    private final Color sidePanelColour = new Color(61, 105, 240);
     private JButton sidePanelSearchButton;
     private JButton sidePanelDashboardButton;
     private JButton sidePanelLoadButton;
@@ -32,8 +31,7 @@ public class GUI extends JFrame
     private HashMap<String, String> currentFilters = new HashMap<>();
 
 
-    public GUI()
-    {
+    public GUI() {
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -42,19 +40,15 @@ public class GUI extends JFrame
         setLocationRelativeTo(null);
         setVisible(true);
 
-
-//        currentFilters.put("FIRST", "test");
-//        currentFilters.put("LAST", "woohoo");
-
     }
 
-    private void createGUI(){
+    private void createGUI() {
         setTitle("Application");
         createSidePanel();
         createRightPanel();
     }
 
-    private String showFileDialog(){
+    private String showFileDialog() {
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new File("./"));
         int returnVal = fc.showOpenDialog(this);
@@ -65,14 +59,14 @@ public class GUI extends JFrame
         return null;
     }
 
-    private void loadFile(){
+    private void loadFile() {
         String path = showFileDialog();
         this.model = new Model(path);
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
 
-        if (this.sidePanelLoadButton == null){
+        if (this.sidePanelLoadButton == null) {
             this.sidePanelLoadButton = createSidePanelButton("Load New File");
             this.sidePanelLoadButton.addActionListener(e -> loadFile());
             sideButtonContainer.add(this.sidePanelLoadButton);
@@ -82,52 +76,37 @@ public class GUI extends JFrame
         this.getContentPane().repaint();
     }
 
-    private void renderTable(){
+    private void renderTable() {
         MyTable table = new MyTable(new MyTableModel(this.model.getAllData(), this.model.getColumnNames()));
-
 
         // listener
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (currentSearchDialog != null){
+                if (currentSearchDialog != null) {
                     currentSearchDialog.dispose();
                     currentSearchDialog = null;
                 }
-                    int col = table.columnAtPoint(e.getPoint());
-                    String columnName = table.getColumnName(col);
+                int col = table.columnAtPoint(e.getPoint());
 
-                    MySearchDialog searchDialog;
-                    String previousValue = currentFilters.get(columnName);
-                    if (previousValue != null){
-                        searchDialog = new MySearchDialog(columnName, previousValue, (String value) -> {
-                            ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
-                            if (!value.equals("")){
-                                currentFilters.put(columnName, value);
-                            }else {
-                                currentFilters.remove(columnName);
-                            }
-                            updateCurrentFilterDisplay();
-                        });
-                    }else {
+                String columnName = table.getColumnName(col);
+                String previousValue = currentFilters.get(columnName);
+                String defaultValue = previousValue == null ? "" : previousValue;
 
-                        searchDialog = new MySearchDialog(columnName, (String value) -> {
-                            ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
-                            if (!value.equals("")){
-                                currentFilters.put(columnName, value);
-                            }else {
-                                currentFilters.remove(columnName);
-                            }
-                            updateCurrentFilterDisplay();
-                        });
+                currentSearchDialog = new MySearchDialog(columnName, defaultValue, (String value) -> {
+                    ((MyTableModel) table.getModel()).setData(model.findValueByColumn(value, columnName));
+                    if (!value.equals("")) {
+                        currentFilters.put(columnName, value);
+                    } else {
+                        currentFilters.remove(columnName);
                     }
+                    updateCurrentFilterDisplay();
+                });
+                currentSearchDialog.setVisible(true);
 
-                searchDialog.show();
-                currentSearchDialog = searchDialog;
             }
         });
 
-        table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -137,7 +116,7 @@ public class GUI extends JFrame
 
     }
 
-    private void createRightPanel(){
+    private void createRightPanel() {
         JPanel rightPanel = new JPanel(new GridBagLayout());
         JButton loadFileButton = new JButton("Load Data");
         loadFileButton.addActionListener(e -> loadFile());
@@ -147,7 +126,7 @@ public class GUI extends JFrame
 
     }
 
-    private void createSidePanel(){
+    private void createSidePanel() {
         JPanel sidePanel = new JPanel();
         sidePanelButtonContainer();
         sidePanel.setBackground(sidePanelColour);
@@ -161,9 +140,9 @@ public class GUI extends JFrame
 
     }
 
-    private void sidePanelButtonContainer(){
-        JPanel buttonContainer = new JPanel(new GridLayout(0, 1,0, 10));
-        buttonContainer.setBorder(BorderFactory.createEmptyBorder(30,0,0,0));
+    private void sidePanelButtonContainer() {
+        JPanel buttonContainer = new JPanel(new GridLayout(0, 1, 0, 10));
+        buttonContainer.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
         buttonContainer.setBackground(sidePanelColour);
         createSidePanelSearchButton();
         createSidePanelDashboardButton();
@@ -172,7 +151,7 @@ public class GUI extends JFrame
         this.sideButtonContainer = buttonContainer;
     }
 
-    private JButton createSidePanelButton(String text){
+    private JButton createSidePanelButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 18));
         button.setForeground(Color.white);
@@ -182,24 +161,25 @@ public class GUI extends JFrame
         return button;
     }
 
-    private void createSidePanelSearchButton(){
+    private void createSidePanelSearchButton() {
         sidePanelSearchButton = createSidePanelButton("Search");
         sidePanelSearchButton.addActionListener((ActionEvent e) -> {
-            if(this.table != null){
+            if (this.table != null) {
                 updateSidePanel(1);
-            }else {
-                JOptionPane.showMessageDialog(this, "Please load a file before trying to search", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Please load a file before trying to search",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
-
-    private void createSidePanelDashboardButton(){
+    private void createSidePanelDashboardButton() {
         sidePanelDashboardButton = createSidePanelButton("Dashboard");
         sidePanelDashboardButton.addActionListener((ActionEvent e) -> updateSidePanel(2));
     }
 
-    private void createSidePanelCloseButton(){
+    private void createSidePanelCloseButton() {
         sidePanelCloseButton = createSidePanelButton("Close");
         sidePanelCloseButton.addActionListener((ActionEvent e) -> {
             updateSidePanel(0);
@@ -207,27 +187,30 @@ public class GUI extends JFrame
         });
     }
 
-    private JCheckBox createColumnCheckbox(String columnName){
+    private JCheckBox createColumnCheckbox(String columnName) {
         JCheckBox checkbox = new JCheckBox(columnName, true);
         checkbox.setFont(new Font("Arial", Font.BOLD, 12));
         checkbox.addItemListener(e -> {
-            String columnName1 = ((JCheckBox) e.getItem()).getText();
-            if(e.getStateChange() == ItemEvent.SELECTED) {
-                table.unhideColumn(columnName1);
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                table.unhideColumn(columnName);
             } else {
-                table.hideColumn(columnName1);
+                table.hideColumn(columnName);
             }
         });
         checkbox.setForeground(Color.white);
         return checkbox;
     }
 
-    private void createAdvanceSearchButtons(JPanel panel){
+    private void createAdvanceSearchButtons(JPanel panel) {
 
         JButton clearFilters = new JButton("Clear filters");
         clearFilters.addActionListener(e -> {
             this.currentFilters = new HashMap<>();
-            this.currentSearchDialog.dispose();
+
+            if (this.currentSearchDialog != null) {
+                this.currentSearchDialog.dispose();
+            }
+
             updateCurrentFilterDisplay();
             ((MyTableModel) this.table.getModel()).setData(model.getAllData());
         });
@@ -242,17 +225,17 @@ public class GUI extends JFrame
         panel.add(samePlace);
     }
 
-    private void updateCurrentFilterDisplay(){
+    private void updateCurrentFilterDisplay() {
         this.currentFilterContainer.removeAll();
 
-        if (currentFilters.isEmpty()){
+        if (currentFilters.isEmpty()) {
             JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
-            label.setMaximumSize(new Dimension(80,0));
+            label.setMaximumSize(new Dimension(80, 0));
             label.setForeground(Color.black);
             this.currentFilterContainer.add(label);
         }
 
-        for (String name: currentFilters.keySet()) {
+        for (String name : currentFilters.keySet()) {
             this.currentFilters.get(name);
             this.currentFilterContainer.add(new JLabel(name + ": " + this.currentFilters.get(name)));
         }
@@ -262,12 +245,12 @@ public class GUI extends JFrame
 
     }
 
-    private JPanel renderCurrentFilters(){
+    private JPanel renderCurrentFilters() {
         JPanel container = new JPanel(new GridLayout(0, 1));
         container.setBackground(sidePanelColour);
-        if (currentFilters.isEmpty()){
+        if (currentFilters.isEmpty()) {
             JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
-            label.setMaximumSize(new Dimension(80,0));
+            label.setMaximumSize(new Dimension(80, 0));
             label.setForeground(Color.black);
             container.add(label);
         }
@@ -275,14 +258,14 @@ public class GUI extends JFrame
         return container;
     }
 
-    private void createSearchControls(){
-        JPanel container = new JPanel(new GridLayout(0, 1,0, 0));
+    private void createSearchControls() {
+        JPanel container = new JPanel(new GridLayout(0, 1, 0, 0));
         container.setBackground(sidePanelColour);
         container.add(renderCurrentFilters());
 
         createAdvanceSearchButtons(container);
 
-        for (String columnName: model.getColumnNames()){
+        for (String columnName : model.getColumnNames()) {
             JCheckBox checkbox = createColumnCheckbox(columnName);
             container.add(checkbox);
         }
@@ -292,20 +275,26 @@ public class GUI extends JFrame
         sideButtonContainer.add(container);
     }
 
-    private void updateSidePanel(int id){
-        this.page = id;
-        if (id == 1){
-            sideButtonContainer.removeAll();
-            createSidePanelCloseButton();
-            createSearchControls();
+    private void toSearchPage() {
+        createSidePanelCloseButton();
+        createSearchControls();
+    }
 
-        }else if (id == 0){
-            sideButtonContainer.removeAll();
-            sideButtonContainer.add(sidePanelSearchButton);
-            sideButtonContainer.add(sidePanelDashboardButton);
-            if (this.sidePanelLoadButton != null){
-                sideButtonContainer.add(this.sidePanelLoadButton);
-            }
+    private void toMainPage() {
+        sideButtonContainer.add(sidePanelSearchButton);
+        sideButtonContainer.add(sidePanelDashboardButton);
+        if (this.sidePanelLoadButton != null) {
+            sideButtonContainer.add(this.sidePanelLoadButton);
+        }
+    }
+
+    private void updateSidePanel(int id) {
+        this.page = id;
+        sideButtonContainer.removeAll();
+        if (id == 1) {
+            toSearchPage();
+        } else if (id == 0) {
+            toMainPage();
         }
         sideButtonContainer.revalidate();
         sideButtonContainer.repaint();

@@ -11,8 +11,8 @@ public class MyTable extends JTable {
 
     public MyTable(AbstractTableModel model){
         super(model);
+        this.setRowHeight(30);
     }
-
 
 
     public void unhideColumn(String columnName){
