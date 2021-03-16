@@ -42,7 +42,6 @@ public class Model {
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             boolean shouldAdd = true;
             for (String columnName: filters.keySet()) {
-                this.dataFrame.getColumn(columnName).getRowValue(i);
 
                 String currentColumnRowValue = this.dataFrame.getColumn(columnName).getRowValue(i).toLowerCase();
 
@@ -112,20 +111,4 @@ public class Model {
         }
         return diff;
     }
-
-//    public void peopleSamePlace(){
-//        HashMap<String, Integer> tallyMap = new HashMap<>();
-//
-//
-//        for (String state: this.dataFrame.getColumn("CITY").getRowValues()) {
-//            Integer currentValue = tallyMap.get(state);
-//            if (currentValue == null){
-//                tallyMap.put(state, 1);
-//            }else{
-//                tallyMap.put(state, currentValue + 1);
-//            }
-//
-//        }
-//    }
-
 }
