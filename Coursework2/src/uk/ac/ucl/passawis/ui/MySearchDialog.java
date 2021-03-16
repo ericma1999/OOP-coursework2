@@ -10,12 +10,10 @@ import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
 public class MySearchDialog extends JDialog {
-    private String name;
     private JTextField searchField;
 
     public MySearchDialog(String name, Consumer<String> callback){
         super();
-        this.name = name;
         createLayout(callback);
         this.setTitle("Search " + name);
         mapEscapeKeyToClose(this.getRootPane());

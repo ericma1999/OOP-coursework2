@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Column {
-    private String name;
-    private ArrayList<String> rows;
+    private final String name;
+    private final ArrayList<String> rows;
     private int size = 0;
 
     public Column(String name){
