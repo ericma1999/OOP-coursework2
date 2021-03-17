@@ -39,8 +39,6 @@ public class DataLoader {
                 this.dataFrame.addRow(currentLineSplitted);
             }
 
-        } catch (Exception e) {
-            throw e;
         }
     }
 }
