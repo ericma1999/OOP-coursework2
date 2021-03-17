@@ -18,6 +18,7 @@ class MyTableModel extends AbstractTableModel {
         return this.data.size();
     }
 
+    @Override
     public String getColumnName(int col) {
         return this.columnNames[col];
     }
@@ -30,22 +31,4 @@ class MyTableModel extends AbstractTableModel {
         this.data = data;
         this.fireTableDataChanged();
     }
-
-    /*
-     * rather than a check box.
-     */
-//    public Class getColumnClass(int c) {
-//        return getValueAt(0, c).getClass();
-//    }
-//
-    /*
-     * Don't need to implement this method unless your table's
-     * data can change.
-     */
-//    public void setValueAt(Object value, int row, int col) {
-//
-//        data[row][col] = value;
-//        fireTableCellUpdated(row, col);
-//
-//    }
 }
