@@ -2,18 +2,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class JSONReader {
 
-    private static ArrayList<Character> skipKeys = new ArrayList<>(Arrays.asList('[', ']','"',' ', ',', '\n'));
-    private HashMap<String, String> testHolder = new HashMap<>();
+    private final HashMap<String, String> testHolder = new HashMap<>();
     private final ArrayList<Character> stack = new ArrayList<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
-    private static final Pattern pattern = Pattern.compile("[\\[\\]\"\\, ]");
+    private static final Pattern pattern = Pattern.compile("[\\[\\]\", ]");
 
 
     public JSONReader(String path) throws IOException{
@@ -109,10 +107,11 @@ public class JSONReader {
                 break;
             case '}':
                 return handleCloseBracket();
+            default:
+                throw new Exception("Something is wrong");
         }
         return true;
     }
-
 
     private Character readTillNoWhiteSpace(BufferedReader contents) throws Exception{
         Character character;
