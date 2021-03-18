@@ -1,15 +1,23 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class JSONReader {
 
     private static ArrayList<Character> skipKeys = new ArrayList<>(Arrays.asList('[', ']','"',' ', ',', '\n'));
     private HashMap<String, String> testHolder = new HashMap<>();
+    private final ArrayList<Character> stack = new ArrayList<>();
+    private StringBuilder currentContent = new StringBuilder();
+    private StringBuilder currentProperty = new StringBuilder();
+
+
+
+
+    private static final Pattern pattern = Pattern.compile("[\\[\\]\"\\, ]");
 
 
     public JSONReader(String path) throws IOException{
@@ -20,7 +28,7 @@ public class JSONReader {
             while ((charIntRepresentation = contents.read()) != -1){
                 Character character = Character.toChars(charIntRepresentation)[0];
 
-                if (skipKeys.contains(character)){
+                if (pattern.matcher(character.toString()).find()){
                     continue;
                 }
 
@@ -29,9 +37,6 @@ public class JSONReader {
                 }
             }
 
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,10 +44,7 @@ public class JSONReader {
 
     private void readProperties(BufferedReader contents) throws Exception {
         int charIntRepresentation;
-        ArrayList<Character> stack = new ArrayList<>();
         stack.add('{');
-        StringBuilder currentContent = new StringBuilder();
-        StringBuilder currentProperty = new StringBuilder();
         while ((charIntRepresentation = contents.read()) != -1){
             Character character = Character.toChars(charIntRepresentation)[0];
 
@@ -51,7 +53,6 @@ public class JSONReader {
                 continue;
             }
 
-
             if (character.equals('"')){
 
                 if (stack.get(stack.size() -1) != '"'){
@@ -59,44 +60,76 @@ public class JSONReader {
                 }else {
                     stack.remove(stack.size() - 1);
                     Character nextCharacter = readTillNoWhiteSpace(contents);
-
-                    System.out.println("next character" + nextCharacter);
-
-                    if (nextCharacter.equals(':')){
-
-                        this.testHolder.put(currentContent.toString(), "");
-                        System.out.println("Adding key: " + currentContent.toString());
-                        currentProperty = new StringBuilder(currentContent);
-                        currentContent = new StringBuilder();
-
-                    }else if (nextCharacter.equals(',')){
-                        if (!this.testHolder.get(currentProperty.toString()).equals("")){
-                            throw new Exception("FOrmat was incorrect");
-                        }else {
-                            this.testHolder.put(currentProperty.toString(), currentContent.toString());
-                            System.out.println("Adding value: " + currentContent.toString());
-                            currentContent = new StringBuilder();
-                            currentProperty = new StringBuilder();
-                        }
-                    }else if(nextCharacter.equals('}') && stack.get(stack.size() -1) != '"'){
-                        System.out.println("Adding value: " + currentContent.toString());
-                        this.testHolder.put(currentProperty.toString(), currentContent.toString());
-                        stack.remove(stack.size() - 1);
-                        if (stack.isEmpty()){
-                            System.out.println("breaking");
-                            System.out.println("\n\n\n");
-                            break;
-                        }
+                    if(!handlePropertyEndCases(nextCharacter)){
+                        break;
                     }
-
                 }
                 continue;
             }
-
-
             currentContent.append(character);
 
         }
+    }
+
+    private boolean handlePropertyEndCases(Character nextCharacter) throws Exception{
+
+
+
+        switch (nextCharacter){
+            case ':':
+                this.testHolder.put(currentContent.toString(), "");
+                System.out.println("Adding key: " + currentContent.toString());
+                currentProperty = new StringBuilder(currentContent);
+                currentContent = new StringBuilder();
+                break;
+            case ',':
+                if (!this.testHolder.get(currentProperty.toString()).equals("")){
+                    throw new Exception("FOrmat was incorrect");
+                }else {
+                    this.testHolder.put(currentProperty.toString(), currentContent.toString());
+                    System.out.println("Adding value: " + currentContent.toString());
+                    currentContent = new StringBuilder();
+                    currentProperty = new StringBuilder();
+                }
+                break;
+            case '}':
+                System.out.println("Adding value: " + currentContent.toString());
+                this.testHolder.put(currentProperty.toString(), currentContent.toString());
+                stack.remove(stack.size() - 1);
+                if (stack.isEmpty()){
+                    System.out.println("\n\n\n");
+                    return false;
+                }
+                break;
+        }
+
+
+//        if (nextCharacter.equals(':')){
+//
+//            this.testHolder.put(currentContent.toString(), "");
+//            System.out.println("Adding key: " + currentContent.toString());
+//            currentProperty = new StringBuilder(currentContent);
+//            currentContent = new StringBuilder();
+//
+//        }else if (nextCharacter.equals(',')){
+//            if (!this.testHolder.get(currentProperty.toString()).equals("")){
+//                throw new Exception("FOrmat was incorrect");
+//            }else {
+//                this.testHolder.put(currentProperty.toString(), currentContent.toString());
+//                System.out.println("Adding value: " + currentContent.toString());
+//                currentContent = new StringBuilder();
+//                currentProperty = new StringBuilder();
+//            }
+//        }else if(nextCharacter.equals('}') && stack.get(stack.size() -1) != '"'){
+//            System.out.println("Adding value: " + currentContent.toString());
+//            this.testHolder.put(currentProperty.toString(), currentContent.toString());
+//            stack.remove(stack.size() - 1);
+//            if (stack.isEmpty()){
+//                System.out.println("\n\n\n");
+//                return false;
+//            }
+//        }
+        return true;
     }
 
 
