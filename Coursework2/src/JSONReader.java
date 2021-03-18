@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class JSONReader {
 
-    private final HashMap<String, String> testHolder = new HashMap<>();
+    private final HashMap<String, String> tempValues = new HashMap<>();
     private final ArrayList<Character> stack = new ArrayList<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
@@ -26,6 +26,7 @@ public class JSONReader {
                     continue;
                 }
 
+//                read the properties of each JSON block {}
                 if (character.equals('{')){
                     this.readProperties(contents);
                 }
@@ -66,17 +67,17 @@ public class JSONReader {
     }
 
     private void handleColon(){
-        this.testHolder.put(currentContent.toString(), "");
+        this.tempValues.put(currentContent.toString(), "");
         System.out.println("Adding key: " + currentContent.toString());
         currentProperty = new StringBuilder(currentContent);
         currentContent = new StringBuilder();
     }
 
     private boolean handleComma(){
-        if (!this.testHolder.get(currentProperty.toString()).equals("")){
+        if (!this.tempValues.get(currentProperty.toString()).equals("")){
             return false;
         }else {
-            this.testHolder.put(currentProperty.toString(), currentContent.toString());
+            this.tempValues.put(currentProperty.toString(), currentContent.toString());
             System.out.println("Adding value: " + currentContent.toString());
             currentContent = new StringBuilder();
             currentProperty = new StringBuilder();
@@ -86,7 +87,7 @@ public class JSONReader {
 
     private boolean handleCloseBracket(){
         System.out.println("Adding value: " + currentContent.toString());
-        this.testHolder.put(currentProperty.toString(), currentContent.toString());
+        this.tempValues.put(currentProperty.toString(), currentContent.toString());
         stack.remove(stack.size() - 1);
         if (stack.isEmpty()){
             System.out.println("\n\n\n");
