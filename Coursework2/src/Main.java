@@ -17,7 +17,7 @@ public class Main {
 //        }
 
         try{
-            new JSONReader("./json/read.json");
+            new JSONReader("./json/test.json");
         }catch (Exception e){
             System.out.println("error");
         }
