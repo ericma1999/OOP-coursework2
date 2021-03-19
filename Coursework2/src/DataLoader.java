@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class DataLoader {
 
     private final DataFrame dataFrame = new DataFrame();
+    private static final ArrayList<String> supportedTypes = new ArrayList<>(Arrays.asList("json", "csv"));
 
     public DataLoader(String filePath) throws IOException {
         this.loadContent(filePath);
@@ -28,13 +29,12 @@ public class DataLoader {
 
         String extension = this.getFileExtension(filePath);
 
-        if (!extension.equals("csv") && !extension.equals("json")){
-            throw new IOException("File format is incorrect");
+        if (!supportedTypes.contains(extension)){
+           throw new IOException("File format is incorrect");
         }
 
         FileReader file = new FileReader(filePath);
         this.readCSV(file);
-
 
     }
 

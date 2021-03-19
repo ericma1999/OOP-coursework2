@@ -3,11 +3,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
 public class JSONReader {
 
-    private final HashMap<String, String> tempValues = new HashMap<>();
+    private final LinkedHashMap<String, String> tempValues = new LinkedHashMap<>();
     private final ArrayList<Character> stack = new ArrayList<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
@@ -38,7 +39,7 @@ public class JSONReader {
         }
     }
 
-    private void readProperties(BufferedReader contents) throws Exception {
+    private void readProperties(BufferedReader contents) throws IOException {
         int charIntRepresentation;
         while ((charIntRepresentation = contents.read()) != -1){
             Character character = Character.toChars(charIntRepresentation)[0];
@@ -89,25 +90,25 @@ public class JSONReader {
         return !stack.isEmpty();
     }
 
-    private boolean handlePropertyEndCases(Character nextCharacter) throws Exception{
+    private boolean handlePropertyEndCases(Character nextCharacter) throws IOException{
         switch (nextCharacter){
             case ':':
                 handleColon();
                 break;
             case ',':
                 if (!handleComma()){
-                    throw new Exception("Format was incorrect");
+                    throw new IOException("Format was incorrect");
                 }
                 break;
             case '}':
                 return handleCloseBracket();
             default:
-                throw new Exception("Something is wrong");
+                throw new IOException("Something is wrong");
         }
         return true;
     }
 
-    private Character readTillNoWhiteSpace(BufferedReader contents) throws Exception{
+    private Character readTillNoWhiteSpace(BufferedReader contents) throws IOException{
         Character character;
         while (true){
             character = Character.toChars(contents.read())[0];
