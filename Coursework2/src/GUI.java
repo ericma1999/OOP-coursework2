@@ -213,6 +213,7 @@ public class GUI extends JFrame {
         sidePanelCloseButton = createSidePanelButton("Close");
         sidePanelCloseButton.addActionListener((ActionEvent e) -> {
             updateSidePanel(0);
+            this.currentFilters = new HashMap<>();
             ((MyTableModel) this.table.getModel()).setData(model.getAllData());
         });
     }
@@ -311,6 +312,7 @@ public class GUI extends JFrame {
         sideButtonContainer.add(sidePanelDashboardButton);
         if (this.sidePanelLoadButton != null) {
             sideButtonContainer.add(this.sidePanelLoadButton);
+            sideButtonContainer.add(this.writeJSONButton);
         }
     }
 
