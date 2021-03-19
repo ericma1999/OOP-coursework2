@@ -68,8 +68,19 @@ public class GUI extends JFrame {
 
     private void createSidePanelWriteJSONButton(){
         this.writeJSONButton = createSidePanelButton("Write to JSON file");
-        this.writeJSONButton.addActionListener(e -> loadFile());
+        this.writeJSONButton.addActionListener(e -> writeJSONFile());
         sideButtonContainer.add(this.writeJSONButton);
+    }
+
+    private void writeJSONFile(){
+        JFileChooser dialog = new JFileChooser();
+        int userSelection = dialog.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File file = dialog.getSelectedFile();
+//                validate that the file does not exist
+            model.writeToJSON(file.getPath());
+        }
     }
 
     private void loadFile() {

@@ -3,10 +3,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONWriter {
-    public JSONWriter(DataFrame dataFrame) {
+    public JSONWriter(DataFrame dataFrame, String pathName) {
         BufferedWriter writer;
         try {
-            FileWriter targetFile = new FileWriter("./json/test.json");
+            FileWriter targetFile = new FileWriter(pathName);
             writer = new BufferedWriter(targetFile);
 
             writer.write(generateJSONString(dataFrame).toString());

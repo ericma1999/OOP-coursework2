@@ -62,6 +62,11 @@ public class Model {
         return output;
     }
 
+
+    public void writeToJSON(String path){
+        new JSONWriter(this.dataFrame, path);
+    }
+
     public ArrayList<ArrayList<String>> findOldest(){
         Column birthColumn = this.dataFrame.getColumn("BIRTHDATE");
         Column deathColumn = this.dataFrame.getColumn("DEATHDATE");
