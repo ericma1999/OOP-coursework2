@@ -16,9 +16,29 @@ public class DataLoader {
         return this.dataFrame;
     }
 
-    public void loadContent(String filePath) throws IOException {
-        FileReader file = new FileReader(filePath);
 
+
+    private String getFileExtension(String path){
+//        get the position of last . until end of string
+        return path.substring(path.lastIndexOf(".")+1);
+
+    }
+
+    public void loadContent(String filePath) throws IOException{
+
+        String extension = this.getFileExtension(filePath);
+
+        if (!extension.equals("csv") && !extension.equals("json")){
+            throw new IOException("File format is incorrect");
+        }
+
+        FileReader file = new FileReader(filePath);
+        this.readCSV(file);
+
+
+    }
+
+    private void readCSV(FileReader file) throws IOException{
         try (BufferedReader contents = new BufferedReader(file)) {
 
             String currentLine;
