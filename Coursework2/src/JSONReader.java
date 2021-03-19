@@ -2,17 +2,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
 public class JSONReader {
 
+    private final DataFrame dataFrame = new DataFrame();
     private final LinkedHashMap<String, String> tempValues = new LinkedHashMap<>();
     private final ArrayList<Character> stack = new ArrayList<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
     private static final Pattern pattern = Pattern.compile("[\\[\\]\", ]");
+    private boolean firstItem = true;
 
 
     public JSONReader(String path) throws IOException{
@@ -37,6 +38,9 @@ public class JSONReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public DataFrame getDataFrame(){
+        return this.dataFrame;
     }
 
     private void readProperties(BufferedReader contents) throws IOException {
@@ -73,19 +77,34 @@ public class JSONReader {
         currentContent = new StringBuilder();
     }
 
+    private void resetTempContent(){
+        currentContent = new StringBuilder();
+        currentProperty = new StringBuilder();
+    }
+
     private boolean handleComma(){
         if (!this.tempValues.get(currentProperty.toString()).equals("")){
             return false;
         }else {
             this.tempValues.put(currentProperty.toString(), currentContent.toString());
-            currentContent = new StringBuilder();
-            currentProperty = new StringBuilder();
+            resetTempContent();
         }
         return true;
     }
 
+    private void addContentToDataFrame(){
+        if (firstItem){
+            this.dataFrame.setColumnNames(new ArrayList<>(this.tempValues.keySet()));
+            firstItem = false;
+        }
+
+        this.dataFrame.addRow(new ArrayList<>(this.tempValues.values()));
+    }
+
     private boolean handleCloseBracket(){
         this.tempValues.put(currentProperty.toString(), currentContent.toString());
+        resetTempContent();
+        addContentToDataFrame();
         stack.remove(stack.size() - 1);
         return !stack.isEmpty();
     }

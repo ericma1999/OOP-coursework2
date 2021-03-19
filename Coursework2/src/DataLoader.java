@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class DataLoader {
 
-    private final DataFrame dataFrame = new DataFrame();
+    private DataFrame dataFrame = new DataFrame();
     private static final ArrayList<String> supportedTypes = new ArrayList<>(Arrays.asList("json", "csv"));
 
     public DataLoader(String filePath) throws IOException {
@@ -33,9 +33,19 @@ public class DataLoader {
            throw new IOException("File format is incorrect");
         }
 
-        FileReader file = new FileReader(filePath);
-        this.readCSV(file);
+        if (extension.equals("json")){
+            this.readJSON(filePath);
+        }else{
+            FileReader file = new FileReader(filePath);
+            this.readCSV(file);
+        }
 
+    }
+
+    private void readJSON(String filePath) throws IOException{
+        JSONReader reader = new JSONReader(filePath);
+
+        this.dataFrame = reader.getDataFrame();
     }
 
     private void readCSV(FileReader file) throws IOException{
@@ -56,6 +66,7 @@ public class DataLoader {
                 if (currentLineSplitted.size() < noOfColumns) {
                     currentLineSplitted.add("");
                 }
+
                 this.dataFrame.addRow(currentLineSplitted);
             }
 
