@@ -1,21 +1,19 @@
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Model {
 
-    private DataFrame dataFrame;
-    private final String dateFormat = "yyyy-MM-dd";
+    private final DataFrame dataFrame;
+    private static final String dateFormat = "yyyy-MM-dd";
 
-    public Model (String filePath){
-        try{
-            this.dataFrame =  new DataLoader(filePath).getDataFrame();
-        }catch(Exception e){
-            System.err.println("error");
-        }
+    public Model (String filePath) throws IOException {
+
+        this.dataFrame =  new DataLoader(filePath).getDataFrame();
+
     }
     public int getTotalRows(){
         return this.dataFrame.getRowCount();

@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class GUI extends JFrame {
 
     private int page = 0;
-    private Model model;
+    private Controller controller = new Controller();
     private final Color sidePanelColour = new Color(61, 105, 240);
     private JButton sidePanelSearchButton;
     private JButton sidePanelDashboardButton;
@@ -62,7 +62,7 @@ public class GUI extends JFrame {
 
     private void createSidePanelLoadButton(){
         this.sidePanelLoadButton = createSidePanelButton("Load New File");
-        this.sidePanelLoadButton.addActionListener(e -> loadFile());
+        this.sidePanelLoadButton.addActionListener(e -> handleLoadFile());
         sideButtonContainer.add(this.sidePanelLoadButton);
     }
 
@@ -79,15 +79,19 @@ public class GUI extends JFrame {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File file = dialog.getSelectedFile();
 //                validate that the file does not exist
-            model.writeToJSON(file.getPath());
+            controller.writeToJSON(file.getPath());
         }
     }
 
-    private void loadFile() {
-        String path = showFileDialog();
-        if (path != null){
-            this.model = new Model(path);
-        }
+
+
+    private void createErrorDialog(String message){
+        JOptionPane.showMessageDialog(this,
+                message,
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void loadFileSuccess(){
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
@@ -97,13 +101,21 @@ public class GUI extends JFrame {
             createSidePanelWriteJSONButton();
 
         }
+    }
 
+    private void handleLoadFile() {
+        String path = showFileDialog();
+        if (path != null && controller.loadFile(path)){
+            loadFileSuccess();
+        }else {
+            createErrorDialog("Failed to read the file selected. Please try again");
+        }
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
 
     private void renderTable() {
-        MyTable table = new MyTable(new MyTableModel(this.model.getAllData(), this.model.getColumnNames()));
+        MyTable table = new MyTable(new MyTableModel(controller.getAllData(), controller.getColumnNames()));
 
         // listener
         table.getTableHeader().addMouseListener(new MouseAdapter() {
@@ -128,7 +140,7 @@ public class GUI extends JFrame {
                     if(page != 1){
                         updateSidePanel(1);
                     }
-                    ((MyTableModel) table.getModel()).setData(model.getDataWithFilters(currentFilters));
+                    ((MyTableModel) table.getModel()).setData(controller.getDataWithFilters(currentFilters));
                     updateCurrentFilterDisplay();
                 });
                 currentSearchDialog.setVisible(true);
@@ -148,7 +160,7 @@ public class GUI extends JFrame {
     private void createRightPanel() {
         JPanel rightPanel = new JPanel(new GridBagLayout());
         JButton loadFileButton = new JButton("Load Data");
-        loadFileButton.addActionListener(e -> loadFile());
+        loadFileButton.addActionListener(e -> handleLoadFile());
         rightPanel.add(loadFileButton);
         this.rightPanel = rightPanel;
         add(rightPanel);
@@ -197,9 +209,7 @@ public class GUI extends JFrame {
             if (this.table != null) {
                 updateSidePanel(1);
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "Please load a file before trying to search",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                createErrorDialog("Please load a file before trying to search");
             }
         });
     }
@@ -214,7 +224,7 @@ public class GUI extends JFrame {
         sidePanelCloseButton.addActionListener((ActionEvent e) -> {
             updateSidePanel(0);
             this.currentFilters = new HashMap<>();
-            ((MyTableModel) this.table.getModel()).setData(model.getAllData());
+            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
         });
     }
 
@@ -243,11 +253,11 @@ public class GUI extends JFrame {
             }
 
             updateCurrentFilterDisplay();
-            ((MyTableModel) this.table.getModel()).setData(model.getAllData());
+            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
         });
 
         JButton oldestButton = new JButton("oldest living");
-        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(model.findOldest()));
+        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(controller.findOldest()));
 
         panel.add(clearFilters);
         panel.add(oldestButton);
@@ -292,7 +302,7 @@ public class GUI extends JFrame {
 
         createAdvanceSearchButtons(container);
 
-        for (String columnName : model.getColumnNames()) {
+        for (String columnName : controller.getColumnNames()) {
             JCheckBox checkbox = createColumnCheckbox(columnName);
             container.add(checkbox);
         }
