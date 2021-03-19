@@ -20,6 +20,7 @@ public class GUI extends JFrame {
     private JButton sidePanelDashboardButton;
     private JButton sidePanelLoadButton;
     private JButton sidePanelCloseButton;
+    private JButton writeJSONButton;
     private JPanel sideButtonContainer;
     private JPanel rightPanel;
     private JPanel sidePanel;
@@ -59,17 +60,31 @@ public class GUI extends JFrame {
         return null;
     }
 
+    private void createSidePanelLoadButton(){
+        this.sidePanelLoadButton = createSidePanelButton("Load New File");
+        this.sidePanelLoadButton.addActionListener(e -> loadFile());
+        sideButtonContainer.add(this.sidePanelLoadButton);
+    }
+
+    private void createSidePanelWriteJSONButton(){
+        this.writeJSONButton = createSidePanelButton("Write to JSON file");
+        this.writeJSONButton.addActionListener(e -> loadFile());
+        sideButtonContainer.add(this.writeJSONButton);
+    }
+
     private void loadFile() {
         String path = showFileDialog();
-        this.model = new Model(path);
+        if (path != null){
+            this.model = new Model(path);
+        }
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
 
-        if (this.sidePanelLoadButton == null) {
-            this.sidePanelLoadButton = createSidePanelButton("Load New File");
-            this.sidePanelLoadButton.addActionListener(e -> loadFile());
-            sideButtonContainer.add(this.sidePanelLoadButton);
+        if (this.sidePanelLoadButton == null && this.writeJSONButton == null) {
+            createSidePanelLoadButton();
+            createSidePanelWriteJSONButton();
+
         }
 
         this.getContentPane().revalidate();
