@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Column {
     private final String name;
@@ -27,7 +28,7 @@ public class Column {
         return this.rows.get(index);
     }
 
-    public ArrayList<String> getRowValues() {return new ArrayList<>(this.rows);}
+    public List<String> getRowValues() {return new ArrayList<>(this.rows);}
 
     public void setRowValue(int index, String newValue){
         this.rows.set(index, newValue);
