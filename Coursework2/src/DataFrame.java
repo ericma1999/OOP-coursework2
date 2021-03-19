@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class DataFrame {
 
@@ -12,7 +13,7 @@ public class DataFrame {
         this.columns = new LinkedHashMap<>();
     }
 
-    public void addRow(ArrayList<String> rowContent){
+    public void addRow(List<String> rowContent){
         int i = 0;
         for (String columnValue: rowContent) {
             this.columns.get(keys.get(i)).addRowValue(columnValue);
@@ -21,7 +22,7 @@ public class DataFrame {
         this.rowCount += 1;
     }
 
-    public ArrayList<String> getRow(int index){
+    public List<String> getRow(int index){
         ArrayList<String> output = new ArrayList<>();
 
         for (String key: keys) {
@@ -44,7 +45,7 @@ public class DataFrame {
         return this.keys.toArray(new String[0]);
     }
 
-    public void setColumnNames(ArrayList<String> columnNames){
+    public void setColumnNames(List<String> columnNames){
         for (String name: columnNames) {
             columns.put(name, new Column(name));
             keys.add(name);

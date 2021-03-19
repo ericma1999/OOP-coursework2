@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,7 +85,7 @@ class DataFrameTest {
     }
     @Test
     void getRow(){
-        ArrayList<String> rowData = sampleDataFrame.getRow(1);
+        List<String> rowData = sampleDataFrame.getRow(1);
 
         assertEquals("S123123", rowData.get(0));
         assertEquals("Low", rowData.get(3));

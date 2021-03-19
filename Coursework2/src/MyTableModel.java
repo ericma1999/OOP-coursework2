@@ -1,11 +1,11 @@
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 class MyTableModel extends AbstractTableModel {
-    private ArrayList<ArrayList<String>> data;
+    private List<List<String>> data;
     private String[] columnNames;
 
-    public MyTableModel(ArrayList<ArrayList<String>> data, String[] columnNames){
+    public MyTableModel(List<List<String>> data, String[] columnNames){
         this.data = data;
         this.columnNames = columnNames;
     }
@@ -27,7 +27,7 @@ class MyTableModel extends AbstractTableModel {
         return data.get(row).get(col);
     }
 
-    public void setData(ArrayList<ArrayList<String>> data){
+    public void setData(List<List<String>> data){
         this.data = data;
         this.fireTableDataChanged();
     }

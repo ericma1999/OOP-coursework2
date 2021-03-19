@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +28,8 @@ public class Model {
         return this.dataFrame.getColumn(index).getRowValue(row);
     }
 
-    public ArrayList<ArrayList<String>> getAllData(){
-        ArrayList<ArrayList<String>> output = new ArrayList<>();
+    public List<List<String>> getAllData(){
+        List<List<String>> output = new ArrayList<>();
 
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             output.add(this.dataFrame.getRow(i));
@@ -36,8 +37,8 @@ public class Model {
         return output;
 
     }
-    public ArrayList<ArrayList<String>> getDataWithFilters(Map<String, String> filters){
-        ArrayList<ArrayList<String>> output = new ArrayList<>();
+    public List<List<String>> getDataWithFilters(Map<String, String> filters){
+        ArrayList<List<String>> output = new ArrayList<>();
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             boolean shouldAdd = true;
 
@@ -65,10 +66,10 @@ public class Model {
         new JSONWriter(this.dataFrame, path);
     }
 
-    public ArrayList<ArrayList<String>> findOldest(){
+    public List<List<String>> findOldest(){
         Column birthColumn = this.dataFrame.getColumn("BIRTHDATE");
         Column deathColumn = this.dataFrame.getColumn("DEATHDATE");
-        ArrayList<ArrayList<String>> oldestPersons = new ArrayList<>();
+        ArrayList<List<String>> oldestPersons = new ArrayList<>();
         long oldestAge = -1;
         for (int i = 0; i < dataFrame.getRowCount(); i++) {
 

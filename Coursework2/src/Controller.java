@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Controller {
@@ -19,7 +20,7 @@ public class Controller {
         return true;
     }
 
-    public ArrayList<ArrayList<String>> getAllData(){
+    public List<List<String>> getAllData(){
         if (this.model == null){
             return null;
         }
@@ -30,11 +31,11 @@ public class Controller {
         return model.getColumnNames();
     }
 
-    public ArrayList<ArrayList<String>> getDataWithFilters(HashMap<String, String> filters){
+    public List<List<String>> getDataWithFilters(HashMap<String, String> filters){
         return model.getDataWithFilters(filters);
     }
 
-    public ArrayList<ArrayList<String>> findOldest(){
+    public List<List<String>> findOldest(){
         return model.findOldest();
     }
 
