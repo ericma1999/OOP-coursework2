@@ -28,6 +28,7 @@ public class JSONReader {
 
 //                read the properties of each JSON block {}
                 if (character.equals('{')){
+                    stack.add('{');
                     this.readProperties(contents);
                 }
             }
@@ -39,7 +40,6 @@ public class JSONReader {
 
     private void readProperties(BufferedReader contents) throws Exception {
         int charIntRepresentation;
-        stack.add('{');
         while ((charIntRepresentation = contents.read()) != -1){
             Character character = Character.toChars(charIntRepresentation)[0];
 
@@ -68,7 +68,6 @@ public class JSONReader {
 
     private void handleColon(){
         this.tempValues.put(currentContent.toString(), "");
-        System.out.println("Adding key: " + currentContent.toString());
         currentProperty = new StringBuilder(currentContent);
         currentContent = new StringBuilder();
     }
@@ -78,7 +77,6 @@ public class JSONReader {
             return false;
         }else {
             this.tempValues.put(currentProperty.toString(), currentContent.toString());
-            System.out.println("Adding value: " + currentContent.toString());
             currentContent = new StringBuilder();
             currentProperty = new StringBuilder();
         }
@@ -86,14 +84,9 @@ public class JSONReader {
     }
 
     private boolean handleCloseBracket(){
-        System.out.println("Adding value: " + currentContent.toString());
         this.tempValues.put(currentProperty.toString(), currentContent.toString());
         stack.remove(stack.size() - 1);
-        if (stack.isEmpty()){
-            System.out.println("\n\n\n");
-            return false;
-        }
-        return true;
+        return !stack.isEmpty();
     }
 
     private boolean handlePropertyEndCases(Character nextCharacter) throws Exception{
