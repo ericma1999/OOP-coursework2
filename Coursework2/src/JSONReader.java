@@ -8,7 +8,10 @@ import java.util.regex.Pattern;
 public class JSONReader {
 
     private final DataFrame dataFrame = new DataFrame();
+
+//    to get the columnNames and its value in correct order
     private final LinkedHashMap<String, String> tempValues = new LinkedHashMap<>();
+
     private final ArrayList<Character> stack = new ArrayList<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
@@ -19,7 +22,7 @@ public class JSONReader {
     public JSONReader(String path) throws IOException{
         FileReader file = new FileReader(path);
 
-        try (BufferedReader contents = new BufferedReader(file)) {
+        BufferedReader contents = new BufferedReader(file);
             int charIntRepresentation;
             while ((charIntRepresentation = contents.read()) != -1){
                 Character character = Character.toChars(charIntRepresentation)[0];
@@ -34,10 +37,6 @@ public class JSONReader {
                     this.readProperties(contents);
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public DataFrame getDataFrame(){
@@ -49,22 +48,25 @@ public class JSONReader {
         while ((charIntRepresentation = contents.read()) != -1){
             Character character = Character.toChars(charIntRepresentation)[0];
 
-
+//            current character is not in a quotation mark so skip it
             if ((character.equals(' ') || character.equals('\n')) && stack.get(stack.size() - 1) != '"'){
                 continue;
             }
 
             if (character.equals('"')){
+                if (stack.get(stack.size() - 1) != '"'){
 
-                if (stack.get(stack.size() -1) != '"'){
                     stack.add('"');
+
                 }else {
+
                     stack.remove(stack.size() - 1);
                     Character nextCharacter = readTillNoWhiteSpace(contents);
                     if(!handlePropertyEndCases(nextCharacter)){
                         break;
                     }
                 }
+
                 continue;
             }
             currentContent.append(character);
@@ -123,7 +125,7 @@ public class JSONReader {
             case '}':
                 return handleCloseBracket();
             default:
-                throw new IOException("Something is wrong");
+                throw new IOException("JSON could not be parse");
         }
         return true;
     }
