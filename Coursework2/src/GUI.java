@@ -43,7 +43,6 @@ public class GUI extends JFrame {
     private MySearchDialog currentSearchDialog;
     private MyTable table;
 
-
     private HashMap<String, String> currentFilters = new HashMap<>();
 
 
@@ -269,7 +268,7 @@ public class GUI extends JFrame {
             ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
         });
 
-        JButton oldestButton = new JButton("oldest living");
+        JButton oldestButton = new JButton("Oldest Living");
         oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(controller.findOldest()));
 
         panel.add(clearFilters);
