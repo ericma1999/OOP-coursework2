@@ -16,6 +16,7 @@ public class Model {
         this.dataFrame =  new DataLoader(filePath).getDataFrame();
 
     }
+
     public int getTotalRows(){
         return this.dataFrame.getRowCount();
     }
@@ -38,7 +39,7 @@ public class Model {
 
     }
     public List<List<String>> getDataWithFilters(Map<String, String> filters){
-        ArrayList<List<String>> output = new ArrayList<>();
+        List<List<String>> output = new ArrayList<>();
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             boolean shouldAdd = true;
 
@@ -69,7 +70,7 @@ public class Model {
     public List<List<String>> findOldest(){
         Column birthColumn = this.dataFrame.getColumn("BIRTHDATE");
         Column deathColumn = this.dataFrame.getColumn("DEATHDATE");
-        ArrayList<List<String>> oldestPersons = new ArrayList<>();
+        List<List<String>> oldestPersons = new ArrayList<>();
         long oldestAge = -1;
         for (int i = 0; i < dataFrame.getRowCount(); i++) {
 

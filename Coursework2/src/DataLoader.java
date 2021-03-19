@@ -48,8 +48,8 @@ public class DataLoader {
     }
 
     private void readCSV(FileReader file) throws IOException{
-        try (BufferedReader contents = new BufferedReader(file)) {
 
+            BufferedReader contents = new BufferedReader(file);
             String currentLine;
             boolean first = true;
             int noOfColumns = -1;
@@ -68,7 +68,6 @@ public class DataLoader {
 
                 this.dataFrame.addRow(currentLineSplitted);
             }
-
-        }
+            contents.close();
     }
 }
