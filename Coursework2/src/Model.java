@@ -10,9 +10,9 @@ public class Model {
     private DataFrame dataFrame;
     private final String dateFormat = "yyyy-MM-dd";
 
-    public Model (String fileName){
+    public Model (String filePath){
         try{
-            this.dataFrame =  new DataLoader(fileName).getDataFrame();
+            this.dataFrame =  new DataLoader(filePath).getDataFrame();
         }catch(Exception e){
             System.err.println("error");
         }

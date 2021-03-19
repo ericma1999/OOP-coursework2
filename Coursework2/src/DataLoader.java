@@ -9,14 +9,13 @@ public class DataLoader {
     private DataFrame dataFrame = new DataFrame();
     private static final ArrayList<String> supportedTypes = new ArrayList<>(Arrays.asList("json", "csv"));
 
-    public DataLoader(String filePath) throws IOException {
+    public DataLoader(String filePath) throws IOException{
         this.loadContent(filePath);
     }
 
     public DataFrame getDataFrame() {
         return this.dataFrame;
     }
-
 
 
     private String getFileExtension(String path){

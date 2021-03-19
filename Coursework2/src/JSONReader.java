@@ -39,6 +39,7 @@ public class JSONReader {
             e.printStackTrace();
         }
     }
+
     public DataFrame getDataFrame(){
         return this.dataFrame;
     }
