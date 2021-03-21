@@ -39,6 +39,8 @@ public class GUI extends JFrame {
     private JPanel sideButtonContainer;
     private JPanel rightPanel;
     private JPanel currentFilterContainer;
+    private SidePanel sidePanel;
+
     private MySearchDialog currentSearchDialog;
     private MyTable table;
 
@@ -63,15 +65,22 @@ public class GUI extends JFrame {
     }
 
     private void createSidePanel() {
-        JPanel sidePanel = new JPanel();
-        sidePanelButtonContainer();
-        sidePanel.setBackground(sidePanelColour);
-        sidePanel.add(this.sideButtonContainer, SwingConstants.CENTER);
-        JScrollPane scrollContainer = new JScrollPane(sidePanel,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollContainer.getViewport().setPreferredSize(new Dimension(300, 720));
-        add(scrollContainer, BorderLayout.WEST);
+         SidePanel sidePanel = new SidePanel();
+         sidePanel.onSearchButtonClicked(() -> {
+             if (this.table != null){
+                 sidePanel.setColumnNames(controller.getColumnNames());
+                 return true;
+             }
+             createErrorDialog("File not found");
+             return false;
+
+         });
+
+         this.sidePanel = sidePanel;
+
+
+        add(sidePanel.getPanel(), BorderLayout.WEST);
+
 
     }
 
@@ -167,12 +176,12 @@ public class GUI extends JFrame {
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
-
-        if (this.sidePanelLoadButton == null && this.writeJSONButton == null) {
-            createSidePanelLoadButton();
-            createSidePanelWriteJSONButton();
-
-        }
+//
+//        if (this.sidePanelLoadButton == null && this.writeJSONButton == null) {
+//            createSidePanelLoadButton();
+//            createSidePanelWriteJSONButton();
+//
+//        }
     }
 
     private void createSidePanelLoadButton(){
@@ -216,6 +225,7 @@ public class GUI extends JFrame {
 
     private void renderTable() {
         MyTable table = new MyTable(new MyTableModel(controller.getAllData(), controller.getColumnNames()));
+        sidePanel.setTable(table);
         table.setHeaderClickAction(this::handleTableHeaderClick);
 
         JScrollPane scrollPane = new JScrollPane();
