@@ -26,6 +26,7 @@ public class SidePanel extends JFrame{
     private Supplier<Boolean> handleCloseClick;
     private Supplier<Boolean> handleLoadButtonClick;
     private Supplier<Boolean> handleWriteJsonButtonClick;
+    private Supplier<Boolean> handleOldestClick;
 
     private HashMap<String, String> currentFilters = new HashMap<>();
 
@@ -165,6 +166,10 @@ public class SidePanel extends JFrame{
         this.handleClearClick = callback;
     }
 
+    public void onOldestButtonClicked(Supplier<Boolean> callback){
+        this.handleOldestClick = callback;
+    }
+
     private void createAdvanceSearchButtons(JPanel panel) {
 
         JButton clearFilters = new JButton("Clear filters");
@@ -174,7 +179,7 @@ public class SidePanel extends JFrame{
         });
 
         JButton oldestButton = new JButton("Oldest Living");
-//        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(controller.findOldest()));
+        oldestButton.addActionListener(e -> handleOldestClick.get());
 
         panel.add(clearFilters);
         panel.add(oldestButton);

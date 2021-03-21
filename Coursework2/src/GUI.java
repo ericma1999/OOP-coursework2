@@ -21,7 +21,6 @@ import java.util.HashMap;
 public class GUI extends JFrame {
 
     private final Controller controller = new Controller();
-    private JButton writeJSONButton;
     private JPanel rightPanel;
     private SidePanel sidePanel;
 
@@ -86,12 +85,17 @@ public class GUI extends JFrame {
              return true;
          });
 
+         sidePanel.onOldestButtonClicked(() -> {
+             this.currentFilters = new HashMap<>();
+             sidePanel.setCurrentFilters(this.currentFilters);
+             ((MyTableModel) this.table.getModel()).setData(controller.findOldest());
+             return true;
+         });
+
          this.sidePanel = sidePanel;
 
 
         add(sidePanel.getPanel(), BorderLayout.WEST);
-
-
     }
 
     private void createErrorDialog(String message){
@@ -148,12 +152,6 @@ public class GUI extends JFrame {
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
-//
-//        if (this.sidePanelLoadButton == null && this.writeJSONButton == null) {
-//            createSidePanelLoadButton();
-//            createSidePanelWriteJSONButton();
-//
-//        }
     }
 
 
