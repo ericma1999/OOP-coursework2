@@ -16,11 +16,16 @@ public class SidePanel extends JFrame{
     private JButton sidePanelDashboardButton;
     private JButton sidePanelLoadButton;
     private JButton writeJSONButton;
+    private JPanel currentFilterContainer;
     private String[] columnNames;
+
+    public int pageID = 0;
     private MyTable table;
     private final Color sidePanelColour = new Color(61, 105, 240);
 
     private Supplier<Boolean> handleSearchClick;
+
+    private HashMap<String, String> currentFilters = new HashMap<>();
 
 
     public SidePanel(){
@@ -31,6 +36,14 @@ public class SidePanel extends JFrame{
 
     public void setTable(MyTable table){
         this.table = table;
+    }
+
+    public int getPageID(){
+        return this.pageID;
+    }
+
+    public void goToPage(int id){
+        updateSidePanel(id);
     }
 
     private JButton createSidePanelButton(String text) {
@@ -103,6 +116,25 @@ public class SidePanel extends JFrame{
 //        });
     }
 
+    private void updateCurrentFilterDisplay() {
+        this.currentFilterContainer.removeAll();
+
+        if (currentFilters.isEmpty()) {
+            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
+            label.setMaximumSize(new Dimension(80, 0));
+            label.setForeground(Color.black);
+            this.currentFilterContainer.add(label);
+        }
+
+        for (String name : currentFilters.keySet()) {
+            this.currentFilterContainer.add(new JLabel(name + ": " + this.currentFilters.get(name)));
+        }
+
+        this.currentFilterContainer.revalidate();
+        this.currentFilterContainer.repaint();
+
+    }
+
 
     private void toSearchPage() {
         createSidePanelCloseButton();
@@ -127,12 +159,33 @@ public class SidePanel extends JFrame{
         this.columnNames = columnNames;
     }
 
+    private void createAdvanceSearchButtons(JPanel panel) {
+
+        JButton clearFilters = new JButton("Clear filters");
+//        clearFilters.addActionListener(e -> {
+//            this.currentFilters = new HashMap<>();
+//
+//            if (this.currentSearchDialog != null) {
+//                this.currentSearchDialog.dispose();
+//            }
+////
+////            updateCurrentFilterDisplay();
+//            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
+//        });
+
+        JButton oldestButton = new JButton("Oldest Living");
+//        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(controller.findOldest()));
+
+        panel.add(clearFilters);
+        panel.add(oldestButton);
+    }
+
     private void createSearchControls() {
         JPanel container = new JPanel(new GridLayout(0, 1, 0, 0));
         container.setBackground(sidePanelColour);
-//        container.add(renderCurrentFilters());
+        container.add(renderCurrentFilters());
 
-//        createAdvanceSearchButtons(container);
+        createAdvanceSearchButtons(container);
 
         for (String columnName : this.columnNames) {
             JCheckBox checkbox = createColumnCheckbox(columnName);
@@ -161,6 +214,7 @@ public class SidePanel extends JFrame{
 
     private void updateSidePanel(int id) {
         sideButtonContainer.removeAll();
+        this.pageID = id;
         if (id == 1) {
             toSearchPage();
         } else if (id == 0) {
@@ -168,6 +222,24 @@ public class SidePanel extends JFrame{
         }
         sideButtonContainer.revalidate();
         sideButtonContainer.repaint();
+    }
+
+    public void setCurrentFilters(HashMap<String, String> currentFilters){
+        this.currentFilters = currentFilters;
+        updateCurrentFilterDisplay();
+    }
+
+    private JPanel renderCurrentFilters() {
+        JPanel container = new JPanel(new GridLayout(0, 1));
+        container.setBackground(sidePanelColour);
+        if (currentFilters.isEmpty()) {
+            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
+            label.setMaximumSize(new Dimension(80, 0));
+            label.setForeground(Color.black);
+            container.add(label);
+        }
+        this.currentFilterContainer = container;
+        return container;
     }
 
 }

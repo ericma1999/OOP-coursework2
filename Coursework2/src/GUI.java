@@ -20,8 +20,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.HashMap;
@@ -84,18 +82,6 @@ public class GUI extends JFrame {
 
     }
 
-    private void sidePanelButtonContainer() {
-        JPanel buttonContainer = new JPanel(new GridLayout(0, 1, 0, 10));
-        buttonContainer.setMaximumSize(new Dimension(300, 500));
-        buttonContainer.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
-        buttonContainer.setBackground(sidePanelColour);
-        createSidePanelSearchButton();
-        createSidePanelDashboardButton();
-        buttonContainer.add(sidePanelDashboardButton, SwingConstants.CENTER);
-        buttonContainer.add(sidePanelSearchButton, SwingConstants.CENTER);
-        this.sideButtonContainer = buttonContainer;
-    }
-
     private JButton createSidePanelButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 18));
@@ -106,26 +92,10 @@ public class GUI extends JFrame {
         return button;
     }
 
-    private void createSidePanelDashboardButton() {
-        sidePanelDashboardButton = createSidePanelButton("Dashboard");
-        sidePanelDashboardButton.addActionListener((ActionEvent e) -> updateSidePanel(2));
-    }
-
     private void createErrorDialog(String message){
         JOptionPane.showMessageDialog(this,
                 message,
                 "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void createSidePanelSearchButton() {
-        sidePanelSearchButton = createSidePanelButton("Search");
-        sidePanelSearchButton.addActionListener((ActionEvent e) -> {
-            if (this.table != null) {
-                updateSidePanel(1);
-            } else {
-                createErrorDialog("Please load a file before trying to search");
-            }
-        });
     }
 
     private void createRightPanel() {
@@ -213,11 +183,12 @@ public class GUI extends JFrame {
             } else {
                 currentFilters.remove(columnName);
             }
-            if(page != 1){
-                updateSidePanel(1);
-            }
+//            if(page != 1){
+//                sidePanel.goToPage(1);
+//            }
+
+            sidePanel.setCurrentFilters(currentFilters);
             ((MyTableModel) table.getModel()).setData(controller.getDataWithFilters(currentFilters));
-            updateCurrentFilterDisplay();
         });
         currentSearchDialog.setVisible(true);
 
@@ -237,28 +208,6 @@ public class GUI extends JFrame {
 
     }
 
-    private void createSidePanelCloseButton() {
-        sidePanelCloseButton = createSidePanelButton("Close");
-        sidePanelCloseButton.addActionListener((ActionEvent e) -> {
-            updateSidePanel(0);
-            this.currentFilters = new HashMap<>();
-            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
-        });
-    }
-
-    private JCheckBox createColumnCheckbox(String columnName) {
-        JCheckBox checkbox = new JCheckBox(columnName, true);
-        checkbox.setFont(new Font("Arial", Font.BOLD, 12));
-        checkbox.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                table.unhideColumn(columnName);
-            } else {
-                table.hideColumn(columnName);
-            }
-        });
-        checkbox.setForeground(Color.white);
-        return checkbox;
-    }
 
     private void createAdvanceSearchButtons(JPanel panel) {
 
@@ -269,8 +218,8 @@ public class GUI extends JFrame {
             if (this.currentSearchDialog != null) {
                 this.currentSearchDialog.dispose();
             }
-
-            updateCurrentFilterDisplay();
+//
+//            updateCurrentFilterDisplay();
             ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
         });
 
@@ -281,79 +230,6 @@ public class GUI extends JFrame {
         panel.add(oldestButton);
     }
 
-    private void updateCurrentFilterDisplay() {
-        this.currentFilterContainer.removeAll();
 
-        if (currentFilters.isEmpty()) {
-            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
-            label.setMaximumSize(new Dimension(80, 0));
-            label.setForeground(Color.black);
-            this.currentFilterContainer.add(label);
-        }
-
-        for (String name : currentFilters.keySet()) {
-            this.currentFilterContainer.add(new JLabel(name + ": " + this.currentFilters.get(name)));
-        }
-
-        this.currentFilterContainer.revalidate();
-        this.currentFilterContainer.repaint();
-
-    }
-
-    private JPanel renderCurrentFilters() {
-        JPanel container = new JPanel(new GridLayout(0, 1));
-        container.setBackground(sidePanelColour);
-        if (currentFilters.isEmpty()) {
-            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
-            label.setMaximumSize(new Dimension(80, 0));
-            label.setForeground(Color.black);
-            container.add(label);
-        }
-        this.currentFilterContainer = container;
-        return container;
-    }
-
-    private void createSearchControls() {
-        JPanel container = new JPanel(new GridLayout(0, 1, 0, 0));
-        container.setBackground(sidePanelColour);
-        container.add(renderCurrentFilters());
-
-        createAdvanceSearchButtons(container);
-
-        for (String columnName : controller.getColumnNames()) {
-            JCheckBox checkbox = createColumnCheckbox(columnName);
-            container.add(checkbox);
-        }
-        container.add(this.sidePanelCloseButton, BorderFactory.createEmptyBorder());
-
-
-        sideButtonContainer.add(container);
-    }
-
-    private void toSearchPage() {
-        createSidePanelCloseButton();
-        createSearchControls();
-    }
-
-    private void toMainPage() {
-        sideButtonContainer.add(sidePanelSearchButton);
-        sideButtonContainer.add(sidePanelDashboardButton);
-        if (this.sidePanelLoadButton != null) {
-            sideButtonContainer.add(this.sidePanelLoadButton);
-            sideButtonContainer.add(this.writeJSONButton);
-        }
-    }
-
-    private void updateSidePanel(int id) {
-        this.page = id;
-        sideButtonContainer.removeAll();
-        if (id == 1) {
-            toSearchPage();
-        } else if (id == 0) {
-            toMainPage();
-        }
-        sideButtonContainer.revalidate();
-        sideButtonContainer.repaint();
-    }
 
 }
