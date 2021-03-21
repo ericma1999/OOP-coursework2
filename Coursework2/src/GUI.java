@@ -66,7 +66,6 @@ public class GUI extends JFrame {
          SidePanel sidePanel = new SidePanel();
          sidePanel.onSearchButtonClicked(() -> {
              if (this.table != null){
-                 sidePanel.setColumnNames(controller.getColumnNames());
                  return true;
              }
              createErrorDialog("File not found");
@@ -81,6 +80,13 @@ public class GUI extends JFrame {
                  this.currentSearchDialog.dispose();
              }
             ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
+             return true;
+         });
+
+         sidePanel.onCloseButtonClicked(() -> {
+             this.currentFilters = new HashMap<>();
+             sidePanel.setCurrentFilters(this.currentFilters);
+             ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
              return true;
          });
 
@@ -193,9 +199,9 @@ public class GUI extends JFrame {
             } else {
                 currentFilters.remove(columnName);
             }
-//            if(page != 1){
-//                sidePanel.goToPage(1);
-//            }
+            if(page != 1){
+                sidePanel.goToPage(1);
+            }
 
             sidePanel.setCurrentFilters(currentFilters);
             ((MyTableModel) table.getModel()).setData(controller.getDataWithFilters(currentFilters));
@@ -205,8 +211,12 @@ public class GUI extends JFrame {
     }
 
     private void renderTable() {
-        MyTable table = new MyTable(new MyTableModel(controller.getAllData(), controller.getColumnNames()));
+
+        String[] columnNames = controller.getColumnNames();
+
+        MyTable table = new MyTable(new MyTableModel(controller.getAllData(), columnNames));
         sidePanel.setTable(table);
+        sidePanel.setColumnNames(columnNames);
         table.setHeaderClickAction(this::handleTableHeaderClick);
 
         JScrollPane scrollPane = new JScrollPane();

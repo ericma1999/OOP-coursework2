@@ -2,10 +2,8 @@ import uk.ac.ucl.passawis.ui.MyTable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class SidePanel extends JFrame{
@@ -25,6 +23,7 @@ public class SidePanel extends JFrame{
 
     private Supplier<Boolean> handleSearchClick;
     private Supplier<Boolean> handleClearClick;
+    private Supplier<Boolean> handleCloseClick;
 
     private HashMap<String, String> currentFilters = new HashMap<>();
 
@@ -102,19 +101,19 @@ public class SidePanel extends JFrame{
 //        sidePanelDashboardButton.addActionListener((ActionEvent e) -> updateSidePanel(2));
     }
 
+    public void onCloseButtonClicked(Supplier<Boolean> callback){
+        this.handleCloseClick = callback;
+    }
+
     private void createSidePanelCloseButton() {
         sidePanelCloseButton = createSidePanelButton("Close");
 
+        sidePanelCloseButton.addActionListener(e -> updateSidePanel(0));
+
         sidePanelCloseButton.addActionListener(e -> {
             updateSidePanel(0);
+            handleCloseClick.get();
         });
-
-
-//        sidePanelCloseButton.addActionListener((ActionEvent e) -> {
-//            updateSidePanel(0);
-//            this.currentFilters = new HashMap<>();
-//            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
-//        });
     }
 
     private void updateCurrentFilterDisplay() {
@@ -135,7 +134,6 @@ public class SidePanel extends JFrame{
         this.currentFilterContainer.repaint();
 
     }
-
 
     private void toSearchPage() {
         createSidePanelCloseButton();
