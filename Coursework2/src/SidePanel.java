@@ -1,6 +1,14 @@
 import uk.ac.ucl.passawis.ui.MyTable;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JLabel;
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
@@ -218,9 +226,7 @@ public class SidePanel extends JFrame{
 
     private void createSidePanelWriteJSONButton(){
         this.writeJSONButton = createSidePanelButton("Write to JSON file");
-        this.writeJSONButton.addActionListener(e -> {
-            handleWriteJsonButtonClick.get();
-        });
+        this.writeJSONButton.addActionListener(e -> handleWriteJsonButtonClick.get());
 
         sideButtonContainer.add(this.writeJSONButton);
     }

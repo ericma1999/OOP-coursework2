@@ -53,7 +53,7 @@ public class GUI extends JFrame {
              if (this.table != null){
                  return true;
              }
-             createErrorDialog("File not found");
+             createErrorDialog("No file has been loaded yet");
              return false;
 
          });
@@ -93,7 +93,6 @@ public class GUI extends JFrame {
          });
 
          this.sidePanel = sidePanel;
-
 
         add(sidePanel.getPanel(), BorderLayout.WEST);
     }
