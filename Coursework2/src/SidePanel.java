@@ -25,6 +25,7 @@ public class SidePanel extends JFrame{
     private Supplier<Boolean> handleClearClick;
     private Supplier<Boolean> handleCloseClick;
     private Supplier<Boolean> handleLoadButtonClick;
+    private Supplier<Boolean> handleWriteJsonButtonClick;
 
     private HashMap<String, String> currentFilters = new HashMap<>();
 
@@ -39,6 +40,7 @@ public class SidePanel extends JFrame{
         this.table = table;
         if (this.sidePanelLoadButton == null){
             createSidePanelLoadButton();
+            createSidePanelWriteJSONButton();
         }
     }
 
@@ -87,7 +89,6 @@ public class SidePanel extends JFrame{
     }
 
     public void onSearchButtonClicked(Supplier<Boolean> callback){
-
         this.handleSearchClick = callback;
     }
 
@@ -206,12 +207,25 @@ public class SidePanel extends JFrame{
         sideButtonContainer.add(this.sidePanelLoadButton);
     }
 
+    public void onWriteJsonButtonClick(Supplier<Boolean> callback){
+        this.handleWriteJsonButtonClick = callback;
+    }
+
+    private void createSidePanelWriteJSONButton(){
+        this.writeJSONButton = createSidePanelButton("Write to JSON file");
+        this.writeJSONButton.addActionListener(e -> {
+            handleWriteJsonButtonClick.get();
+        });
+
+        sideButtonContainer.add(this.writeJSONButton);
+    }
+
     private void toMainPage() {
         sideButtonContainer.add(sidePanelSearchButton);
         sideButtonContainer.add(sidePanelDashboardButton);
         if (this.sidePanelLoadButton != null) {
             sideButtonContainer.add(this.sidePanelLoadButton);
-//            sideButtonContainer.add(this.writeJSONButton);
+            sideButtonContainer.add(this.writeJSONButton);
         }
     }
 

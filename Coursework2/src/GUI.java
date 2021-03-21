@@ -10,11 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -23,9 +21,7 @@ import java.util.HashMap;
 public class GUI extends JFrame {
 
     private final Controller controller = new Controller();
-    private JButton sidePanelLoadButton;
     private JButton writeJSONButton;
-    private JPanel sideButtonContainer;
     private JPanel rightPanel;
     private SidePanel sidePanel;
 
@@ -85,22 +81,17 @@ public class GUI extends JFrame {
              return true;
          });
 
+         sidePanel.onWriteJsonButtonClick(() -> {
+             writeJSONFile();
+             return true;
+         });
+
          this.sidePanel = sidePanel;
 
 
         add(sidePanel.getPanel(), BorderLayout.WEST);
 
 
-    }
-
-    private JButton createSidePanelButton(String text) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.BOLD, 18));
-        button.setForeground(Color.white);
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        return button;
     }
 
     private void createErrorDialog(String message){
@@ -165,17 +156,6 @@ public class GUI extends JFrame {
 //        }
     }
 
-    private void createSidePanelLoadButton(){
-        this.sidePanelLoadButton = createSidePanelButton("Load New File");
-        this.sidePanelLoadButton.addActionListener(e -> handleLoadFile());
-        sideButtonContainer.add(this.sidePanelLoadButton);
-    }
-
-    private void createSidePanelWriteJSONButton(){
-        this.writeJSONButton = createSidePanelButton("Write to JSON file");
-        this.writeJSONButton.addActionListener(e -> writeJSONFile());
-        sideButtonContainer.add(this.writeJSONButton);
-    }
 
     private void handleTableHeaderClick(MouseEvent e){
         if (currentSearchDialog != null) {
@@ -222,29 +202,4 @@ public class GUI extends JFrame {
         this.table = table;
 
     }
-
-
-    private void createAdvanceSearchButtons(JPanel panel) {
-
-        JButton clearFilters = new JButton("Clear filters");
-        clearFilters.addActionListener(e -> {
-            this.currentFilters = new HashMap<>();
-
-            if (this.currentSearchDialog != null) {
-                this.currentSearchDialog.dispose();
-            }
-//
-//            updateCurrentFilterDisplay();
-            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
-        });
-
-        JButton oldestButton = new JButton("Oldest Living");
-        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(controller.findOldest()));
-
-        panel.add(clearFilters);
-        panel.add(oldestButton);
-    }
-
-
-
 }
