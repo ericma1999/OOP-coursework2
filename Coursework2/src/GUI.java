@@ -5,13 +5,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 
 
 import java.awt.Color;
@@ -26,17 +22,11 @@ import java.util.HashMap;
 
 public class GUI extends JFrame {
 
-    private int page = 0;
     private final Controller controller = new Controller();
-    private final Color sidePanelColour = new Color(61, 105, 240);
-    private JButton sidePanelSearchButton;
-    private JButton sidePanelDashboardButton;
     private JButton sidePanelLoadButton;
-    private JButton sidePanelCloseButton;
     private JButton writeJSONButton;
     private JPanel sideButtonContainer;
     private JPanel rightPanel;
-    private JPanel currentFilterContainer;
     private SidePanel sidePanel;
 
     private MySearchDialog currentSearchDialog;
@@ -87,6 +77,11 @@ public class GUI extends JFrame {
              this.currentFilters = new HashMap<>();
              sidePanel.setCurrentFilters(this.currentFilters);
              ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
+             return true;
+         });
+
+         sidePanel.onLoadButtonClick(() -> {
+             handleLoadFile();
              return true;
          });
 
@@ -199,7 +194,7 @@ public class GUI extends JFrame {
             } else {
                 currentFilters.remove(columnName);
             }
-            if(page != 1){
+            if(sidePanel.getPageID() != 1){
                 sidePanel.goToPage(1);
             }
 

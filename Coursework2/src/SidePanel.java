@@ -24,6 +24,7 @@ public class SidePanel extends JFrame{
     private Supplier<Boolean> handleSearchClick;
     private Supplier<Boolean> handleClearClick;
     private Supplier<Boolean> handleCloseClick;
+    private Supplier<Boolean> handleLoadButtonClick;
 
     private HashMap<String, String> currentFilters = new HashMap<>();
 
@@ -36,6 +37,9 @@ public class SidePanel extends JFrame{
 
     public void setTable(MyTable table){
         this.table = table;
+        if (this.sidePanelLoadButton == null){
+            createSidePanelLoadButton();
+        }
     }
 
     public int getPageID(){
@@ -107,8 +111,6 @@ public class SidePanel extends JFrame{
 
     private void createSidePanelCloseButton() {
         sidePanelCloseButton = createSidePanelButton("Close");
-
-        sidePanelCloseButton.addActionListener(e -> updateSidePanel(0));
 
         sidePanelCloseButton.addActionListener(e -> {
             updateSidePanel(0);
@@ -194,10 +196,14 @@ public class SidePanel extends JFrame{
         sideButtonContainer.add(container);
     }
 
+    public void onLoadButtonClick(Supplier<Boolean> callback){
+        this.handleLoadButtonClick = callback;
+    }
+
     private void createSidePanelLoadButton(){
         this.sidePanelLoadButton = createSidePanelButton("Load New File");
-//        this.sidePanelLoadButton.addActionListener(e -> handleLoadFile());
-//        sideButtonContainer.add(this.sidePanelLoadButton);
+        this.sidePanelLoadButton.addActionListener(e -> handleLoadButtonClick.get());
+        sideButtonContainer.add(this.sidePanelLoadButton);
     }
 
     private void toMainPage() {
@@ -205,7 +211,7 @@ public class SidePanel extends JFrame{
         sideButtonContainer.add(sidePanelDashboardButton);
         if (this.sidePanelLoadButton != null) {
             sideButtonContainer.add(this.sidePanelLoadButton);
-            sideButtonContainer.add(this.writeJSONButton);
+//            sideButtonContainer.add(this.writeJSONButton);
         }
     }
 
