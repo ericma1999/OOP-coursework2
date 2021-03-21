@@ -188,39 +188,36 @@ public class GUI extends JFrame {
         sideButtonContainer.add(this.writeJSONButton);
     }
 
+    private void handleHeaderClick(MouseEvent e){
+        if (currentSearchDialog != null) {
+            currentSearchDialog.dispose();
+            currentSearchDialog = null;
+        }
+        int col = table.columnAtPoint(e.getPoint());
+
+        String columnName = table.getColumnName(col);
+        String previousValue = currentFilters.get(columnName);
+        String defaultValue = previousValue == null ? "" : previousValue;
+
+        currentSearchDialog = new MySearchDialog(columnName, defaultValue, (String value) -> {
+            if (!value.equals("")) {
+                currentFilters.put(columnName, value);
+            } else {
+                currentFilters.remove(columnName);
+            }
+            if(page != 1){
+                updateSidePanel(1);
+            }
+            ((MyTableModel) table.getModel()).setData(controller.getDataWithFilters(currentFilters));
+            updateCurrentFilterDisplay();
+        });
+        currentSearchDialog.setVisible(true);
+
+    }
+
     private void renderTable() {
         MyTable table = new MyTable(new MyTableModel(controller.getAllData(), controller.getColumnNames()));
-
-        // listener
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (currentSearchDialog != null) {
-                    currentSearchDialog.dispose();
-                    currentSearchDialog = null;
-                }
-                int col = table.columnAtPoint(e.getPoint());
-
-                String columnName = table.getColumnName(col);
-                String previousValue = currentFilters.get(columnName);
-                String defaultValue = previousValue == null ? "" : previousValue;
-
-                currentSearchDialog = new MySearchDialog(columnName, defaultValue, (String value) -> {
-                    if (!value.equals("")) {
-                        currentFilters.put(columnName, value);
-                    } else {
-                        currentFilters.remove(columnName);
-                    }
-                    if(page != 1){
-                        updateSidePanel(1);
-                    }
-                    ((MyTableModel) table.getModel()).setData(controller.getDataWithFilters(currentFilters));
-                    updateCurrentFilterDisplay();
-                });
-                currentSearchDialog.setVisible(true);
-
-            }
-        });
+        table.setHeaderClickAction(this::handleHeaderClick);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
