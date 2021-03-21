@@ -22,7 +22,6 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.HashMap;
@@ -188,7 +187,7 @@ public class GUI extends JFrame {
         sideButtonContainer.add(this.writeJSONButton);
     }
 
-    private void handleHeaderClick(MouseEvent e){
+    private void handleTableHeaderClick(MouseEvent e){
         if (currentSearchDialog != null) {
             currentSearchDialog.dispose();
             currentSearchDialog = null;
@@ -217,7 +216,7 @@ public class GUI extends JFrame {
 
     private void renderTable() {
         MyTable table = new MyTable(new MyTableModel(controller.getAllData(), controller.getColumnNames()));
-        table.setHeaderClickAction(this::handleHeaderClick);
+        table.setHeaderClickAction(this::handleTableHeaderClick);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
