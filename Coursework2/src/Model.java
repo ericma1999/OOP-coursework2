@@ -12,9 +12,7 @@ public class Model {
     private static final String dateFormat = "yyyy-MM-dd";
 
     public Model (String filePath) throws IOException {
-
         this.dataFrame =  new DataLoader(filePath).getDataFrame();
-
     }
 
     public int getTotalRows(){
@@ -40,18 +38,16 @@ public class Model {
     }
     public List<List<String>> getDataWithFilters(Map<String, String> filters){
         List<List<String>> output = new ArrayList<>();
+
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             boolean shouldAdd = true;
-
 //            loop through the hashmap keys and check the value, if the column matches all the hashmap's key value
 //            add it to the output
             for (String columnName: filters.keySet()) {
 
                 String currentColumnRowValue = this.dataFrame.getColumn(columnName).getRowValue(i).toLowerCase();
 
-                if (currentColumnRowValue.contains(filters.get(columnName).toLowerCase())) {
-                    shouldAdd = shouldAdd && true;
-                }else{
+                if (!currentColumnRowValue.contains(filters.get(columnName).toLowerCase())) {
                     shouldAdd = false;
                 }
             }
