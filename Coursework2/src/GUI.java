@@ -74,6 +74,16 @@ public class GUI extends JFrame {
 
          });
 
+         sidePanel.onClearButtonClicked(() -> {
+             this.currentFilters = new HashMap<>();
+             sidePanel.setCurrentFilters(this.currentFilters);
+             if (this.currentSearchDialog != null) {
+                 this.currentSearchDialog.dispose();
+             }
+            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
+             return true;
+         });
+
          this.sidePanel = sidePanel;
 
 

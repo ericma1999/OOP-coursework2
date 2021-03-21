@@ -24,6 +24,7 @@ public class SidePanel extends JFrame{
     private final Color sidePanelColour = new Color(61, 105, 240);
 
     private Supplier<Boolean> handleSearchClick;
+    private Supplier<Boolean> handleClearClick;
 
     private HashMap<String, String> currentFilters = new HashMap<>();
 
@@ -159,19 +160,17 @@ public class SidePanel extends JFrame{
         this.columnNames = columnNames;
     }
 
+    public void onClearButtonClicked(Supplier<Boolean> callback){
+        this.handleClearClick = callback;
+    }
+
     private void createAdvanceSearchButtons(JPanel panel) {
 
         JButton clearFilters = new JButton("Clear filters");
-//        clearFilters.addActionListener(e -> {
-//            this.currentFilters = new HashMap<>();
-//
-//            if (this.currentSearchDialog != null) {
-//                this.currentSearchDialog.dispose();
-//            }
-////
-////            updateCurrentFilterDisplay();
-//            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
-//        });
+        clearFilters.addActionListener(e -> {
+            this.handleClearClick.get();
+            updateCurrentFilterDisplay();
+        });
 
         JButton oldestButton = new JButton("Oldest Living");
 //        oldestButton.addActionListener(e -> ((MyTableModel) this.table.getModel()).setData(controller.findOldest()));
