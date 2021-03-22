@@ -65,6 +65,13 @@ public class GUI extends JFrame {
         return true;
     }
 
+    private boolean handleOldest(){
+        this.currentFilters = new HashMap<>();
+        sidePanel.setCurrentFilters(this.currentFilters);
+        ((MyTableModel) this.table.getModel()).setData(controller.findOldest());
+        return true;
+    }
+
     private void createSidePanel() {
         SidePanel sidePanel = new SidePanel();
         sidePanel.onSearchButtonClicked(() -> {
@@ -84,12 +91,7 @@ public class GUI extends JFrame {
 
         sidePanel.onWriteJsonButtonClick(this::writeJSONFile);
 
-        sidePanel.onOldestButtonClicked(() -> {
-            this.currentFilters = new HashMap<>();
-            sidePanel.setCurrentFilters(this.currentFilters);
-            ((MyTableModel) this.table.getModel()).setData(controller.findOldest());
-            return true;
-        });
+        sidePanel.onOldestButtonClicked(this::handleOldest);
 
         this.sidePanel = sidePanel;
 
