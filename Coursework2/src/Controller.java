@@ -19,9 +19,6 @@ public class Controller {
     }
 
     public List<List<String>> getAllData(){
-        if (this.model == null){
-            return null;
-        }
         return model.getAllData();
     }
 

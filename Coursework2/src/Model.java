@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,9 +112,7 @@ public class Model {
             long milliSecondsAlive = laterDate.getTime() - earlierDate.getTime();
             diff = TimeUnit.MINUTES.convert(milliSecondsAlive, TimeUnit.MILLISECONDS);
 
-        }catch (Exception e){
-            System.err.println("something went wrong");
-        }
+        }catch (ParseException e){}
         return diff;
     }
 }
