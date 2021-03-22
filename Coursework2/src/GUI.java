@@ -48,6 +48,16 @@ public class GUI extends JFrame {
         createRightPanel();
     }
 
+    private boolean handleClearFilters(){
+        this.currentFilters = new HashMap<>();
+        sidePanel.setCurrentFilters(this.currentFilters);
+        if (this.currentSearchDialog != null) {
+            this.currentSearchDialog.dispose();
+        }
+        ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
+        return true;
+    }
+
     private void createSidePanel() {
          SidePanel sidePanel = new SidePanel();
          sidePanel.onSearchButtonClicked(() -> {
@@ -59,15 +69,7 @@ public class GUI extends JFrame {
 
          });
 
-         sidePanel.onClearButtonClicked(() -> {
-             this.currentFilters = new HashMap<>();
-             sidePanel.setCurrentFilters(this.currentFilters);
-             if (this.currentSearchDialog != null) {
-                 this.currentSearchDialog.dispose();
-             }
-            ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
-             return true;
-         });
+         sidePanel.onClearButtonClicked(this::handleClearFilters);
 
          sidePanel.onCloseButtonClicked(() -> {
              this.currentFilters = new HashMap<>();
