@@ -48,7 +48,7 @@ public class GUI extends JFrame {
         createRightPanel();
     }
 
-    private boolean handleClearFilters(){
+    private boolean handleClearFilters() {
         this.currentFilters = new HashMap<>();
         sidePanel.setCurrentFilters(this.currentFilters);
         if (this.currentSearchDialog != null) {
@@ -58,49 +58,45 @@ public class GUI extends JFrame {
         return true;
     }
 
+    private boolean handleClose() {
+        this.currentFilters = new HashMap<>();
+        sidePanel.setCurrentFilters(this.currentFilters);
+        ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
+        return true;
+    }
+
     private void createSidePanel() {
-         SidePanel sidePanel = new SidePanel();
-         sidePanel.onSearchButtonClicked(() -> {
-             if (this.table != null){
-                 return true;
-             }
-             createErrorDialog("No file has been loaded yet");
-             return false;
+        SidePanel sidePanel = new SidePanel();
+        sidePanel.onSearchButtonClicked(() -> {
+            if (this.table != null) {
+                return true;
+            }
+            createErrorDialog("No file has been loaded yet");
+            return false;
 
-         });
+        });
 
-         sidePanel.onClearButtonClicked(this::handleClearFilters);
+        sidePanel.onClearButtonClicked(this::handleClearFilters);
 
-         sidePanel.onCloseButtonClicked(() -> {
-             this.currentFilters = new HashMap<>();
-             sidePanel.setCurrentFilters(this.currentFilters);
-             ((MyTableModel) this.table.getModel()).setData(controller.getAllData());
-             return true;
-         });
+        sidePanel.onCloseButtonClicked(this::handleClose);
 
-         sidePanel.onLoadButtonClick(() -> {
-             handleLoadFile();
-             return true;
-         });
+        sidePanel.onLoadButtonClick(this::handleLoadFile);
 
-         sidePanel.onWriteJsonButtonClick(() -> {
-             writeJSONFile();
-             return true;
-         });
+        sidePanel.onWriteJsonButtonClick(this::writeJSONFile);
 
-         sidePanel.onOldestButtonClicked(() -> {
-             this.currentFilters = new HashMap<>();
-             sidePanel.setCurrentFilters(this.currentFilters);
-             ((MyTableModel) this.table.getModel()).setData(controller.findOldest());
-             return true;
-         });
+        sidePanel.onOldestButtonClicked(() -> {
+            this.currentFilters = new HashMap<>();
+            sidePanel.setCurrentFilters(this.currentFilters);
+            ((MyTableModel) this.table.getModel()).setData(controller.findOldest());
+            return true;
+        });
 
-         this.sidePanel = sidePanel;
+        this.sidePanel = sidePanel;
 
         add(sidePanel.getPanel(), BorderLayout.WEST);
     }
 
-    private void createErrorDialog(String message){
+    private void createErrorDialog(String message) {
         JOptionPane.showMessageDialog(this,
                 message,
                 "Error", JOptionPane.ERROR_MESSAGE);
@@ -116,15 +112,16 @@ public class GUI extends JFrame {
 
     }
 
-    private void handleLoadFile() {
+    private boolean handleLoadFile() {
         String path = showFileDialog();
-        if (path != null && controller.loadFile(path)){
+        if (path != null && controller.loadFile(path)) {
             loadFileSuccess();
-        }else {
+        } else {
             createErrorDialog("Failed to read the file selected. Please try again");
         }
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+        return true;
     }
 
     private String showFileDialog() {
@@ -143,7 +140,7 @@ public class GUI extends JFrame {
         return null;
     }
 
-    private void writeJSONFile(){
+    private boolean writeJSONFile() {
         JFileChooser dialog = new JFileChooser();
         int userSelection = dialog.showSaveDialog(this);
 
@@ -152,17 +149,18 @@ public class GUI extends JFrame {
 //                validate that the file does not exist
             controller.writeToJSON(file.getPath());
         }
+        return true;
     }
 
 
-    private void loadFileSuccess(){
+    private void loadFileSuccess() {
         rightPanel.removeAll();
         rightPanel.setLayout(new GridLayout(0, 1));
         renderTable();
     }
 
 
-    private void handleTableHeaderClick(MouseEvent e){
+    private void handleTableHeaderClick(MouseEvent e) {
         if (currentSearchDialog != null) {
             currentSearchDialog.dispose();
             currentSearchDialog = null;
@@ -179,7 +177,7 @@ public class GUI extends JFrame {
             } else {
                 currentFilters.remove(columnName);
             }
-            if(sidePanel.getPageID() != 1){
+            if (sidePanel.getPageID() != 1) {
                 sidePanel.goToPage(1);
             }
 
