@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 import java.awt.Dimension;
@@ -126,6 +127,11 @@ public class GUI extends JFrame {
 
     private String showFileDialog() {
         JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter csvFilter = new FileNameExtensionFilter("csv", "csv");
+        FileNameExtensionFilter jsonFilter = new FileNameExtensionFilter("json", "json");
+        fc.addChoosableFileFilter(csvFilter);
+        fc.addChoosableFileFilter(jsonFilter);
         fc.setCurrentDirectory(new File("./"));
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
