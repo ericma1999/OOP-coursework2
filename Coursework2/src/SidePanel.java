@@ -40,8 +40,9 @@ public class SidePanel extends JFrame{
 
 
     public SidePanel(){
-        this.create();
+        this.render();
     }
+
     public JScrollPane getPanel() {return this.panel;}
 
 
@@ -61,6 +62,30 @@ public class SidePanel extends JFrame{
         updateSidePanel(id);
     }
 
+    public void setColumnNames(String[] columnNames){
+        this.columnNames = columnNames;
+    }
+
+//    setup click handlers for buttons
+    public void onSearchButtonClicked(Supplier<Boolean> callback){
+        this.handleSearchClick = callback;
+    }
+    public void onClearButtonClicked(Supplier<Boolean> callback){
+        this.handleClearClick = callback;
+    }
+    public void onOldestButtonClicked(Supplier<Boolean> callback){
+        this.handleOldestClick = callback;
+    }
+    public void onCloseButtonClicked(Supplier<Boolean> callback){
+        this.handleCloseClick = callback;
+    }
+    public void onLoadButtonClick(Supplier<Boolean> callback){
+        this.handleLoadButtonClick = callback;
+    }
+    public void onWriteJsonButtonClick(Supplier<Boolean> callback){
+        this.handleWriteJsonButtonClick = callback;
+    }
+
     private JButton createSidePanelButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 18));
@@ -71,7 +96,7 @@ public class SidePanel extends JFrame{
         return button;
     }
 
-    private void create(){
+    private void render(){
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(this.sidePanelColour);
         createSideButtonContainer();
@@ -97,10 +122,6 @@ public class SidePanel extends JFrame{
         this.sideButtonContainer = buttonContainer;
     }
 
-    public void onSearchButtonClicked(Supplier<Boolean> callback){
-        this.handleSearchClick = callback;
-    }
-
     private void createSidePanelSearchButton(){
         sidePanelSearchButton = createSidePanelButton("Search");
         sidePanelSearchButton.addActionListener(e -> {
@@ -115,10 +136,6 @@ public class SidePanel extends JFrame{
 //        sidePanelDashboardButton.addActionListener((ActionEvent e) -> updateSidePanel(2));
     }
 
-    public void onCloseButtonClicked(Supplier<Boolean> callback){
-        this.handleCloseClick = callback;
-    }
-
     private void createSidePanelCloseButton() {
         sidePanelCloseButton = createSidePanelButton("Close");
 
@@ -126,6 +143,19 @@ public class SidePanel extends JFrame{
             updateSidePanel(0);
             handleCloseClick.get();
         });
+    }
+
+    private void createSidePanelLoadButton(){
+        this.sidePanelLoadButton = createSidePanelButton("Load New File");
+        this.sidePanelLoadButton.addActionListener(e -> handleLoadButtonClick.get());
+        sideButtonContainer.add(this.sidePanelLoadButton);
+    }
+
+    private void createSidePanelWriteJSONButton(){
+        this.writeJSONButton = createSidePanelButton("Write to JSON file");
+        this.writeJSONButton.addActionListener(e -> handleWriteJsonButtonClick.get());
+
+        sideButtonContainer.add(this.writeJSONButton);
     }
 
     private void updateCurrentFilterDisplay() {
@@ -166,18 +196,6 @@ public class SidePanel extends JFrame{
         return checkbox;
     }
 
-    public void setColumnNames(String[] columnNames){
-        this.columnNames = columnNames;
-    }
-
-    public void onClearButtonClicked(Supplier<Boolean> callback){
-        this.handleClearClick = callback;
-    }
-
-    public void onOldestButtonClicked(Supplier<Boolean> callback){
-        this.handleOldestClick = callback;
-    }
-
     private void createAdvanceSearchButtons(JPanel panel) {
 
         JButton clearFilters = new JButton("Clear filters");
@@ -208,27 +226,6 @@ public class SidePanel extends JFrame{
 
 
         sideButtonContainer.add(container);
-    }
-
-    public void onLoadButtonClick(Supplier<Boolean> callback){
-        this.handleLoadButtonClick = callback;
-    }
-
-    private void createSidePanelLoadButton(){
-        this.sidePanelLoadButton = createSidePanelButton("Load New File");
-        this.sidePanelLoadButton.addActionListener(e -> handleLoadButtonClick.get());
-        sideButtonContainer.add(this.sidePanelLoadButton);
-    }
-
-    public void onWriteJsonButtonClick(Supplier<Boolean> callback){
-        this.handleWriteJsonButtonClick = callback;
-    }
-
-    private void createSidePanelWriteJSONButton(){
-        this.writeJSONButton = createSidePanelButton("Write to JSON file");
-        this.writeJSONButton.addActionListener(e -> handleWriteJsonButtonClick.get());
-
-        sideButtonContainer.add(this.writeJSONButton);
     }
 
     private void toMainPage() {

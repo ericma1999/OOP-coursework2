@@ -3,7 +3,7 @@ import java.util.List;
 
 class MyTableModel extends AbstractTableModel {
     private List<List<String>> data;
-    private String[] columnNames;
+    private final String[] columnNames;
 
     public MyTableModel(List<List<String>> data, String[] columnNames){
         this.data = data;
