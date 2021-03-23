@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 public class JSONReader {
 
@@ -16,7 +15,6 @@ public class JSONReader {
     private final Stack<Character> stack = new Stack<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
-    private static final Pattern pattern = Pattern.compile("[\\[\\]\", ]");
     private boolean firstItem = true;
 
 
@@ -30,29 +28,28 @@ public class JSONReader {
             stack.add('$');
 
             while ((charIntRepresentation = contents.read()) != -1){
-                Character character = Character.toChars(charIntRepresentation)[0];
+                char character = Character.toChars(charIntRepresentation)[0];
 
-                if (character.equals(']')){
-                    if (!stack.pop().equals('$')){
-                        System.out.println("There was a format error please check");
-                        throw new IOException("Format error");
-                    }
-                    break;
-                }
-
-                if (pattern.matcher(character.toString()).find()){
-                    continue;
-                }
-
-                /* Start reading the content of each {} block */
-                if (character.equals('{')){
-                    stack.add('{');
-                    this.readProperties(contents);
+                switch (character){
+                    case ']':
+                        if (!stack.pop().equals('[')){
+                            throw new IOException("Format error");
+                        }
+                        if (!stack.pop().equals('$')){
+                            throw new IOException("Format error");
+                        }
+                        break;
+                    case '[':
+                        stack.add('[');
+                        continue;
+                    case '{':
+                        stack.add('{');
+                        this.readProperties(contents);
+                    default:
                 }
             }
 
             /* Stack must be empty at the end of reading the contents of the file to be valid */
-
             if (!stack.empty()){
                 throw new IOException("Format error today");
             }
@@ -139,7 +136,7 @@ public class JSONReader {
         stack.pop();
 
         /* After popping the first character in the stack should be the special start character */
-        return !stack.peek().equals('$');
+        return !stack.peek().equals('[');
     }
 
     private void addContentToDataFrame(){
