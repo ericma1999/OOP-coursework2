@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class SidePanel extends JFrame{
@@ -15,7 +16,7 @@ public class SidePanel extends JFrame{
     private JButton sidePanelLoadButton;
     private JButton writeJSONButton;
     private JPanel currentFilterContainer;
-    private String[] columnNames;
+    private List<String> columnNames;
 
     private final int charactersTillNewLine = 15;
     public int pageID = 0;
@@ -56,7 +57,7 @@ public class SidePanel extends JFrame{
         updateSidePanel(id);
     }
 
-    public void setColumnNames(String[] columnNames){
+    public void setColumnNames(List<String> columnNames){
         this.columnNames = columnNames;
     }
 

@@ -18,6 +18,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 public class GUI extends JFrame {
 
@@ -192,7 +193,7 @@ public class GUI extends JFrame {
 
     private void renderTable() {
 
-        String[] columnNames = controller.getColumnNames();
+        List<String> columnNames = controller.getColumnNames();
 
         MyTable table = new MyTable(new MyTableModel(controller.getAllData(), columnNames));
         sidePanel.setTable(table);

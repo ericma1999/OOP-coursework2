@@ -3,15 +3,15 @@ import java.util.List;
 
 class MyTableModel extends AbstractTableModel {
     private List<List<String>> data;
-    private final String[] columnNames;
+    private final List<String> columnNames;
 
-    public MyTableModel(List<List<String>> data, String[] columnNames){
+    public MyTableModel(List<List<String>> data, List<String> columnNames){
         this.data = data;
         this.columnNames = columnNames;
     }
 
     public int getColumnCount() {
-        return this.columnNames.length;
+        return this.columnNames.size();
     }
 
     public int getRowCount() {
@@ -20,7 +20,7 @@ class MyTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int col) {
-        return this.columnNames[col];
+        return this.columnNames.get(col);
     }
 
     public Object getValueAt(int row, int col) {

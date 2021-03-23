@@ -20,7 +20,7 @@ public class Model {
         return this.dataFrame.getRowCount();
     }
 
-    public String[] getColumnNames(){
+    public List<String> getColumnNames(){
         return this.dataFrame.getColumnNames();
     }
 

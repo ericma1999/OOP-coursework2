@@ -21,7 +21,7 @@ class DataFrameTest {
         sampleDataFrame.setColumnNames(testColumns);
 
 
-        ArrayList<String> rowContent = new ArrayList<String>();
+        ArrayList<String> rowContent = new ArrayList<>();
         rowContent.add("S89191");
         rowContent.add("health fine");
         rowContent.add("Eric");
@@ -52,7 +52,7 @@ class DataFrameTest {
 
 
 
-        ArrayList<String> rowContent = new ArrayList<String>();
+        ArrayList<String> rowContent = new ArrayList<>();
         rowContent.add("Eric");
         rowContent.add("S89191");
         rowContent.add("health fine");
@@ -75,7 +75,7 @@ class DataFrameTest {
 
     @Test
     void addRow() {
-        ArrayList<String> columnContent = new ArrayList<String>();
+        ArrayList<String> columnContent = new ArrayList<>();
         columnContent.add("S99919991");
         columnContent.add("health ok");
         columnContent.add("Test");
@@ -95,10 +95,10 @@ class DataFrameTest {
 
     @Test
     void getColumnNames() {
-        String[] columns = this.sampleDataFrame.getColumnNames();
+        List<String> columns = this.sampleDataFrame.getColumnNames();
         System.out.println("this is a test");
-        assertEquals("ID", columns[0]);
-        assertEquals("STATUS", columns[1]);
+        assertEquals("ID", columns.get(0));
+        assertEquals("STATUS", columns.get(1));
     }
 
     @Test

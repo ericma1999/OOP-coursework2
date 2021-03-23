@@ -40,9 +40,8 @@ public class DataFrame {
         return this.columns.get(columnName);
     }
 
-    public String[] getColumnNames(){
-
-        return this.keys.toArray(new String[0]);
+    public List<String> getColumnNames(){
+        return new ArrayList<>(this.keys);
     }
 
     public void setColumnNames(List<String> columnNames){

@@ -22,7 +22,7 @@ public class Controller {
         return model.getAllData();
     }
 
-    public String[] getColumnNames(){
+    public List<String> getColumnNames(){
         return model.getColumnNames();
     }
 

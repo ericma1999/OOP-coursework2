@@ -23,7 +23,7 @@ public class JSONWriter {
         output.append("[");
 
         int totalRows = dataFrame.getRowCount();
-        int totalColumns = dataFrame.getColumnNames().length;
+        int totalColumns = dataFrame.getColumnNames().size();
         for (int i = 0; i < totalRows; i++) {
             output.append("{");
             int counter = 0;

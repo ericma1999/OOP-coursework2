@@ -58,7 +58,7 @@ public class DataLoader {
                 if (first) {
                     this.dataFrame.setColumnNames(currentLineSplitted);
                     first = false;
-                    noOfColumns = this.dataFrame.getColumnNames().length;
+                    noOfColumns = this.dataFrame.getColumnNames().size();
                     continue;
                 }
 
