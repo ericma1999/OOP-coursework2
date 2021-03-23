@@ -28,10 +28,10 @@ public class JSONReader {
 
             /* Add special starting character */
             stack.add('$');
+
             while ((charIntRepresentation = contents.read()) != -1){
                 Character character = Character.toChars(charIntRepresentation)[0];
 
-                System.out.println(character);
                 if (character.equals(']')){
                     if (!stack.pop().equals('$')){
                         System.out.println("There was a format error please check");
@@ -44,16 +44,16 @@ public class JSONReader {
                     continue;
                 }
 
-//                read the properties of each JSON block {}
+                /* Start reading the content of each {} block */
                 if (character.equals('{')){
                     stack.add('{');
                     this.readProperties(contents);
                 }
             }
 
+            /* Stack must be empty at the end of reading the contents of the file to be valid */
+
             if (!stack.empty()){
-                System.out.println("stack was not empty");
-                System.out.println(stack.size());
                 throw new IOException("Format error today");
             }
     }
@@ -93,44 +93,6 @@ public class JSONReader {
         }
     }
 
-    private void handleColon(){
-        this.tempValues.put(currentContent.toString(), "");
-        currentProperty = new StringBuilder(currentContent);
-        currentContent = new StringBuilder();
-    }
-
-    private void resetTempContent(){
-        currentContent = new StringBuilder();
-        currentProperty = new StringBuilder();
-    }
-
-    private boolean handleComma(){
-        if (!this.tempValues.get(currentProperty.toString()).equals("")){
-            return false;
-        }else {
-            this.tempValues.put(currentProperty.toString(), currentContent.toString());
-            resetTempContent();
-        }
-        return true;
-    }
-
-    private void addContentToDataFrame(){
-        if (firstItem){
-            this.dataFrame.setColumnNames(new ArrayList<>(this.tempValues.keySet()));
-            firstItem = false;
-        }
-
-        this.dataFrame.addRow(new ArrayList<>(this.tempValues.values()));
-    }
-
-    private boolean handleCloseBracket(){
-        this.tempValues.put(currentProperty.toString(), currentContent.toString());
-        resetTempContent();
-        addContentToDataFrame();
-        stack.pop();
-        return !stack.peek().equals('$');
-    }
-
     private boolean handlePropertyEndCases(Character nextCharacter) throws IOException{
         switch (nextCharacter){
             case ':':
@@ -147,6 +109,46 @@ public class JSONReader {
                 throw new IOException("JSON could not be parse");
         }
         return true;
+    }
+
+    private void handleColon(){
+        this.tempValues.put(currentContent.toString(), "");
+        currentProperty = new StringBuilder(currentContent);
+        currentContent = new StringBuilder();
+    }
+
+    private boolean handleComma(){
+        if (!this.tempValues.get(currentProperty.toString()).equals("")){
+            return false;
+        }else {
+            this.tempValues.put(currentProperty.toString(), currentContent.toString());
+            resetTempContent();
+        }
+        return true;
+    }
+
+    private void resetTempContent(){
+        currentContent = new StringBuilder();
+        currentProperty = new StringBuilder();
+    }
+
+    private boolean handleCloseBracket(){
+        this.tempValues.put(currentProperty.toString(), currentContent.toString());
+        resetTempContent();
+        addContentToDataFrame();
+        stack.pop();
+
+        /* After popping the first character in the stack should be the special start character */
+        return !stack.peek().equals('$');
+    }
+
+    private void addContentToDataFrame(){
+        if (firstItem){
+            this.dataFrame.setColumnNames(new ArrayList<>(this.tempValues.keySet()));
+            firstItem = false;
+        }
+
+        this.dataFrame.addRow(new ArrayList<>(this.tempValues.values()));
     }
 
     private Character readTillNoWhiteSpace(BufferedReader contents) throws IOException{
