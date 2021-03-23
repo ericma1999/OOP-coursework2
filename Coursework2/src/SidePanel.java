@@ -1,14 +1,6 @@
 import uk.ac.ucl.passawis.ui.MyTable;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
@@ -25,7 +17,9 @@ public class SidePanel extends JFrame{
     private JPanel currentFilterContainer;
     private String[] columnNames;
 
+    private final int charactersTillNewLine = 15;
     public int pageID = 0;
+
     private MyTable table;
     private final Color sidePanelColour = new Color(61, 105, 240);
 
@@ -158,6 +152,24 @@ public class SidePanel extends JFrame{
         sideButtonContainer.add(this.writeJSONButton);
     }
 
+    private void renderFilteredItem(String name, String currentValue){
+        if (currentValue.length() > charactersTillNewLine){
+            this.currentFilterContainer.add(new JLabel(String.format("%s: ", name)));
+
+            int start = 0;
+            int end = charactersTillNewLine;
+            while (end < currentValue.length() - 1){
+                this.currentFilterContainer.add(new JLabel(currentValue.substring(start,end)));
+                start += charactersTillNewLine;
+                end += charactersTillNewLine;
+            }
+
+            this.currentFilterContainer.add(new JLabel(currentValue.substring(start)));
+        }else {
+            this.currentFilterContainer.add(new JLabel(String.format("%s: %s", name, currentValue)));
+        }
+    }
+
     private void updateCurrentFilterDisplay() {
         this.currentFilterContainer.removeAll();
 
@@ -166,12 +178,11 @@ public class SidePanel extends JFrame{
             label.setMaximumSize(new Dimension(80, 0));
             label.setForeground(Color.black);
             this.currentFilterContainer.add(label);
+        }else {
+            for (String name : currentFilters.keySet()) {
+                renderFilteredItem(name, this.currentFilters.get(name));
+            }
         }
-
-        for (String name : currentFilters.keySet()) {
-            this.currentFilterContainer.add(new JLabel(name + ": " + this.currentFilters.get(name)));
-        }
-
         this.currentFilterContainer.revalidate();
         this.currentFilterContainer.repaint();
 
@@ -184,6 +195,7 @@ public class SidePanel extends JFrame{
 
     private JCheckBox createColumnCheckbox(String columnName) {
         JCheckBox checkbox = new JCheckBox(columnName, true);
+        checkbox.setAlignmentX(Component.LEFT_ALIGNMENT);
         checkbox.setFont(new Font("Arial", Font.BOLD, 12));
         checkbox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -212,7 +224,9 @@ public class SidePanel extends JFrame{
     }
 
     private void createSearchControls() {
-        JPanel container = new JPanel(new GridLayout(0, 1, 0, 0));
+//        JPanel container = new JPanel(new GridLayout(0, 1, 0, 0));
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setBackground(sidePanelColour);
         container.add(renderCurrentFilters());
 
@@ -256,6 +270,7 @@ public class SidePanel extends JFrame{
 
     private JPanel renderCurrentFilters() {
         JPanel container = new JPanel(new GridLayout(0, 1));
+        container.setAlignmentX(Component.LEFT_ALIGNMENT);
         container.setBackground(sidePanelColour);
         if (currentFilters.isEmpty()) {
             JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
