@@ -14,6 +14,7 @@ public class Column {
     public Column(String name, ArrayList<String> rowContent){
         this.name = name;
         this.rows = rowContent;
+        this.size = rowContent.size();
     }
 
     public String getName(){
