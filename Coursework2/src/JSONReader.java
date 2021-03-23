@@ -25,8 +25,20 @@ public class JSONReader {
 
         BufferedReader contents = new BufferedReader(file);
             int charIntRepresentation;
+
+            /* Add special starting character */
+            stack.add('$');
             while ((charIntRepresentation = contents.read()) != -1){
                 Character character = Character.toChars(charIntRepresentation)[0];
+
+                System.out.println(character);
+                if (character.equals(']')){
+                    if (!stack.pop().equals('$')){
+                        System.out.println("There was a format error please check");
+                        throw new IOException("Format error");
+                    }
+                    break;
+                }
 
                 if (pattern.matcher(character.toString()).find()){
                     continue;
@@ -37,6 +49,12 @@ public class JSONReader {
                     stack.add('{');
                     this.readProperties(contents);
                 }
+            }
+
+            if (!stack.empty()){
+                System.out.println("stack was not empty");
+                System.out.println(stack.size());
+                throw new IOException("Format error today");
             }
     }
 
@@ -110,7 +128,7 @@ public class JSONReader {
         resetTempContent();
         addContentToDataFrame();
         stack.pop();
-        return !stack.isEmpty();
+        return !stack.peek().equals('$');
     }
 
     private boolean handlePropertyEndCases(Character nextCharacter) throws IOException{
