@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Stack;
 import java.util.regex.Pattern;
 
 public class JSONReader {
@@ -12,7 +13,7 @@ public class JSONReader {
 //    to get the columnNames and its value in correct order
     private final LinkedHashMap<String, String> tempValues = new LinkedHashMap<>();
 
-    private final ArrayList<Character> stack = new ArrayList<>();
+    private final Stack<Character> stack = new Stack<>();
     private StringBuilder currentContent = new StringBuilder();
     private StringBuilder currentProperty = new StringBuilder();
     private static final Pattern pattern = Pattern.compile("[\\[\\]\", ]");
@@ -49,12 +50,12 @@ public class JSONReader {
             Character character = Character.toChars(charIntRepresentation)[0];
 
 //            current character is not in a quotation mark so skip it
-            if ((character.equals(' ') || character.equals('\n')) && stack.get(stack.size() - 1) != '"'){
+            if ((character.equals(' ') || character.equals('\n')) && !stack.peek().equals('"')){
                 continue;
             }
 
             if (character.equals('"')){
-                if (stack.get(stack.size() - 1) != '"'){
+                if (!stack.peek().equals('"')){
 
                     stack.add('"');
 
