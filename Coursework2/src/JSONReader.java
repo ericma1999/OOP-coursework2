@@ -61,7 +61,7 @@ public class JSONReader {
 
                 }else {
 
-                    stack.remove(stack.size() - 1);
+                    stack.pop();
                     Character nextCharacter = readTillNoWhiteSpace(contents);
                     if(!handlePropertyEndCases(nextCharacter)){
                         break;
@@ -109,7 +109,7 @@ public class JSONReader {
         this.tempValues.put(currentProperty.toString(), currentContent.toString());
         resetTempContent();
         addContentToDataFrame();
-        stack.remove(stack.size() - 1);
+        stack.pop();
         return !stack.isEmpty();
     }
 
