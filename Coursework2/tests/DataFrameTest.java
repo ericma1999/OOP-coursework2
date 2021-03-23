@@ -75,13 +75,16 @@ class DataFrameTest {
 
     @Test
     void addRow() {
-        ArrayList<String> columnContent = new ArrayList<>();
-        columnContent.add("S99919991");
-        columnContent.add("health ok");
-        columnContent.add("Test");
-        columnContent.add("User");
-        sampleDataFrame.addRow(columnContent);
+        ArrayList<String> rowContent = new ArrayList<>();
+        rowContent.add("S99919991");
+        rowContent.add("health ok");
+        rowContent.add("Test");
+        rowContent.add("User");
+        sampleDataFrame.addRow(rowContent);
         assertEquals("S99919991", this.sampleDataFrame.getColumn(0).getRowValue(2));
+
+        rowContent.add("Not existent column");
+        assertEquals(false, this.sampleDataFrame.addRow(rowContent));
     }
     @Test
     void getRow(){

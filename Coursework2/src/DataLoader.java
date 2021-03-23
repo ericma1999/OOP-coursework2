@@ -25,9 +25,7 @@ public class DataLoader {
     }
 
     public void loadContent(String filePath) throws IOException {
-
         String extension = this.getFileExtension(filePath);
-
         if (!supportedTypes.contains(extension)) {
             throw new IOException("File format is incorrect");
         }

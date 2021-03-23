@@ -13,13 +13,18 @@ public class DataFrame {
         this.columns = new LinkedHashMap<>();
     }
 
-    public void addRow(List<String> rowContent){
+    public boolean addRow(List<String> rowContent){
+        /* If the amount of columns not the same as specified columns initially */
+        if (rowContent.size() != keys.size()){
+            return false;
+        }
         int i = 0;
         for (String columnValue: rowContent) {
             this.columns.get(keys.get(i)).addRowValue(columnValue);
             i++;
         }
         this.rowCount += 1;
+        return true;
     }
 
     public List<String> getRow(int index){
