@@ -78,6 +78,7 @@ public class GUI extends JFrame {
             renderDashboard();
             return true;
         }
+        createErrorDialog("No file has been loaded yet");
         return false;
     }
 
@@ -226,10 +227,7 @@ public class GUI extends JFrame {
 
     private void renderDashboard(){
         rightPanel.removeAll();
-        JPanel test = new JPanel();
-        test.add(new JButton("Hello"));
-        rightPanel.add(test);
-
+        rightPanel.add(new Dashboard(), BorderLayout.NORTH);
         rightPanel.revalidate();
         rightPanel.repaint();
     }
