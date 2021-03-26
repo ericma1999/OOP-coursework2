@@ -75,9 +75,7 @@ public class GUI extends JFrame {
 
     private boolean handleDashboard(){
         if (table != null){
-            rightPanel.removeAll();
-            this.rightPanel.revalidate();
-            this.rightPanel.repaint();
+            renderDashboard();
             return true;
         }
         return false;
@@ -85,6 +83,7 @@ public class GUI extends JFrame {
 
     private boolean handleSearch(){
         if (this.table != null) {
+            rightPanel.removeAll();
             renderTable();
             this.rightPanel.revalidate();
             this.rightPanel.repaint();
@@ -222,6 +221,16 @@ public class GUI extends JFrame {
         rightPanel.add(scrollPane);
         add(rightPanel);
         this.table = table;
+    }
 
+
+    private void renderDashboard(){
+        rightPanel.removeAll();
+        JPanel test = new JPanel();
+        test.add(new JButton("Hello"));
+        rightPanel.add(test);
+
+        rightPanel.revalidate();
+        rightPanel.repaint();
     }
 }

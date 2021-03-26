@@ -131,9 +131,7 @@ public class SidePanel extends JFrame{
     private void createSidePanelDashboardButton() {
         sidePanelDashboardButton = createSidePanelButton("Dashboard");
         sidePanelDashboardButton.addActionListener(e -> {
-            if (handleDashboardClick.get()){
-//                updateSidePanel(2);
-            }
+            handleDashboardClick.get();
         });
     }
 
