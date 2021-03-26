@@ -36,7 +36,7 @@ public class GUI extends JFrame {
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setMinimumSize(new Dimension(1280, 720));
+        setMinimumSize(new Dimension(1280, 800));
 //        center the JFrame on the screen
         setLocationRelativeTo(null);
         setVisible(true);
@@ -229,7 +229,8 @@ public class GUI extends JFrame {
         rightPanel.removeAll();
         Dashboard dashboard = new Dashboard();
         dashboard.onHandleLivingClick(() -> controller.getOccurences());
-        rightPanel.add(dashboard, BorderLayout.NORTH);
+        JScrollPane scroller = new JScrollPane(dashboard);
+        rightPanel.add(scroller);
         rightPanel.revalidate();
         rightPanel.repaint();
     }

@@ -51,9 +51,9 @@ public class Dashboard extends JPanel {
         BarChart barChart = new BarChart();
         barChart.initialise("Test", handleOccurencesClick.get());
         barChart.setTitle("Share", 700, 50);
-        barChart.setXYStartingPoint(400, 500);
+        barChart.setXYStartingPoint(200, 500);
         barChart.showBarLabel(false);
-        barChart.setLegendXYPosition(400, 500);
+        barChart.setLegendXYPosition(200, 500);
         add(barChart);
         revalidate();
         repaint();
@@ -74,6 +74,5 @@ public class Dashboard extends JPanel {
         add(ageDistribution);
         add(livingDistribution);
     }
-
 
 }

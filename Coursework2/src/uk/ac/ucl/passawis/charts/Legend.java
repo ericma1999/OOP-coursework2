@@ -8,10 +8,10 @@ import java.util.Map;
 public class Legend extends JPanel {
     int column = 3;
     private int squareSize = 20;
-    private int horizontalSpacing = 50;
+    private int horizontalSpacing = 100;
     private int verticalSpacing = 20;
     private Point startingPoint = new Point(300, 600);
-    LinkedHashMap<String, Color> legends = new LinkedHashMap<>();
+    LinkedHashMap<String, Color> legends;
 
     public Legend(LinkedHashMap<String, Color> legends){
         this.setBackground(new Color(0,0,0,0));

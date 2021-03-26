@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class PieChart extends Chart{
     private double total;
+    private int pieSize = 350;
 
 
     @Override
@@ -50,7 +51,7 @@ public class PieChart extends Chart{
                 colorPicker+= 1;
             }
             legends.put(String.format("%s %.2f%%", result.getKey(), calculatePercentage(result.getValue())), g.getColor());
-            g.fillArc(startingPoint.getX(), startingPoint.getY(), 350, 350, startAngle, turnAngle);
+            g.fillArc(startingPoint.getX(), startingPoint.getY(), pieSize, pieSize, startAngle, turnAngle);
             startAngle += turnAngle;
         }
 
@@ -59,9 +60,9 @@ public class PieChart extends Chart{
 
     private void addLegend(){
         Legend legend = new Legend(legends);
-        legend.setXYStartingPoint(400, 600);
+        legend.setColumnAmount(4);
+        legend.setXYStartingPoint(400, startingPoint.getY() + pieSize);
         add(legend);
-        revalidate();
     }
 
     @Override
@@ -73,7 +74,7 @@ public class PieChart extends Chart{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(1600, 800);
+        return new Dimension(this.startingPoint.getX() + pieSize + 500, 800);
     }
 
 }

@@ -87,7 +87,6 @@ public class BarChart extends Chart{
         legendLayout.setHorizontalSpacing(80);
         legendLayout.setXYStartingPoint(this.legendXYPosition.getX(), this.legendXYPosition.getY());
         add(legendLayout);
-        revalidate();
     }
 
     @Override
@@ -100,7 +99,7 @@ public class BarChart extends Chart{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(1600, 800);
+        return new Dimension(finalWidth, 1000);
     }
 }
 
