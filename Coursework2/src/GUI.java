@@ -73,16 +73,30 @@ public class GUI extends JFrame {
         return true;
     }
 
+    private boolean handleDashboard(){
+        if (table != null){
+            rightPanel.removeAll();
+            this.rightPanel.revalidate();
+            this.rightPanel.repaint();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean handleSearch(){
+        if (this.table != null) {
+            renderTable();
+            this.rightPanel.revalidate();
+            this.rightPanel.repaint();
+            return true;
+        }
+        createErrorDialog("No file has been loaded yet");
+        return false;
+    }
+
     private void createSidePanel() {
         SidePanel sidePanel = new SidePanel();
-        sidePanel.onSearchButtonClicked(() -> {
-            if (this.table != null) {
-                return true;
-            }
-            createErrorDialog("No file has been loaded yet");
-            return false;
-
-        });
+        sidePanel.onSearchButtonClicked(this::handleSearch);
 
         sidePanel.onClearButtonClicked(this::handleClearFilters);
 
@@ -93,6 +107,8 @@ public class GUI extends JFrame {
         sidePanel.onWriteJsonButtonClick(this::writeJSONFile);
 
         sidePanel.onOldestButtonClicked(this::handleOldest);
+
+        sidePanel.onDashboardButtonClick(this::handleDashboard);
 
         this.sidePanel = sidePanel;
 

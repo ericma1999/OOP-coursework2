@@ -30,6 +30,7 @@ public class SidePanel extends JFrame{
     private Supplier<Boolean> handleLoadButtonClick;
     private Supplier<Boolean> handleWriteJsonButtonClick;
     private Supplier<Boolean> handleOldestClick;
+    private Supplier<Boolean> handleDashboardClick;
 
     private HashMap<String, String> currentFilters = new HashMap<>();
 
@@ -80,6 +81,7 @@ public class SidePanel extends JFrame{
     public void onWriteJsonButtonClick(Supplier<Boolean> callback){
         this.handleWriteJsonButtonClick = callback;
     }
+    public void onDashboardButtonClick(Supplier<Boolean> callback) {this.handleDashboardClick = callback;}
 
     private JButton createSidePanelButton(String text) {
         JButton button = new JButton(text);
@@ -128,7 +130,11 @@ public class SidePanel extends JFrame{
 
     private void createSidePanelDashboardButton() {
         sidePanelDashboardButton = createSidePanelButton("Dashboard");
-//        sidePanelDashboardButton.addActionListener((ActionEvent e) -> updateSidePanel(2));
+        sidePanelDashboardButton.addActionListener(e -> {
+            if (handleDashboardClick.get()){
+//                updateSidePanel(2);
+            }
+        });
     }
 
     private void createSidePanelCloseButton() {
