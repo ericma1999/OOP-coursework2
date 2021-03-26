@@ -5,10 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class Dashboard extends JPanel {
     ArrayList<Color> colours = new ArrayList<>();
     LinkedHashMap<String, Double> results = new LinkedHashMap<>();
+
+    private Supplier<Map<String, Double>> handleOccurencesClick;
 
     public Dashboard(){
         colours.add(new Color(0, 168, 255));
@@ -23,12 +27,9 @@ public class Dashboard extends JPanel {
         colours.add(new Color(53, 59, 72));
         colours.add(new Color(25, 42, 86));
 
-        results.put("0-10", 200.0);
-        results.put("11-20", 300.0);
-        results.put("21-30", 80.0);
-        results.put("31-40", 250.0);
-        results.put("41-50", 250.0);
-        results.put("51-60", 10000.0);
+        results.put("asian", 200.0);
+        results.put("white", 300.0);
+        results.put("french", 80.0);
 
         this.render();
     }
@@ -37,7 +38,7 @@ public class Dashboard extends JPanel {
     private void renderPieChart(){
         removeAll();
         PieChart pieChart = new PieChart();
-        pieChart.initialise("Test", results);
+        pieChart.initialise("Test", handleOccurencesClick.get());
         pieChart.setTitle("Share", 700, 50);
         pieChart.setXYStartingPoint(600, 100);
         add(pieChart, SwingConstants.CENTER);
@@ -48,7 +49,7 @@ public class Dashboard extends JPanel {
     private void renderBarChart(){
         removeAll();
         BarChart barChart = new BarChart();
-        barChart.initialise("Test", results);
+        barChart.initialise("Test", handleOccurencesClick.get());
         barChart.setTitle("Share", 700, 50);
         barChart.setXYStartingPoint(400, 500);
         barChart.showBarLabel(false);
@@ -56,6 +57,10 @@ public class Dashboard extends JPanel {
         add(barChart);
         revalidate();
         repaint();
+    }
+
+    public void onHandleLivingClick(Supplier<Map<String, Double>> callback){
+        this.handleOccurencesClick = callback;
     }
 
     public void render(){

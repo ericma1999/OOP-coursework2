@@ -227,7 +227,9 @@ public class GUI extends JFrame {
 
     private void renderDashboard(){
         rightPanel.removeAll();
-        rightPanel.add(new Dashboard(), BorderLayout.NORTH);
+        Dashboard dashboard = new Dashboard();
+        dashboard.onHandleLivingClick(() -> controller.getOccurences());
+        rightPanel.add(dashboard, BorderLayout.NORTH);
         rightPanel.revalidate();
         rightPanel.repaint();
     }

@@ -28,6 +28,8 @@ public class Model {
         return this.dataFrame.getColumn(index).getRowValue(row);
     }
 
+    public String getValueAt(String columnName, int row){ return this.dataFrame.getColumn(columnName).getRowValue(row);}
+
     public List<List<String>> getAllData(){
         List<List<String>> output = new ArrayList<>();
 

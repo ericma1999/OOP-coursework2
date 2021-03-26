@@ -8,7 +8,7 @@ public class BarChart extends Chart{
     private int columnWidth = 80;
     private int finalWidth = 0;
     private int defaultSpacing = 50;
-    private int axisMultiplier = 50;
+    private int axisMultiplier = 1;
     private boolean showBarLabel = true;
 
     @Override
