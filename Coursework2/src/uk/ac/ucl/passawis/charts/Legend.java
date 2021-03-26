@@ -63,8 +63,7 @@ public class Legend extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-
-        return new Dimension(this.getRootPane().getSize());
+        return new Dimension(1920, 1080);
     }
 
 

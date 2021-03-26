@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class PieChart extends Chart{
     private double total;
-    private int pieSize = 350;
+    private int pieSize = 300;
 
 
     @Override
@@ -59,10 +59,10 @@ public class PieChart extends Chart{
     }
 
     private void addLegend(){
-        Legend legend = new Legend(legends);
-        legend.setColumnAmount(4);
-        legend.setXYStartingPoint(400, startingPoint.getY() + pieSize);
-        add(legend);
+        Legend legendLayout = new Legend(legends);
+        legendLayout.setColumnAmount(4);
+        legendLayout.setXYStartingPoint(startingPoint.getX(), startingPoint.getY() + pieSize);
+        add(legendLayout);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class PieChart extends Chart{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(this.startingPoint.getX() + pieSize + 500, 800);
+        return new Dimension(this.startingPoint.getX() + pieSize + 500, 1000);
     }
 
 }

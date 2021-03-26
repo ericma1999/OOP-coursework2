@@ -41,7 +41,7 @@ public class Dashboard extends JPanel {
         pieChart.initialise("Test", handleOccurencesClick.get());
         pieChart.setTitle("Share", 700, 50);
         pieChart.setXYStartingPoint(600, 100);
-        add(pieChart, SwingConstants.CENTER);
+        add(pieChart);
         revalidate();
         repaint();
     }
