@@ -1,7 +1,6 @@
 package uk.ac.ucl.passawis.charts;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -9,7 +8,7 @@ public class BarChart extends Chart{
     private int columnWidth = 80;
     private int finalWidth = 0;
     private int defaultSpacing = 50;
-    private int axisMultiplier = 30;
+    private int axisMultiplier = 50;
     private boolean showBarLabel = true;
 
     @Override
