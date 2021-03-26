@@ -50,9 +50,18 @@ public class PieChart extends Chart{
                 colorPicker+= 1;
             }
             legends.put(String.format("%s %.2f%%", result.getKey(), calculatePercentage(result.getValue())), g.getColor());
-            g.fillArc(startingPoint.getX(), startingPoint.getY(), 500, 500, startAngle, turnAngle);
+            g.fillArc(startingPoint.getX(), startingPoint.getY(), 350, 350, startAngle, turnAngle);
             startAngle += turnAngle;
         }
+
+        addLegend();
+    }
+
+    private void addLegend(){
+        Legend legend = new Legend(legends);
+        legend.setXYStartingPoint(400, 600);
+        add(legend);
+        revalidate();
     }
 
     @Override
@@ -60,14 +69,11 @@ public class PieChart extends Chart{
         super.paintComponent(g);
         drawChartTitle(g);
         renderChart(g);
-        Legend legend = new Legend(legends);
-        legend.setXYStartingPoint(200, 700);
-        add(legend);
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(500, 720);
+        return new Dimension(1600, 800);
     }
 
 }

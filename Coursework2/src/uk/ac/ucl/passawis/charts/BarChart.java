@@ -9,6 +9,8 @@ public class BarChart extends Chart{
     private int columnWidth = 80;
     private int finalWidth = 0;
     private int defaultSpacing = 50;
+    private int axisMultiplier = 30;
+    private boolean showBarLabel = true;
 
     @Override
     public void initialise(String chartTitle, Map<String, Double> data){
@@ -21,19 +23,36 @@ public class BarChart extends Chart{
         this.finalWidth = this.data.size() * width + 250;
     }
 
+    public void showBarLabel (boolean value){
+        this.showBarLabel = value;
+    }
+
+    public void setAxisMultiplier(int value){
+        this.axisMultiplier = value;
+    }
+
+
     private void drawAxis(Graphics g){
         Graphics2D stroke = (Graphics2D) g;
         stroke.setColor(Color.gray);
         stroke.setStroke(new BasicStroke(1));
         int starting = 0;
         for (int i = startingPoint.getY(); i > defaultSpacing; i-=defaultSpacing) {
-            stroke.drawString(String.valueOf(starting), startingPoint.getX() - defaultSpacing, i + 5);
+            stroke.drawString(String.valueOf(starting * axisMultiplier), startingPoint.getX() - defaultSpacing, i + 5);
             stroke.drawLine(startingPoint.getX() - 20, i, startingPoint.getX() + 20, i);
             starting += defaultSpacing;
         }
 
         stroke.setStroke(new BasicStroke(5));
         stroke.drawLine(startingPoint.getX(), startingPoint.getY() - starting, startingPoint.getX(), startingPoint.getY());
+    }
+
+    private void renderBarLabel(Graphics g, String value, int x, int y){
+        if (this.showBarLabel){
+            g.setColor(Color.black);
+            g.setFont(this.textFont);
+            g.drawString(value, x, y);
+        }
     }
 
     private void renderChart(Graphics g){
@@ -46,9 +65,8 @@ public class BarChart extends Chart{
 
 
         for (Map.Entry<String, Double> entry : this.data.entrySet()){
-            g.setColor(Color.black);
-            g.setFont(this.textFont);
-            g.drawString(entry.getKey(), offSet, startingPoint.getY() - entry.getValue().intValue() - 20);
+
+            renderBarLabel(g, entry.getKey(), offSet, startingPoint.getY() - entry.getValue().intValue() - 20);
 
             if (noColours){
                 g.setColor(randomColourPicker());
@@ -59,9 +77,18 @@ public class BarChart extends Chart{
             }
 
             legends.put(String.format("%s %.2f", entry.getKey(), entry.getValue()), g.getColor());
-            g.fillRect(offSet, startingPoint.getY() - entry.getValue().intValue(),columnWidth,entry.getValue().intValue());
+            g.fillRect(offSet, startingPoint.getY() - (entry.getValue().intValue() / axisMultiplier),columnWidth,(entry.getValue().intValue() / axisMultiplier));
             offSet += columnWidth + 10;
         }
+        addLegend();
+    }
+
+    private void addLegend(){
+        Legend legendLayout = new Legend(legends);
+        legendLayout.setHorizontalSpacing(80);
+        legendLayout.setXYStartingPoint(this.legendXYPosition.getX(), this.legendXYPosition.getY());
+        add(legendLayout);
+        revalidate();
     }
 
     @Override
@@ -70,21 +97,11 @@ public class BarChart extends Chart{
         drawAxis(g);
         drawChartTitle(g);
         renderChart(g);
-        Legend legendLayout = new Legend(legends);
-        legendLayout.setHorizontalSpacing(80);
-        legendLayout.setXYStartingPoint(this.legendXYPosition.getX(), this.legendXYPosition.getY());
-        add(legendLayout);
-
-        Graphics2D g2d = (Graphics2D) g;
-        AffineTransform at = new AffineTransform();
-        at.rotate(Math.toRadians(-90));
-        g2d.setTransform(at);
-        g2d.drawString("aString", -350, 100);
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(finalWidth, 720);
+        return new Dimension(1600, 800);
     }
 }
 

@@ -23,6 +23,7 @@ public abstract class Chart extends JPanel{
     protected Map<String, Double> data = new LinkedHashMap<>();
 
     public void initialise(String chartTitle, Map<String, Double> data){
+        this.setLayout(new FlowLayout());
         this.setTitle(chartTitle, 100 / 2, 50);
         this.data = data;
         this.colors = new ArrayList<>();
@@ -43,6 +44,10 @@ public abstract class Chart extends JPanel{
         this.startingPoint = new Point(xStartingPoint, yStartingPoint);
     }
 
+    public void setLegendXYPosition(int xStartingPoint, int yStartingPoint){
+        this.legendXYPosition = new Point(xStartingPoint, yStartingPoint);
+    }
+
     public void setTextFont(Font font) {
         this.textFont = font;
     }
@@ -52,7 +57,6 @@ public abstract class Chart extends JPanel{
             g.setFont(this.titleFont);
         } else {
             g.setFont(this.textFont);
-            this.chartTitlePos = new Point(100 / 2, 50);
         }
         g.drawString(this.chartTitle, chartTitlePos.getX(), chartTitlePos.getY());
     }
