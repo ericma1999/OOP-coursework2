@@ -122,12 +122,12 @@ public class GUI extends JFrame {
     }
 
     private void createRightPanel() {
-        JPanel rightPanel = new JPanel(new GridBagLayout());
+        JPanel panel = new JPanel(new GridBagLayout());
         JButton loadFileButton = new JButton("Load Data");
         loadFileButton.addActionListener(e -> handleLoadFile());
-        rightPanel.add(loadFileButton);
-        this.rightPanel = rightPanel;
-        add(rightPanel);
+        panel.add(loadFileButton);
+        this.rightPanel = panel;
+        add(panel);
 
     }
 
