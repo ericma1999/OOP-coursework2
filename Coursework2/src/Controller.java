@@ -42,11 +42,11 @@ public class Controller {
         model.writeToJSON(pathName);
     }
 
-    public Map<String, Double> getOccurences(){
+    public Map<String, Double> getOccurrences(String columnName){
         HashMap<String, Double> tempValues = new HashMap<>();
 
         for (int i = 0; i < model.getTotalRows(); i++) {
-            String currentValue = model.getValueAt("ETHNICITY", i);
+            String currentValue = model.getValueAt(columnName, i);
 
             if (tempValues.get(currentValue) == null){
                 tempValues.put(currentValue, 1.0);

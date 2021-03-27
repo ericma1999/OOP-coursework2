@@ -95,24 +95,24 @@ public class GUI extends JFrame {
     }
 
     private void createSidePanel() {
-        SidePanel sidePanel = new SidePanel();
-        sidePanel.onSearchButtonClicked(this::handleSearch);
+        SidePanel panel = new SidePanel();
+        panel.onSearchButtonClicked(this::handleSearch);
 
-        sidePanel.onClearButtonClicked(this::handleClearFilters);
+        panel.onClearButtonClicked(this::handleClearFilters);
 
-        sidePanel.onCloseButtonClicked(this::handleClose);
+        panel.onCloseButtonClicked(this::handleClose);
 
-        sidePanel.onLoadButtonClick(this::handleLoadFile);
+        panel.onLoadButtonClick(this::handleLoadFile);
 
-        sidePanel.onWriteJsonButtonClick(this::writeJSONFile);
+        panel.onWriteJsonButtonClick(this::writeJSONFile);
 
-        sidePanel.onOldestButtonClicked(this::handleOldest);
+        panel.onOldestButtonClicked(this::handleOldest);
 
-        sidePanel.onDashboardButtonClick(this::handleDashboard);
+        panel.onDashboardButtonClick(this::handleDashboard);
 
-        this.sidePanel = sidePanel;
+        this.sidePanel = panel;
 
-        add(sidePanel.getPanel(), BorderLayout.WEST);
+        add(panel.getPanel(), BorderLayout.WEST);
     }
 
     private void createErrorDialog(String message) {
@@ -211,24 +211,24 @@ public class GUI extends JFrame {
 
         List<String> columnNames = controller.getColumnNames();
 
-        MyTable table = new MyTable(new MyTableModel(controller.getAllData(), columnNames));
-        sidePanel.setTable(table);
+        MyTable myTable = new MyTable(new MyTableModel(controller.getAllData(), columnNames));
+        sidePanel.setTable(myTable);
         sidePanel.setColumnNames(columnNames);
-        table.setHeaderClickAction(this::handleTableHeaderClick);
+        myTable.setHeaderClickAction(this::handleTableHeaderClick);
 
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(table);
+        scrollPane.setViewportView(myTable);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         rightPanel.add(scrollPane);
         add(rightPanel);
-        this.table = table;
+        this.table = myTable;
     }
 
 
     private void renderDashboard(){
         rightPanel.removeAll();
         Dashboard dashboard = new Dashboard();
-        dashboard.onHandleLivingClick(() -> controller.getOccurences());
+        dashboard.onHandleLivingClick(controller::getOccurrences);
         JScrollPane scroller = new JScrollPane(dashboard);
 //        scroller.setViewportView(dashboard);
         rightPanel.add(scroller);
