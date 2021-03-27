@@ -1,6 +1,8 @@
 package uk.ac.ucl.passawis.charts;
 
-import java.awt.*;
+import java.awt.GridLayout;
+import java.awt.Graphics;
+import java.awt.Dimension;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
