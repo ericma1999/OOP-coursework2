@@ -19,33 +19,15 @@ public class JSONReader {
 
 
     public JSONReader(String path) throws IOException{
-        FileReader file = new FileReader(path);
+            try (BufferedReader contents = new BufferedReader(new FileReader(path))){
+                int charIntRepresentation;
 
-        BufferedReader contents = new BufferedReader(file);
-            int charIntRepresentation;
+                /* Add special starting character */
+                stack.add('$');
 
-            /* Add special starting character */
-            stack.add('$');
-
-            while ((charIntRepresentation = contents.read()) != -1){
-                char character = Character.toChars(charIntRepresentation)[0];
-
-                switch (character){
-                    case ']':
-                        if (!stack.pop().equals('[')){
-                            throw new IOException("Format error");
-                        }
-                        if (!stack.pop().equals('$')){
-                            throw new IOException("Format error");
-                        }
-                        break;
-                    case '[':
-                        stack.add('[');
-                        continue;
-                    case '{':
-                        stack.add('{');
-                        this.readProperties(contents);
-                    default:
+                while ((charIntRepresentation = contents.read()) != -1){
+                    char character = Character.toChars(charIntRepresentation)[0];
+                    handleStartingChar(character, contents);
                 }
             }
 
@@ -53,6 +35,28 @@ public class JSONReader {
             if (!stack.empty()){
                 throw new IOException("Format error today");
             }
+    }
+
+    private void handleStartingChar(Character character, BufferedReader contents) throws IOException{
+        switch (character){
+            case ']':
+                if (!stack.pop().equals('[')){
+                    throw new IOException("Format error");
+                }
+                if (!stack.pop().equals('$')){
+                    throw new IOException("Format error");
+                }
+                break;
+            case '[':
+                stack.add('[');
+                break;
+            case '{':
+                stack.add('{');
+                this.readProperties(contents);
+                break;
+            default:
+                break;
+        }
     }
 
     public DataFrame getDataFrame(){
