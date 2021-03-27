@@ -3,14 +3,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONWriter {
-    public JSONWriter(DataFrame dataFrame, String pathName) {
+    public JSONWriter(DataFrame dataFrame, String pathName) throws IOException{
 
         try(BufferedWriter writer =
                     new BufferedWriter(new FileWriter(pathName))){
             writer.write(generateJSONString(dataFrame).toString());
-
-        }catch (IOException e){
-            e.printStackTrace();
         }
     }
 

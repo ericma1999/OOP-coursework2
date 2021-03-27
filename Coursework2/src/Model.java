@@ -57,7 +57,7 @@ public class Model {
     }
 
 
-    public void writeToJSON(String path){
+    public void writeToJSON(String path) throws IOException{
         new JSONWriter(this.dataFrame, path);
     }
 

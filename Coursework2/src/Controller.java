@@ -34,8 +34,13 @@ public class Controller {
         return model.getDataWithFilters(filters);
     }
 
-    public void writeToJSON(String pathName){
-        model.writeToJSON(pathName);
+    public boolean writeToJSON(String pathName){
+        try{
+            model.writeToJSON(pathName);
+        }catch (IOException e){
+            return false;
+        }
+        return true;
     }
 
     public Map<String, Double> getOccurrences(String columnName){

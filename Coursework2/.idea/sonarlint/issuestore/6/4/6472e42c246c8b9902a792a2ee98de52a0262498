@@ -1,0 +1,6 @@
+
+z	java:S135J"YReduce the total number of break and continue statements in this loop to use at most one.(…½ø­úÿÿÿÿ8øÂ”Ù„/
+v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ºœæÜ8Ğ©ÁÚ„/
+Q
+java:S28641"4Iterate over the "entrySet" instead of the "keySet".(ê€­Ü8øÂ”Ù„/
+J	java:S108u")Either remove or fill this block of code.(¦¯ÍÌùÿÿÿÿ8­¬î†/

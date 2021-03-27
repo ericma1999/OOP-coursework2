@@ -166,7 +166,9 @@ public class GUI extends JFrame {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File file = dialog.getSelectedFile();
 //                validate that the file does not exist
-            controller.writeToJSON(file.getPath());
+            if (!controller.writeToJSON(file.getPath())){
+                createErrorDialog("Cannot write to named file");
+            }
         }
         return true;
     }
