@@ -39,8 +39,9 @@ public class Dashboard extends JPanel {
         removeAll();
         PieChart pieChart = new PieChart();
         pieChart.initialise("Test", handleOccurencesClick.get());
-        pieChart.setTitle("Share", 700, 50);
-        pieChart.setXYStartingPoint(600, 100);
+        pieChart.setTitle("Share", 400, 50);
+        pieChart.setXYStartingPoint(300, 100);
+        pieChart.setLegendXYPosition(100, 400);
         add(pieChart);
         revalidate();
         repaint();
@@ -51,10 +52,11 @@ public class Dashboard extends JPanel {
         BarChart barChart = new BarChart();
         barChart.initialise("Test", handleOccurencesClick.get());
         barChart.setTitle("Share", 700, 50);
-        barChart.setXYStartingPoint(200, 500);
+        barChart.setXYStartingPoint(200, 600);
         barChart.showBarLabel(false);
         barChart.setAxisMultiplier(50);
-        barChart.setLegendXYPosition(0, 500);
+        barChart.setColumnWidth(50);
+        barChart.setLegendXYPosition(200, 700);
         add(barChart);
         revalidate();
         repaint();

@@ -7,11 +7,13 @@ import java.util.Map;
 public class PieChart extends Chart{
     private double total;
     private int pieSize = 300;
+    private boolean drawn = false;
 
 
     @Override
     public void initialise(String chartTitle, Map<String, Double> data) {
         super.initialise(chartTitle, data);
+        setLayout(new GridLayout(0, 1));
         calculateTotal();
     }
 
@@ -55,13 +57,16 @@ public class PieChart extends Chart{
             startAngle += turnAngle;
         }
 
-        addLegend();
+        if (!drawn){
+            addLegend();
+        }
     }
 
     private void addLegend(){
         Legend legendLayout = new Legend(legends);
         legendLayout.setColumnAmount(5);
-        legendLayout.setXYStartingPoint(startingPoint.getX(), startingPoint.getY() + pieSize);
+//        legendLayout.setXYStartingPoint(this.startingPoint.getX(), startingPoint.getY() + pieSize + 20);
+        legendLayout.setXYStartingPoint(legendXYPosition.getX(), legendXYPosition.getY());
         add(legendLayout);
     }
 
@@ -70,6 +75,7 @@ public class PieChart extends Chart{
         super.paintComponent(g);
         drawChartTitle(g);
         renderChart(g);
+        this.drawn = true;
     }
 
     @Override

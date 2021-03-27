@@ -10,10 +10,12 @@ public class BarChart extends Chart{
     private int defaultSpacing = 50;
     private int axisMultiplier = 1;
     private boolean showBarLabel = true;
+    private boolean drawn = false;
 
     @Override
     public void initialise(String chartTitle, Map<String, Double> data){
         super.initialise(chartTitle, data);
+        setLayout(new GridLayout());
         this.finalWidth = data.size() * (this.columnWidth + 50);
     }
 
@@ -79,14 +81,16 @@ public class BarChart extends Chart{
             g.fillRect(offSet, startingPoint.getY() - (entry.getValue().intValue() / axisMultiplier),columnWidth,(entry.getValue().intValue() / axisMultiplier));
             offSet += columnWidth + 10;
         }
-        addLegend();
+        if (!drawn){
+            addLegend();
+        }
     }
 
     private void addLegend(){
         Legend legendLayout = new Legend(legends);
         legendLayout.setHorizontalSpacing(80);
         legendLayout.setColumnAmount(5);
-        legendLayout.setXYStartingPoint(this.legendXYPosition.getX(), this.legendXYPosition.getY());
+        legendLayout.setXYStartingPoint(legendXYPosition.getX(), legendXYPosition.getY());
         add(legendLayout);
     }
 
@@ -96,11 +100,11 @@ public class BarChart extends Chart{
         drawAxis(g);
         drawChartTitle(g);
         renderChart(g);
+        this.drawn = true;
     }
 
     @Override
     public Dimension getPreferredSize() {
-        System.out.println(startingPoint.getY());
         return new Dimension(finalWidth, startingPoint.getY() + 800);
     }
 }

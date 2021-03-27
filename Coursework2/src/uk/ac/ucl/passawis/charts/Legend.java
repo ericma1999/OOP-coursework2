@@ -10,12 +10,12 @@ public class Legend extends JPanel {
     private int squareSize = 20;
     private int horizontalSpacing = 100;
     private int verticalSpacing = 20;
-    private Point startingPoint = new Point(300, 600);
+    private Point startingPoint = new Point(0, 0);
     LinkedHashMap<String, Color> legends;
 
     public Legend(LinkedHashMap<String, Color> legends){
-        this.setBackground(new Color(0,0,0,0));
         this.legends = legends;
+        setOpaque(false);
     }
 
     public void setColumnAmount(int columns){
@@ -62,7 +62,7 @@ public class Legend extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(900, 400);
+        return new Dimension(900, 100);
     }
 
 
