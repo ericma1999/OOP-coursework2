@@ -69,7 +69,13 @@ public class GUI extends JFrame {
     private boolean handleOldest(){
         this.currentFilters = new HashMap<>();
         sidePanel.setCurrentFilters(this.currentFilters);
-        ((MyTableModel) this.table.getModel()).setData(controller.findOldest());
+
+        List<List<String>> data = controller.findOldest();
+        if (data == null){
+            createErrorDialog("Unable to find oldest person. Make sure data format is correct");
+        }else {
+            ((MyTableModel) this.table.getModel()).setData(data);
+        }
         return true;
     }
 

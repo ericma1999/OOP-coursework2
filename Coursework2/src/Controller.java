@@ -67,7 +67,11 @@ public class Controller {
             String deathDate = model.getValueAt("DEATHDATE",i);
 
             if (birthDate != null && deathDate.equals("")){
-                long difference = differenceDate(dateFormat.format(currentDate), birthDate);
+                Long difference = differenceDate(dateFormat.format(currentDate), birthDate);
+
+                if (difference == null){
+                    return null;
+                }
 
                 if (difference > max){
                     max = difference;
@@ -81,7 +85,7 @@ public class Controller {
         return results;
     }
 
-    private long differenceDate(String firstDate, String lastDate){
+    private Long differenceDate(String firstDate, String lastDate){
         long diff = -1;
         try{
             Date laterDate = new SimpleDateFormat(dateFormat).parse(firstDate);
@@ -90,7 +94,7 @@ public class Controller {
             diff = TimeUnit.DAYS.convert(milliSecondsAlive, TimeUnit.MILLISECONDS);
 
         }catch (ParseException e){
-            System.out.println(e.getMessage());
+            return null;
         }
         return diff;
     }
