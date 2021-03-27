@@ -9,7 +9,7 @@ public class JSONReader {
 
     private final DataFrame dataFrame = new DataFrame();
 
-//    to get the columnNames and its value in correct order
+//    store columnNames and its value in correct order
     private final LinkedHashMap<String, String> tempValues = new LinkedHashMap<>();
 
     private final Stack<Character> stack = new Stack<>();
@@ -40,6 +40,8 @@ public class JSONReader {
     private void handleStartingChar(Character character, BufferedReader contents) throws IOException{
         switch (character){
             case ']':
+                /* make sure that when we see this character it means we are finished the json file */
+                /* popping two characters from the stack should be '[' then special start symbol '$' to ensure format is correct */
                 if (!stack.pop().equals('[')){
                     throw new IOException("Format error");
                 }
@@ -68,18 +70,17 @@ public class JSONReader {
         while ((charIntRepresentation = contents.read()) != -1){
             Character character = Character.toChars(charIntRepresentation)[0];
 
-//            current character is not in a quotation mark so skip it
+            /* current character is not in a quotation mark so skip it */
             if ((character.equals(' ') || character.equals('\n')) && !stack.peek().equals('"')){
                 continue;
             }
 
             if (character.equals('"')){
                 if (!stack.peek().equals('"')){
-
                     stack.add('"');
-
                 }else {
-
+                    /* in this case we're already at the end of the quotation marks "" so pop the character from the stack */
+                    /* and handle the various possible next character cases */
                     stack.pop();
                     Character nextCharacter = readTillNoWhiteSpace(contents);
                     if(!handlePropertyEndCases(nextCharacter)){
