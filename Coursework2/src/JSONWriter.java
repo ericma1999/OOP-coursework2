@@ -4,15 +4,12 @@ import java.io.IOException;
 
 public class JSONWriter {
     public JSONWriter(DataFrame dataFrame, String pathName) {
-        BufferedWriter writer;
-        try {
-            FileWriter targetFile = new FileWriter(pathName);
-            writer = new BufferedWriter(targetFile);
 
+        try(BufferedWriter writer =
+                    new BufferedWriter(new FileWriter(pathName))){
             writer.write(generateJSONString(dataFrame).toString());
-            writer.close();
 
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
     }

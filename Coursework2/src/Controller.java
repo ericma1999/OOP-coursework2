@@ -1,9 +1,5 @@
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Controller {
     Model model;
@@ -48,11 +44,7 @@ public class Controller {
         for (int i = 0; i < model.getTotalRows(); i++) {
             String currentValue = model.getValueAt(columnName, i);
 
-            if (tempValues.get(currentValue) == null){
-                tempValues.put(currentValue, 1.0);
-            }else {
-                tempValues.put(currentValue, tempValues.get(currentValue) + 1.0);
-            }
+            tempValues.merge(currentValue, 1.0, Double::sum);
         }
         return tempValues;
     }
