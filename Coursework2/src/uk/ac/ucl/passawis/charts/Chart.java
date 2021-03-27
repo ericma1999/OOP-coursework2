@@ -10,11 +10,12 @@ import java.util.Random;
 
 public abstract class Chart extends JPanel{
     private String chartTitle = "Chart Name";
-    protected ArrayList<Color> colors;
     private Point chartTitlePos;
-    protected Point startingPoint = new Point(300, 600);
     private Font titleFont = null;
     private final Random rand = new Random();
+
+    protected ArrayList<Color> colors;
+    protected Point startingPoint = new Point(300, 600);
     protected Font textFont = new Font("Arial", Font.BOLD, 50);
     protected Point legendXYPosition = new Point(400, 700);
 
