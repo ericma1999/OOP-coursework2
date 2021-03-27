@@ -39,8 +39,8 @@ public class Model {
 
         for (int i = 0; i < this.dataFrame.getRowCount(); i++) {
             boolean shouldAdd = true;
-//            loop through the hashmap keys and check the value, if the column matches all the hashmap's key value
-//            add it to the output
+           /* loop through the hashmap keys and check the value, if the column matches all the hashmap's key value */
+           /* add it to the output */
             for (String columnName: filters.keySet()) {
 
                 String currentColumnRowValue = this.dataFrame.getColumn(columnName).getRowValue(i).toLowerCase();

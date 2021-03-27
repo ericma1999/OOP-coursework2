@@ -1,7 +1,20 @@
 import uk.ac.ucl.passawis.ui.MyTable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.BorderFactory;
+import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.BoxLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Font;
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +76,7 @@ public class SidePanel extends JFrame{
         this.columnNames = columnNames;
     }
 
-//    setup click handlers for buttons
+    /* setup click handlers for buttons */
     public void onSearchButtonClicked(Supplier<Boolean> callback){
         this.handleSearchClick = callback;
     }

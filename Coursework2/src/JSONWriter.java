@@ -34,7 +34,7 @@ public class JSONWriter {
                 counter++;
             }
             output.append("}");
-//
+
             if (totalRows - 1 != i) {
                 output.append(",");
             }
