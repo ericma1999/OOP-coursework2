@@ -15,7 +15,6 @@ public class Legend extends JPanel {
 
     public Legend(LinkedHashMap<String, Color> legends){
         this.setBackground(new Color(0,0,0,0));
-
         this.legends = legends;
     }
 
@@ -63,7 +62,7 @@ public class Legend extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(1920, 1080);
+        return new Dimension(900, 400);
     }
 
 

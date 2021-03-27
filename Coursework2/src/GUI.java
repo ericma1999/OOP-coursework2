@@ -230,6 +230,7 @@ public class GUI extends JFrame {
         Dashboard dashboard = new Dashboard();
         dashboard.onHandleLivingClick(() -> controller.getOccurences());
         JScrollPane scroller = new JScrollPane(dashboard);
+//        scroller.setViewportView(dashboard);
         rightPanel.add(scroller);
         rightPanel.revalidate();
         rightPanel.repaint();

@@ -19,7 +19,7 @@ public class BarChart extends Chart{
 
     public void setColumnWidth(int width){
         this.columnWidth = width;
-        this.finalWidth = this.data.size() * width + 250;
+        this.finalWidth = this.data.size() * (width + 50);
     }
 
     public void showBarLabel (boolean value){
@@ -85,6 +85,7 @@ public class BarChart extends Chart{
     private void addLegend(){
         Legend legendLayout = new Legend(legends);
         legendLayout.setHorizontalSpacing(80);
+        legendLayout.setColumnAmount(5);
         legendLayout.setXYStartingPoint(this.legendXYPosition.getX(), this.legendXYPosition.getY());
         add(legendLayout);
     }
@@ -99,7 +100,8 @@ public class BarChart extends Chart{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(finalWidth, 1000);
+        System.out.println(startingPoint.getY());
+        return new Dimension(finalWidth, startingPoint.getY() + 800);
     }
 }
 

@@ -60,7 +60,7 @@ public class PieChart extends Chart{
 
     private void addLegend(){
         Legend legendLayout = new Legend(legends);
-        legendLayout.setColumnAmount(4);
+        legendLayout.setColumnAmount(5);
         legendLayout.setXYStartingPoint(startingPoint.getX(), startingPoint.getY() + pieSize);
         add(legendLayout);
     }
@@ -74,7 +74,7 @@ public class PieChart extends Chart{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(this.startingPoint.getX() + pieSize + 500, 1000);
+        return new Dimension(this.startingPoint.getX() + (3 * pieSize), startingPoint.getY() + (2 * pieSize));
     }
 
 }
