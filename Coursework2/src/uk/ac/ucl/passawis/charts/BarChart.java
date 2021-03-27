@@ -74,6 +74,8 @@ public class BarChart extends Chart{
 
             renderBarLabel(g, entry.getKey(), offSet, startingPoint.getY() - entry.getValue().intValue() - 20);
 
+            /* If user has provided their own colours use theirs */
+            /* Else randomise the colours */
             if (noColours){
                 g.setColor(randomColourPicker());
             }else {

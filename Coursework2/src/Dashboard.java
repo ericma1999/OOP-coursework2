@@ -32,6 +32,8 @@ public class Dashboard extends JPanel {
         }
     }
 
+    /* get max value inside the results and calculate the stepper on y axis */
+    /* Ensure that the barchart fits inside the axis */
     private int calculateAxisMultiplier(Map<String, Double>results){
         double max = Collections.max(results.values());
         return (int) Math.ceil(max / 500);
@@ -75,7 +77,6 @@ public class Dashboard extends JPanel {
         JButton racePercentageDistribution = new JButton("Race Percentage Distribution");
         JButton raceBarChart = new JButton("Race Barchart");
 
-
         JButton maritalPercentageDistribution = new JButton("Marital Percentage Distribution");
         JButton maritalBarChart = new JButton("Marital Barchart");
 
@@ -88,7 +89,6 @@ public class Dashboard extends JPanel {
         maritalPanel.add(maritalPercentageDistribution);
         maritalPanel.add(maritalBarChart);
 
-
         genderPercentageDistribution.addActionListener(e -> renderPieChart("GENDER"));
         genderBarChart.addActionListener(e -> renderBarChart("GENDER"));
 
@@ -100,8 +100,6 @@ public class Dashboard extends JPanel {
 
         maritalPercentageDistribution.addActionListener(e -> renderPieChart("MARITAL"));
         maritalBarChart.addActionListener(e -> renderBarChart("MARITAL"));
-
-
 
         add(genderPanel);
         add(ethnicPanel);
