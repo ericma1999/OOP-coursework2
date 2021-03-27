@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class SidePanel extends JFrame{
@@ -19,7 +20,7 @@ public class SidePanel extends JFrame{
     private List<String> columnNames;
 
     private final int charactersTillNewLine = 15;
-    public int pageID = 0;
+    private int pageID = 0;
 
     private MyTable table;
     private final Color sidePanelColour = new Color(61, 105, 240);
@@ -32,7 +33,7 @@ public class SidePanel extends JFrame{
     private Supplier<Boolean> handleOldestClick;
     private Supplier<Boolean> handleDashboardClick;
 
-    private HashMap<String, String> currentFilters = new HashMap<>();
+    private Map<String, String> currentFilters = new HashMap<>();
 
 
     public SidePanel(){
@@ -130,9 +131,7 @@ public class SidePanel extends JFrame{
 
     private void createSidePanelDashboardButton() {
         sidePanelDashboardButton = createSidePanelButton("Dashboard");
-        sidePanelDashboardButton.addActionListener(e -> {
-            handleDashboardClick.get();
-        });
+        sidePanelDashboardButton.addActionListener(e -> handleDashboardClick.get());
     }
 
     private void createSidePanelCloseButton() {
@@ -184,8 +183,8 @@ public class SidePanel extends JFrame{
             label.setForeground(Color.black);
             this.currentFilterContainer.add(label);
         }else {
-            for (String name : currentFilters.keySet()) {
-                renderFilteredItem(name, this.currentFilters.get(name));
+            for (Map.Entry<String, String> entry: currentFilters.entrySet()) {
+                renderFilteredItem(entry.getKey(), entry.getValue());
             }
         }
         this.currentFilterContainer.revalidate();
@@ -229,7 +228,6 @@ public class SidePanel extends JFrame{
     }
 
     private void createSearchControls() {
-//        JPanel container = new JPanel(new GridLayout(0, 1, 0, 0));
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setBackground(sidePanelColour);
@@ -268,7 +266,7 @@ public class SidePanel extends JFrame{
         sideButtonContainer.repaint();
     }
 
-    public void setCurrentFilters(HashMap<String, String> currentFilters){
+    public void setCurrentFilters(Map<String, String> currentFilters){
         this.currentFilters = currentFilters;
         updateCurrentFilterDisplay();
     }
