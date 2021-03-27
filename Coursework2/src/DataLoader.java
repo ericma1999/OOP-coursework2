@@ -19,7 +19,7 @@ public class DataLoader {
 
 
     private String getFileExtension(String path) {
-//        get the position of last . until end of string
+        /* get the position of last . until end of string */
         return path.substring(path.lastIndexOf(".") + 1);
 
     }

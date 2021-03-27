@@ -35,9 +35,9 @@ public class GUI extends JFrame {
     public GUI() {
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
         setMinimumSize(new Dimension(1280, 800));
-//        center the JFrame on the screen
+        pack();
+        /* center the JFrame on the screen */
         setLocationRelativeTo(null);
         setVisible(true);
 

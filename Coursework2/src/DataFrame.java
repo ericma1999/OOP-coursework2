@@ -14,7 +14,7 @@ public class DataFrame {
     }
 
     public boolean addRow(List<String> rowContent){
-        /* If the amount of columns not the same as specified columns initially */
+        /* If the amount of columns not the same as specified columns initially, not valid */
         if (rowContent.size() != keys.size()){
             return false;
         }
