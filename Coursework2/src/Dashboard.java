@@ -1,8 +1,9 @@
 import uk.ac.ucl.passawis.charts.BarChart;
 import uk.ac.ucl.passawis.charts.PieChart;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.GridLayout;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
