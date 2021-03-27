@@ -52,27 +52,28 @@ public class Controller {
     public List<List<String>> findOldest(){
 
         double max = -1;
-        DateFormat dateFormat = new SimpleDateFormat(this.dateFormat);
+        DateFormat dateFormat = new SimpleDateFormat(Controller.dateFormat);
         Date currentDate =  new Date();
 
-        List<String> oldestPerson = null;
+        ArrayList<List<String>> results = new ArrayList<>();
 
         for (int i = 0; i < model.getTotalRows(); i++) {
             String birthDate = model.getValueAt("BIRTHDATE",i);
             String deathDate = model.getValueAt("DEATHDATE",i);
 
             if (birthDate != null && deathDate.equals("")){
-                double year = Math.round(differenceDate(birthDate, dateFormat.format(currentDate)) / 365.0) * -1;
+                long difference = differenceDate(dateFormat.format(currentDate), birthDate);
 
-                if (year > max){
-                    max = year;
-                    oldestPerson = model.getRow(i);
+                if (difference > max){
+                    max = difference;
+                    results = new ArrayList<>();
+                    results.add(model.getRow(i));
+                } else if (difference == max){
+                    results.add(model.getRow(i));
                 }
             }
         }
-        ArrayList<List<String>> result = new ArrayList<>();
-        result.add(oldestPerson);
-        return result;
+        return results;
     }
 
     private long differenceDate(String firstDate, String lastDate){
