@@ -51,9 +51,19 @@ public class DataFrame {
 
     public void setColumnNames(List<String> columnNames){
         for (String name: columnNames) {
-            columns.put(name, new Column(name));
-            keys.add(name);
+//            columns.put(name, new Column(name));
+//            keys.add(name);
+            addColumn(name);
         }
+    }
+
+    public void addColumn(String columnName){
+        if (columns.get(columnName) != null){
+            return;
+        }
+
+        columns.put(columnName, new Column(columnName));
+        keys.add(columnName);
     }
 
     public int getRowCount(){
