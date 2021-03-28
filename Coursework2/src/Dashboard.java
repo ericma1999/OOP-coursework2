@@ -82,12 +82,16 @@ public class Dashboard extends JPanel {
 
         genderPanel.add(genderBarChart);
         genderPanel.add(genderPercentageDistribution);
+
         ethnicPanel.add(ethnicBarChart);
         ethnicPanel.add(ethnicPercentageDistribution);
-        racePanel.add(racePercentageDistribution);
+
         racePanel.add(raceBarChart);
-        maritalPanel.add(maritalPercentageDistribution);
+        racePanel.add(racePercentageDistribution);
+
         maritalPanel.add(maritalBarChart);
+        maritalPanel.add(maritalPercentageDistribution);
+
 
         genderPercentageDistribution.addActionListener(e -> renderPieChart("GENDER"));
         genderBarChart.addActionListener(e -> renderBarChart("GENDER"));
