@@ -140,11 +140,11 @@ public class GUI extends JFrame {
         String path = showFileDialog();
         if (path != null && controller.loadFile(path)) {
             loadFileSuccess();
+            this.getContentPane().revalidate();
+            this.getContentPane().repaint();
         } else {
             createErrorDialog("Failed to read the file selected. Please try again");
         }
-        this.getContentPane().revalidate();
-        this.getContentPane().repaint();
         return true;
     }
 
@@ -165,11 +165,11 @@ public class GUI extends JFrame {
     }
 
     private boolean writeJSONFile() {
-        JFileChooser dialog = new JFileChooser();
-        int userSelection = dialog.showSaveDialog(this);
-
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("./"));
+        int userSelection = fc.showSaveDialog(this);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File file = dialog.getSelectedFile();
+            File file = fc.getSelectedFile();
 //                validate that the file does not exist
             if (!controller.writeToJSON(file.getPath())){
                 createErrorDialog("Cannot write to named file");

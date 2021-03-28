@@ -33,7 +33,7 @@ public class SidePanel extends JFrame{
     private List<String> columnNames;
 
     /* if user spams search parameters, create new line if exceeds this amount of chars */
-    private final int charactersTillNewLine = 15;
+    private static final int charactersTillNewLine = 15;
 
     /* 0 is the initial page and 1 is the search controls */
     private int pageID = 0;
