@@ -194,10 +194,7 @@ public class SidePanel extends JFrame{
         this.currentFilterContainer.removeAll();
 
         if (currentFilters.isEmpty()) {
-            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
-            label.setMaximumSize(new Dimension(80, 0));
-            label.setForeground(Color.black);
-            this.currentFilterContainer.add(label);
+            renderNoFilterPlacement(this.currentFilterContainer);
         }else {
             for (Map.Entry<String, String> entry: currentFilters.entrySet()) {
                 renderFilteredItem(entry.getKey(), entry.getValue());
@@ -287,15 +284,26 @@ public class SidePanel extends JFrame{
         updateCurrentFilterDisplay();
     }
 
+    private void renderNoFilterPlacement(JPanel container){
+        JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
+        label.setMaximumSize(new Dimension(80, 0));
+        label.setForeground(Color.black);
+
+        JLabel label2 = new JLabel("Click on column header", SwingConstants.CENTER);
+        label2.setMaximumSize(new Dimension(80, 0));
+        label2.setForeground(Color.black);
+
+
+        container.add(label);
+        container.add(label2);
+    }
+
     private JPanel renderCurrentFilters() {
         JPanel container = new JPanel(new GridLayout(0, 1));
         container.setAlignmentX(Component.LEFT_ALIGNMENT);
         container.setBackground(sidePanelColour);
         if (currentFilters.isEmpty()) {
-            JLabel label = new JLabel("No Search filters", SwingConstants.CENTER);
-            label.setMaximumSize(new Dimension(80, 0));
-            label.setForeground(Color.black);
-            container.add(label);
+            renderNoFilterPlacement(container);
         }
         this.currentFilterContainer = container;
         return container;
