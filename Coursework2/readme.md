@@ -2,6 +2,9 @@
 To search on multiple columns please click on each of the column header and a dialog box will pop up.
 The search is inclusive ie. it would apply all search query you have input on each of the column
 
+# Loading of file
+Supports only json and csv, use the switcher at the bottom of the filechooser dialog to switch between each
+
 # For Graham
 Regarding the bug for the flickering chart. I managed to make a work around for this coursework for now.
 I had to set the layout of the chart to use GridLayout, as in this case i always want it to be at the bottom.
